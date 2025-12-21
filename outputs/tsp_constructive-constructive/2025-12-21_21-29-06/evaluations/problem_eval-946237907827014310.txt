@@ -1,0 +1,66 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    """
+    Selects the next node to visit using a Weighted Immediate, Return Proximity, and Future Dispersion heuristic.
+    This heuristic considers the immediate distance to a candidate node, the direct distance from that
+    candidate node back to the tour's start, and a penalty based on how dispersed the remaining unvisited
+    nodes would be from the candidate.
+
+    Args:
+        current_node: The node currently at.
+        destination_node: The starting node of the tour, to which the path must return.
+        unvisited_nodes: A set of nodes that have not yet been visited.
+        distance_matrix: A 2D list (matrix) where distance_matrix[i][j]
+                         is the distance between node i and node j.
+
+    Returns:
+        The next node to visit.
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, return to the destination node (start node)
+        return destination_node
+
+    next_node = -1
+    min_total_score = math.inf
+
+    # Define weights for the different components of the score
+    # These weights can be tuned for different problem instances or desired behavior.
+    weight_immediate = 1.0
+    weight_return_to_destination = 1.0
+    weight_future_dispersion = 0.5 # A new term to penalize candidates that leave remaining nodes very spread out
+
+    for candidate_node in unvisited_nodes:
+        # 1. Immediate cost: distance from current node to candidate node
+        immediate_cost = distance_matrix[current_node][candidate_node]
+        
+        # 2. Return cost to destination: direct distance from candidate node back to the tour's starting point
+        return_cost_to_destination = distance_matrix[candidate_node][destination_node]
+        
+        # 3. Future dispersion penalty: average distance from the candidate node to all *other* unvisited nodes.
+        #    A higher average distance implies that the candidate is 'far' from the bulk of remaining nodes,
+        #    potentially leading to a longer path to collect them later.
+        
+        sum_dist_to_other_unvisited = 0.0
+        
+        # Create a list of other unvisited nodes excluding the current candidate
+        other_unvisited_nodes = [node for node in unvisited_nodes if node != candidate_node]
+
+        if other_unvisited_nodes: # Check if there are any other unvisited nodes left
+            for other_node in other_unvisited_nodes:
+                sum_dist_to_other_unvisited += distance_matrix[candidate_node][other_node]
+            future_dispersion_penalty = sum_dist_to_other_unvisited / len(other_unvisited_nodes)
+        else:
+            # If the candidate is the last unvisited node, there's no dispersion penalty for others
+            future_dispersion_penalty = 0.0
+        
+        # Calculate the total score as a weighted sum of the three components
+        total_score = (weight_immediate * immediate_cost +
+                       weight_return_to_destination * return_cost_to_destination +
+                       weight_future_dispersion * future_dispersion_penalty)
+
+        if total_score < min_total_score:
+            min_total_score = total_score
+            next_node = candidate_node
+
+    return next_node

@@ -1,0 +1,42 @@
+importance of the lookahead cost relative to the immediate distance.}
+Objective value: 7.18925
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    next_node = None
+    best_score = float('inf')
+
+    if not unvisited_nodes:
+        return None
+
+    # Dynamically adjust alpha based on tour progress, inspired by Algorithm 1.
+    initial_unvisited_count = len(distance_matrix) - 1
+    if initial_unvisited_count > 0:
+        alpha = len(unvisited_nodes) / initial_unvisited_count
+    else:
+        alpha = 1.0  # Fallback for the last node
+
+    for candidate_node in unvisited_nodes:
+        # Part 1: Immediate cost from the current node to the candidate.
+        dist_to_candidate = distance_matrix[current_node][candidate_node]
+
+        # Part 2: Future cost (one-step lookahead), as defined in Algorithm 2.
+        remaining_nodes = unvisited_nodes - {candidate_node}
+        
+        min_dist_from_candidate = float('inf')
+        if not remaining_nodes:
+            # If the candidate is the last unvisited node, the future cost is the distance back to the start.
+            min_dist_from_candidate = distance_matrix[candidate_node][destination_node]
+        else:
+            # Find the candidate's nearest neighbor from the rest of the unvisited nodes.
+            for next_step_node in remaining_nodes:
+                distance = distance_matrix[candidate_node][next_step_node]
+                if distance < min_dist_from_candidate:
+                    min_dist_from_candidate = distance
+        
+        # The score combines dynamic weighting (Algo 1) with one-step lookahead (Algo 2).
+        score = (alpha * dist_to_candidate) + ((1 - alpha) * min_dist_from_candidate)
+
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

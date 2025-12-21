@@ -1,0 +1,68 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    """
+    Selects the next node by dynamically adjusting the foresight weight to bias the choice
+    towards the starting node more strongly as the tour progresses.
+
+    Args:
+        current_node: The node currently at.
+        destination_node: The starting node of the tour, to which the path must return.
+        unvisited_nodes: A set of nodes that have not yet been visited.
+        distance_matrix: A 2D list (matrix) where distance_matrix[i][j]
+                         is the distance between node i and node j.
+
+    Returns:
+        The next node to visit.
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, return to the destination node (start node)
+        return destination_node
+
+    next_node = -1
+    min_combined_cost = math.inf
+
+    # --- Novel Mechanism: Adaptive Foresight Weight Calculation ---
+    total_nodes_in_problem = len(distance_matrix)
+
+    # Calculate the number of nodes already visited in the tour (including the current_node)
+    # For instance, if N total nodes, and M are unvisited, then (N - M) nodes have been visited.
+    num_nodes_visited = total_nodes_in_problem - len(unvisited_nodes)
+
+    # Calculate a progress ratio: 0 at the effective start of the tour, 1 when all nodes are visited.
+    # We subtract 1 from num_nodes_visited and total_nodes_in_problem to normalize the range
+    # because the starting node is always considered 'visited' from the outset.
+    if total_nodes_in_problem <= 1:
+        progress_ratio = 0.0 # Handles trivial cases to avoid division by zero
+    else:
+        progress_ratio = (num_nodes_visited - 1) / (total_nodes_in_problem - 1)
+        # Ensure the ratio stays within valid bounds [0.0, 1.0]
+        progress_ratio = max(0.0, min(1.0, progress_ratio))
+    
+    # Define the base foresight weight and the maximum additional weight that can be added
+    # The foresight weight will start at base_foresight_weight and increase up to
+    # (base_foresight_weight + max_adaptive_component) as the tour progresses.
+    base_foresight_weight = 0.05 
+    max_adaptive_component = 0.45 
+
+    # The dynamic foresight weight
+    # It linearly increases from base_foresight_weight to (base_foresight_weight + max_adaptive_component)
+    # as the tour progresses from start to finish.
+    W_return_foresight = base_foresight_weight + (max_adaptive_component * progress_ratio)
+    # ----------------------------------------------------------------
+
+    for candidate_node in unvisited_nodes:
+        # 1. Immediate cost from current_node to candidate_node (primary factor)
+        immediate_distance = distance_matrix[current_node][candidate_node]
+
+        # 2. Dynamically weighted distance from the candidate node back to the destination node
+        distance_to_destination_from_candidate = distance_matrix[candidate_node][destination_node]
+
+        # Combine the immediate distance with the adaptive foresight component
+        combined_cost = immediate_distance + (W_return_foresight * distance_to_destination_from_candidate)
+
+        if combined_cost < min_combined_cost:
+            min_combined_cost = combined_cost
+            next_node = candidate_node
+
+    return next_node

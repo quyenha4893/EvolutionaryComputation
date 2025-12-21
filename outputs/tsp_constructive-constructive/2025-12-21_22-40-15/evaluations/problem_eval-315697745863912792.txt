@@ -1,0 +1,23 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    if not unvisited_nodes:
+        return destination_node
+
+    if len(unvisited_nodes) == 1:
+        return list(unvisited_nodes)[0]
+
+    best_node = None
+    min_lookahead_cost = float('inf')
+
+    for candidate_node in unvisited_nodes:
+        cost_to_candidate = distance_matrix[current_node][candidate_node]
+        
+        remaining_unvisited = unvisited_nodes - {candidate_node}
+        cost_from_candidate = min(distance_matrix[candidate_node][other] for other in remaining_unvisited)
+        
+        total_lookahead_cost = cost_to_candidate + cost_from_candidate
+        
+        if total_lookahead_cost < min_lookahead_cost:
+            min_lookahead_cost = total_lookahead_cost
+            best_node = candidate_node
+            
+    return next_node

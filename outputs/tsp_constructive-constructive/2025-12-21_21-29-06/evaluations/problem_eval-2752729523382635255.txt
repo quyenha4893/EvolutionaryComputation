@@ -1,0 +1,43 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    """
+    Selects the next node to visit based on a combined cost function that primarily
+    considers immediate distance and adds a weighted penalty for distance to the destination.
+
+    Args:
+        current_node: The node currently at.
+        destination_node: The starting node of the tour, to which the path must return.
+        unvisited_nodes: A set of nodes that have not yet been visited.
+        distance_matrix: A 2D list (matrix) where distance_matrix[i][j]
+                         is the distance between node i and node j.
+
+    Returns:
+        The next node to visit.
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, return to the destination node (start node)
+        return destination_node
+
+    next_node = -1
+    min_combined_cost = math.inf
+
+    # Weighting factor for the penalty of distance to destination (W >= 0)
+    # A positive W value adds a cost for being further from the destination,
+    # potentially guiding the tour towards ending points sooner.
+    W = 0.5 
+
+    for candidate_node in unvisited_nodes:
+        immediate_distance = distance_matrix[current_node][candidate_node]
+        distance_to_destination_from_candidate = distance_matrix[candidate_node][destination_node]
+
+        # Combine immediate distance with a weighted penalty from candidate back to destination.
+        # This formula emphasizes the immediate move but adds a cost for candidates
+        # that are far from the eventual destination, without reducing the immediate distance's weight.
+        combined_cost = immediate_distance + W * distance_to_destination_from_candidate
+
+        if combined_cost < min_combined_cost:
+            min_combined_cost = combined_cost
+            next_node = candidate_node
+
+    return next_node

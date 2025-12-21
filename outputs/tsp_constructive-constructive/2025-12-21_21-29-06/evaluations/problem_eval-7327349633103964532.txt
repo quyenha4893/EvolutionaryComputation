@@ -1,0 +1,52 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    """
+    Selects the next node to visit by dynamically adjusting the balance between immediate
+    distance and proximity to the destination node, based on tour progress.
+
+    Args:
+        current_node: The node currently at.
+        destination_node: The starting node of the tour, to which the path must return.
+        unvisited_nodes: A set of nodes that have not yet been visited.
+        distance_matrix: A 2D list (matrix) where distance_matrix[i][j]
+                         is the distance between node i and node j.
+
+    Returns:
+        The next node to visit.
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, return to the destination node (start node)
+        return destination_node
+
+    num_total_nodes = len(distance_matrix)
+    
+    # initial_nodes_to_visit_count represents the total number of nodes that need to be visited
+    # after starting, before returning to the destination.
+    initial_nodes_to_visit_count = num_total_nodes - 1 
+
+    # Calculate the number of nodes already visited in the current path, excluding the starting node.
+    nodes_remaining_to_visit = len(unvisited_nodes)
+    nodes_visited_so_far_count = initial_nodes_to_visit_count - nodes_remaining_to_visit
+    
+    # Calculate the dynamic weight (W) for the combined cost function.
+    # This weight increases as more nodes are visited, similar to the bias_factor in Algorithm 1.
+    # It transitions from 0 (prioritizing immediate distance) to 1 (prioritizing destination proximity).
+    dynamic_W = nodes_visited_so_far_count / initial_nodes_to_visit_count if initial_nodes_to_visit_count > 0 else 0
+    
+    next_node = -1
+    min_combined_cost = math.inf
+
+    for candidate_node in unvisited_nodes:
+        immediate_distance = distance_matrix[current_node][candidate_node]
+        distance_to_destination_from_candidate = distance_matrix[candidate_node][destination_node]
+
+        # Combine distances using Algorithm 2's weighted sum, with the dynamic_W.
+        # As dynamic_W increases, the influence of distance_to_destination_from_candidate grows.
+        combined_cost = (1 - dynamic_W) * immediate_distance + dynamic_W * distance_to_destination_from_candidate
+
+        if combined_cost < min_combined_cost:
+            min_combined_cost = combined_cost
+            next_node = candidate_node
+
+    return next_node

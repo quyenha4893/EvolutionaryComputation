@@ -1,0 +1,30 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    """
+    Selects the next node to visit based on the greedy (nearest neighbor) heuristic.
+
+    Args:
+        current_node: The node currently at.
+        destination_node: The starting node of the tour, to which the path must return.
+        unvisited_nodes: A set of nodes that have not yet been visited.
+        distance_matrix: A 2D list (matrix) where distance_matrix[i][j]
+                         is the distance between node i and node j.
+
+    Returns:
+        The next node to visit.
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, return to the destination node (start node)
+        return destination_node
+
+    next_node = -1
+    min_distance = math.inf
+
+    for node in unvisited_nodes:
+        distance = distance_matrix[current_node][node]
+        if distance < min_distance:
+            min_distance = distance
+            next_node = node
+
+    return next_node

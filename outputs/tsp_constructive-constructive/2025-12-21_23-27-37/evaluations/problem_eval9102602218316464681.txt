@@ -1,0 +1,30 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node to visit based on the Nearest Neighbor heuristic.
+
+    Args:
+        current_node (int): The index of the current node.
+        destination_node (int): The index of the starting/ending node of the tour.
+        unvisited_nodes (set): A set of indices of nodes that have not yet been visited.
+        distance_matrix (list of list of float): A 2D list where distance_matrix[i][j]
+                                                 is the distance between node i and node j.
+
+    Returns:
+        int: The index of the next node to visit.
+    """
+    # If there are no unvisited nodes left, the tour is complete.
+    # The next and final node is the starting/destination node.
+    if not unvisited_nodes:
+        return destination_node
+
+    nearest_node = None
+    min_distance = float('inf')
+
+    # Find the nearest node among the unvisited ones.
+    for node in unvisited_nodes:
+        distance = distance_matrix[current_node][node]
+        if distance < min_distance:
+            min_distance = distance
+            nearest_node = node
+            
+    return next_node

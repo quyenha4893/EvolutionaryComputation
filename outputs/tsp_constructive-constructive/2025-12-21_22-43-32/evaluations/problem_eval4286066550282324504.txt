@@ -1,0 +1,41 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node using a weighted score that balances greediness and foresight.
+    """
+    # If there is only one unvisited node left, it must be the next node.
+    if len(unvisited_nodes) == 1:
+        return list(unvisited_nodes)[0]
+
+    best_node = None
+    min_weighted_score = float('inf')
+
+    total_nodes = len(distance_matrix)
+    num_unvisited = len(unvisited_nodes)
+
+    # The 'greediness_factor' (alpha) determines the weight given to the immediate next-step distance.
+    # It starts close to 1 (very greedy) and decreases as the tour progresses.
+    # This prevents division by zero for a 2-node problem, which is handled by the check above.
+    greediness_factor = (num_unvisited - 1) / (total_nodes - 2)
+
+    # The 'foresight_factor' (beta) determines the weight given to returning to the start.
+    # It starts near 0 and increases as the tour nears its end.
+    foresight_factor = 1.0 - greediness_factor
+
+    for candidate_node in unvisited_nodes:
+        # The greedy component: distance from the current node to the candidate.
+        distance_to_candidate = distance_matrix[current_node][candidate_node]
+
+        # The foresight component: distance from the candidate to the final destination.
+        distance_from_candidate_to_dest = distance_matrix[candidate_node][destination_node]
+
+        # The novel weighted score equation balances the two components.
+        # As the tour progresses, the weight shifts from the greedy choice
+        # to the choice that brings the tour closer to the destination.
+        weighted_score = (greediness_factor * distance_to_candidate) + \
+                         (foresight_factor * distance_from_candidate_to_dest)
+
+        if weighted_score < min_weighted_score:
+            min_weighted_score = weighted_score
+            best_node = candidate_node
+
+    return next_node

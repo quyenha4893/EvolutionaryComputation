@@ -1,0 +1,47 @@
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    """
+    Selects the next node to visit using a 2-step lookahead greedy heuristic.
+
+    Args:
+        current_node: The node currently at.
+        destination_node: The starting node of the tour, to which the path must return.
+        unvisited_nodes: A set of nodes that have not yet been visited.
+        distance_matrix: A 2D list (matrix) where distance_matrix[i][j]
+                         is the distance between node i and node j.
+
+    Returns:
+        The next node to visit.
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, return to the destination node (start node)
+        return destination_node
+
+    best_next_node = -1
+    min_total_metric = math.inf
+
+    for candidate_node in unvisited_nodes:
+        # Calculate the immediate cost to move from current_node to candidate_node
+        cost_to_candidate = distance_matrix[current_node][candidate_node]
+
+        # Determine the set of nodes that would remain unvisited if candidate_node were chosen next
+        remaining_unvisited_after_candidate = unvisited_nodes - {candidate_node}
+
+        future_cost_from_candidate = math.inf
+        if not remaining_unvisited_after_candidate:
+            # If candidate_node is the last remaining unvisited node, the next step after it
+            # must be returning to the destination_node to complete the cycle.
+            future_cost_from_candidate = distance_matrix[candidate_node][destination_node]
+        else:
+            # Otherwise, calculate the minimum distance from candidate_node to any
+            # of the truly remaining unvisited nodes. This is a lookahead to the *next* greedy step.
+            for next_possible_node in remaining_unvisited_after_candidate:
+                future_cost_from_candidate = min(future_cost_from_candidate, distance_matrix[candidate_node][next_possible_node])
+        
+        # The novel metric combines the immediate cost with the calculated future cost
+        combined_metric = cost_to_candidate + future_cost_from_candidate
+
+        if combined_metric < min_total_metric:
+            min_total_metric = combined_metric
+            best_next_node = candidate_node
+
+    return next_node

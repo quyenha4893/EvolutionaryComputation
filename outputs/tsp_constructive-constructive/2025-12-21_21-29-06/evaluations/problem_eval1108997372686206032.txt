@@ -1,0 +1,70 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    """
+    Selects the next node to visit based on a combined heuristic that considers
+    immediate distance, average connectivity to remaining unvisited nodes, and
+    a dynamically weighted distance back to the destination.
+
+    Args:
+        current_node: The node currently at.
+        destination_node: The starting node of the tour, to which the path must return.
+        unvisited_nodes: A set of nodes that have not yet been visited.
+        distance_matrix: A 2D list (matrix) where distance_matrix[i][j]
+                         is the distance between node i and node j.
+
+    Returns:
+        The next node to visit.
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, return to the destination node (start node)
+        return destination_node
+
+    next_node = -1
+    min_combined_cost = math.inf
+
+    # Fixed weighting factor for the average connectivity to other unvisited nodes
+    W1_fixed = 0.2
+    # Base weighting factor for the distance to destination, scaled dynamically
+    W2_base = 0.5 
+
+    total_nodes_in_problem = len(distance_matrix)
+    # The initial count of unvisited nodes (excluding the destination_node as the starting point)
+    initial_unvisited_count = total_nodes_in_problem - 1
+    
+    # Calculate dynamic weight for W2: increases as the tour progresses (fewer nodes remaining)
+    # This makes the cost of returning to destination more significant towards the end.
+    if initial_unvisited_count <= 0:
+        W2_dynamic = W2_base 
+    else:
+        nodes_remaining_count = len(unvisited_nodes)
+        # progress_ratio goes from 0 (at start) to 1 (when only destination_node is left to return to)
+        progress_ratio = (initial_unvisited_count - nodes_remaining_count) / initial_unvisited_count
+        W2_dynamic = W2_base * progress_ratio
+
+    for candidate_node in unvisited_nodes:
+        # 1. Immediate cost from current_node to candidate_node
+        immediate_distance = distance_matrix[current_node][candidate_node]
+
+        # 2. Future Connectivity Cost: Average distance from candidate to *all* other remaining unvisited nodes
+        avg_dist_to_remaining_from_candidate = 0.0
+        remaining_after_candidate = unvisited_nodes - {candidate_node}
+        
+        if remaining_after_candidate:
+            total_dist_to_remaining = sum(distance_matrix[candidate_node][other_future_node] 
+                                          for other_future_node in remaining_after_candidate)
+            avg_dist_to_remaining_from_candidate = total_dist_to_remaining / len(remaining_after_candidate)
+        
+        # 3. Distance from the candidate node back to the destination node (with dynamic weighting)
+        distance_to_destination_from_candidate = distance_matrix[candidate_node][destination_node]
+
+        # Combine all components with their respective weights
+        combined_cost = immediate_distance + \
+                        (W1_fixed * avg_dist_to_remaining_from_candidate) + \
+                        (W2_dynamic * distance_to_destination_from_candidate)
+
+        if combined_cost < min_combined_cost:
+            min_combined_cost = combined_cost
+            next_node = candidate_node
+
+    return next_node

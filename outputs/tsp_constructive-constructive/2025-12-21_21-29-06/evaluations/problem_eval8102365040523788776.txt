@@ -1,0 +1,74 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    """
+    Selects the next node using a combined cost that includes a dynamically weighted foresight
+    to the destination and a look-ahead component for future connectivity.
+
+    Args:
+        current_node: The node currently at.
+        destination_node: The starting node of the tour, to which the path must return.
+        unvisited_nodes: A set of nodes that have not yet been visited.
+        distance_matrix: A 2D list (matrix) where distance_matrix[i][j]
+                         is the distance between node i and node j.
+
+    Returns:
+        The next node to visit.
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, return to the destination node (start node)
+        return destination_node
+
+    next_node = -1
+    min_combined_cost = math.inf
+
+    total_city_count = len(distance_matrix)
+    # The count of nodes that were initially unvisited (excluding the starting node)
+    initial_unvisited_count = total_city_count - 1 
+
+    # --- Dynamic Foresight Weight Calculation ---
+    # This weight increases as more nodes are visited, making the return path
+    # to the destination progressively more influential towards the end of the tour.
+    W_return_foresight_base = 0.1
+    W_return_foresight_scaling = 0.3
+    
+    nodes_visited_so_far = initial_unvisited_count - len(unvisited_nodes)
+    if initial_unvisited_count > 0:
+        dynamic_foresight_weight = W_return_foresight_base + W_return_foresight_scaling * \
+                                   (nodes_visited_so_far / initial_unvisited_count)
+    else:
+        # Handles cases with only 1 city (start_node == total_city_count)
+        dynamic_foresight_weight = W_return_foresight_base 
+
+    # --- Future Connectivity Weight ---
+    # This weight determines the influence of the 'next-hop opportunity' cost.
+    W_connectivity = 0.05 
+
+    for candidate_node in unvisited_nodes:
+        # 1. Immediate cost from current_node to candidate_node
+        immediate_distance = distance_matrix[current_node][candidate_node]
+
+        # 2. Weighted distance from the candidate node back to the destination node (dynamic foresight)
+        distance_to_destination_from_candidate = distance_matrix[candidate_node][destination_node]
+        foresight_cost = dynamic_foresight_weight * distance_to_destination_from_candidate
+
+        # 3. 'Next-hop opportunity' cost: minimum distance from candidate to any other remaining unvisited node
+        # This component aims to select candidates that leave good options for subsequent connections.
+        next_hop_cost = 0.0 # Default to 0 if no further unvisited nodes
+        
+        remaining_after_candidate = unvisited_nodes - {candidate_node}
+        if remaining_after_candidate: 
+            # Calculate the shortest path from the candidate to any *other* unvisited node.
+            # This helps avoid 'isolating' future nodes or leading to very long subsequent jumps.
+            next_hop_cost = min(distance_matrix[candidate_node][other] for other in remaining_after_candidate)
+        
+        connectivity_cost = W_connectivity * next_hop_cost
+
+        # Combine all three cost components
+        combined_cost = immediate_distance + foresight_cost + connectivity_cost
+
+        if combined_cost < min_combined_cost:
+            min_combined_cost = combined_cost
+            next_node = candidate_node
+
+    return next_node

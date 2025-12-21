@@ -1,0 +1,17 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set, distance_matrix: list) -> int:
+    min_distance = math.inf
+    next_node_to_visit = -1 
+
+    if not unvisited_nodes:
+        # If all nodes have been visited, the next step is to return to the destination node to complete the tour.
+        return destination_node
+
+    for node in unvisited_nodes:
+        distance = distance_matrix[current_node][node]
+        if distance < min_distance:
+            min_distance = distance
+            next_node_to_visit = node
+            
+    return next_node

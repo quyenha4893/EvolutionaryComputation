@@ -1,0 +1,42 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    next_node = None
+    best_score = float('inf')
+
+    if not unvisited_nodes:
+        return None
+
+    # Weights for the three components, prioritizing the greedy choice while adding smarter lookaheads.
+    w_immediate = 0.85         # Inspired by the success of the greedy approach (Algo 3).
+    w_short_lookahead = 0.10   # Inspired by the refined lookahead of Algo 2.
+    w_long_lookahead = 0.05    # Inspired by the destination-aware heuristic of Algo 1.
+
+    for candidate_node in unvisited_nodes:
+        # Part 1: Immediate cost from the current node to the candidate (from Algo 3).
+        immediate_cost = distance_matrix[current_node][candidate_node]
+
+        # Part 2: Short-term lookahead cost, i.e., distance from the candidate to its own nearest neighbor (from Algo 2).
+        remaining_nodes = unvisited_nodes - {candidate_node}
+        short_lookahead_cost = float('inf')
+        if not remaining_nodes:
+            # If the candidate is the last unvisited node, its 'next step' is the destination.
+            short_lookahead_cost = distance_matrix[candidate_node][destination_node]
+        else:
+            # Find the candidate's nearest neighbor from the rest of the unvisited nodes.
+            for next_step_node in remaining_nodes:
+                distance = distance_matrix[candidate_node][next_step_node]
+                if distance < short_lookahead_cost:
+                    short_lookahead_cost = distance
+        
+        # Part 3: Long-term lookahead cost, i.e., distance from the candidate back to the start (from Algo 1).
+        long_lookahead_cost = distance_matrix[candidate_node][destination_node]
+
+        # The new score combines the three ideas with weights reflecting their observed effectiveness.
+        score = (w_immediate * immediate_cost) + \
+                (w_short_lookahead * short_lookahead_cost) + \
+                (w_long_lookahead * long_lookahead_cost)
+
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

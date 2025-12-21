@@ -1,0 +1,72 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    """
+    Selects the next node to visit using a Modified Two-Step Heuristic with Destination Proximity Awareness.
+    This heuristic considers the immediate distance to a candidate node, estimates the best possible next step
+    from that candidate, and adds a penalty based on how far the candidate node is from the final
+    destination, scaled by the remaining number of unvisited nodes.
+
+    Args:
+        current_node: The node currently at.
+        destination_node: The starting node of the tour, to which the path must return.
+        unvisited_nodes: A set of nodes that have not yet been visited.
+        distance_matrix: A 2D list (matrix) where distance_matrix[i][j]
+                         is the distance between node i and node j.
+
+    Returns:
+        The next node to visit.
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, return to the destination node (start node)
+        return destination_node
+
+    next_node = -1
+    min_total_score = math.inf
+
+    # Calculate the scaling factor for the destination proximity penalty.
+    # The penalty's impact diminishes as fewer nodes remain, guiding the tour towards the destination later.
+    # Adding 1 to len(unvisited_nodes) prevents division by zero and smooths the scaling.
+    scaling_divisor = len(unvisited_nodes) + 1
+
+    for candidate_node in unvisited_nodes:
+        # 1. Calculate the immediate cost to travel from current_node to candidate_node
+        immediate_cost = distance_matrix[current_node][candidate_node]
+        
+        # 2. Calculate the minimum cost for the *next* step from the candidate_node.
+        # This looks for the shortest path from candidate_node to any other
+        # remaining unvisited node or directly to the destination.
+        
+        min_cost_from_candidate_to_next = math.inf
+        
+        # Consider all other unvisited nodes (excluding the candidate itself) as potential next steps
+        # This ensures we are always looking for a *different* node to visit next.
+        other_unvisited_nodes_from_candidate = unvisited_nodes - {candidate_node}
+
+        for next_possible_target in other_unvisited_nodes_from_candidate:
+            min_cost_from_candidate_to_next = min(
+                min_cost_from_candidate_to_next,
+                distance_matrix[candidate_node][next_possible_target]
+            )
+        
+        # Always consider returning to the destination as a possible next step from candidate_node.
+        # This is crucial for when the candidate_node is the last unvisited node,
+        # or if returning to destination is the shortest path from candidate_node after its selection.
+        min_cost_from_candidate_to_next = min(
+            min_cost_from_candidate_to_next,
+            distance_matrix[candidate_node][destination_node]
+        )
+        
+        # 3. Calculate a destination proximity penalty.
+        # This term encourages selecting nodes that are not excessively far from the final destination,
+        # thereby implicitly steering the tour back towards its origin as it progresses.
+        destination_proximity_penalty = distance_matrix[candidate_node][destination_node] / scaling_divisor
+        
+        # 4. The total score combines immediate cost, estimated next-step cost, and the destination proximity penalty.
+        total_score = immediate_cost + min_cost_from_candidate_to_next + destination_proximity_penalty
+
+        if total_score < min_total_score:
+            min_total_score = total_score
+            next_node = candidate_node
+
+    return next_node

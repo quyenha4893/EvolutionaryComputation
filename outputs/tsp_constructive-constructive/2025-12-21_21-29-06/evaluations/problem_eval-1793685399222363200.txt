@@ -1,0 +1,81 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    """
+    Selects the next node to visit based on a modified Nearest Neighbor heuristic
+    that considers immediate distance, a primary minimum look-ahead, and a secondary
+    average look-ahead, with adaptive weighting.
+
+    Args:
+        current_node: The node currently at.
+        destination_node: The starting node of the tour, to which the path must return.
+        unvisited_nodes: A set of nodes that have not yet been visited.
+        distance_matrix: A 2D list (matrix) where distance_matrix[i][j]
+                         is the distance between node i and node j.
+
+    Returns:
+        The next node to visit.
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, return to the destination node (start node)
+        return destination_node
+
+    next_node = -1
+    min_combined_cost = math.inf
+
+    # Weights for the combined cost equation
+    ALPHA = 0.6 # Weight for the primary (closest) look-ahead component
+    BETA_BASE = 0.3 # Base weight for the secondary (average spread) look-ahead component
+
+    # Total initial number of nodes, inferred from the distance matrix size
+    total_nodes_count = len(distance_matrix)
+    
+    # Adaptive BETA: decreases as fewer nodes remain, reducing the importance of average spread towards the end.
+    # This factor ranges from BETA_BASE (when all nodes are unvisited) down to 0 (when no nodes are unvisited).
+    BETA_ADAPTED = BETA_BASE * (len(unvisited_nodes) / total_nodes_count) if total_nodes_count > 0 else 0
+
+    for candidate_node in unvisited_nodes:
+        immediate_cost = distance_matrix[current_node][candidate_node]
+
+        # Tier 1 Look-ahead: The minimum distance from candidate_node to its next *single* stop.
+        # This closely mimics the original algorithm's min_future_dist.
+        tier1_look_ahead_cost = math.inf
+        
+        # Tier 2 Look-ahead: The average distance from candidate_node to all *other* remaining unvisited nodes.
+        # This captures the "spread" or "density" of the remaining problem.
+        total_dist_to_others = 0
+        num_others = 0
+
+        remaining_unvisited_after_candidate = unvisited_nodes - {candidate_node}
+
+        if not remaining_unvisited_after_candidate:
+            # If candidate_node is the last node to visit, the next step is directly to the destination.
+            tier1_look_ahead_cost = distance_matrix[candidate_node][destination_node]
+            tier2_look_ahead_cost = 0 # No other nodes for an "average spread" calculation
+            effective_beta_term = 0 # No BETA contribution as there's no spread
+        else:
+            # Calculate min_dist and sum_dist to all other remaining nodes
+            for future_node in remaining_unvisited_after_candidate:
+                dist_from_cand_to_future = distance_matrix[candidate_node][future_node]
+                
+                if dist_from_cand_to_future < tier1_look_ahead_cost:
+                    tier1_look_ahead_cost = dist_from_cand_to_future
+                
+                total_dist_to_others += dist_from_cand_to_future
+                num_others += 1
+            
+            # Calculate the average distance for the Tier 2 look-ahead
+            tier2_look_ahead_cost = total_dist_to_others / num_others
+            effective_beta_term = BETA_ADAPTED * tier2_look_ahead_cost
+
+        # The new combined cost equation:
+        # immediate_cost + (ALPHA * min_dist_to_next) + (ADAPTIVE_BETA * average_dist_to_all_others)
+        combined_cost = immediate_cost + \
+                        (ALPHA * tier1_look_ahead_cost) + \
+                        effective_beta_term
+
+        if combined_cost < min_combined_cost:
+            min_combined_cost = combined_cost
+            next_node = candidate_node
+
+    return next_node

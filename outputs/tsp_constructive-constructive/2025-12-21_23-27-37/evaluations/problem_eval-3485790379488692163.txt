@@ -1,0 +1,47 @@
+importance of returning to the
+    destination as the number of unvisited nodes decreases.
+    """
+    if not unvisited_nodes:
+        return None
+
+    if len(unvisited_nodes) == 1:
+        return list(unvisited_nodes)[0]
+
+    best_node = None
+    min_score = float('inf')
+    
+    total_nodes = len(distance_matrix)
+    num_unvisited = len(unvisited_nodes)
+
+    # Adaptive weights based on the progress of the tour
+    # Weight for centrality (avg future cost) decreases as the tour progresses
+    weight_centrality = (num_unvisited - 1) / total_nodes
+    # Weight for returning to the destination increases as the tour progresses
+    weight_return = (total_nodes - num_unvisited) / total_nodes
+
+    for candidate_node in unvisited_nodes:
+        # Factor 1: Immediate cost to travel to the candidate node
+        cost_immediate = distance_matrix[current_node][candidate_node]
+
+        # Factor 2: Candidate's centrality among remaining unvisited nodes
+        nodes_for_avg = unvisited_nodes - {candidate_node}
+        sum_future_costs = 0
+        if nodes_for_avg:
+            for next_hop_node in nodes_for_avg:
+                sum_future_costs += distance_matrix[candidate_node][next_hop_node]
+            avg_future_cost = sum_future_costs / len(nodes_for_avg)
+        else:
+            avg_future_cost = 0
+
+        # Factor 3: Cost to return from the candidate to the starting destination
+        cost_return = distance_matrix[candidate_node][destination_node]
+
+        # Combine factors using the adaptive weights
+        # The weight for immediate cost is implicitly 1.0
+        score = cost_immediate + (weight_centrality * avg_future_cost) + (weight_return * cost_return)
+
+        if score < min_score:
+            min_score = score
+            best_node = candidate_node
+            
+    return next_node

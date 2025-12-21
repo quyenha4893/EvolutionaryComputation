@@ -1,0 +1,44 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    """
+    Selects the next node to visit by using a proportional weighting scheme (inspired by Algo 1)
+    that prioritizes immediate distance (similar to Algo 2) but gives a slightly more
+    pronounced, yet still subtle, influence to the distance from the candidate node back
+    to the tour's starting point.
+
+    Args:
+        current_node: The node currently at.
+        destination_node: The starting node of the tour, to which the path must return.
+        unvisited_nodes: A set of nodes that have not yet been visited.
+        distance_matrix: A 2D list (matrix) where distance_matrix[i][j]
+                         is the distance between node i and node j.
+
+    Returns:
+        The next node to visit.
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, return to the destination node (start node)
+        return destination_node
+
+    next_node = -1
+    min_combined_cost = math.inf
+
+    # A weighting factor that is larger than Algo 2's 0.01 but smaller than Algo 1's 0.2,
+    # applying Algo 1's proportional weighting structure.
+    W_blend = 0.025 
+
+    for candidate_node in unvisited_nodes:
+        immediate_distance = distance_matrix[current_node][candidate_node]
+        distance_to_destination_from_candidate = distance_matrix[candidate_node][destination_node]
+
+        # Combine immediate distance with the weighted distance from candidate back to destination.
+        # This formula (inspired by Algo 1) proportionally balances the two components,
+        # giving slightly more weight to foresight than Algo 2's additive approach.
+        combined_cost = (1 - W_blend) * immediate_distance + W_blend * distance_to_destination_from_candidate
+
+        if combined_cost < min_combined_cost:
+            min_combined_cost = combined_cost
+            next_node = candidate_node
+
+    return next_node

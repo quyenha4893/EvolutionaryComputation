@@ -1,0 +1,33 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node using a weighted score that balances the immediate
+    cost (Nearest Neighbor) with a lookahead penalty (distance to destination).
+    This hybrid approach favors the closest node but penalizes choices that
+    move the tour excessively far from its origin.
+    """
+    next_node = None
+    best_score = float('inf')
+    
+    # Alpha is a weighting factor. A small alpha (e.g., 0.2) gives high priority
+    # to the nearest neighbor while still applying a small penalty for moving
+    # far from the destination. (1-alpha) is weight for immediate cost, alpha for lookahead cost.
+    alpha = 0.2
+
+    if not unvisited_nodes:
+        return None
+
+    for candidate_node in unvisited_nodes:
+        # Cost of the immediate step: current -> candidate
+        cost_to_candidate = distance_matrix[current_node][candidate_node]
+        
+        # Lookahead cost: candidate -> destination
+        cost_from_candidate_to_dest = distance_matrix[candidate_node][destination_node]
+        
+        # Calculate the weighted score
+        score = (1 - alpha) * cost_to_candidate + alpha * cost_from_candidate_to_dest
+        
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

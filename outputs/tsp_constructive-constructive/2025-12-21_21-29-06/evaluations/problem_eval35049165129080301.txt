@@ -1,0 +1,58 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    """
+    Selects the next node to visit based on a composite score considering immediate distance
+    and the average distance to other remaining unvisited nodes.
+
+    Args:
+        current_node: The node currently at.
+        destination_node: The starting node of the tour, to which the path must return.
+        unvisited_nodes: A set of nodes that have not yet been visited.
+        distance_matrix: A 2D list (matrix) where distance_matrix[i][j]
+                         is the distance between node i and node j.
+
+    Returns:
+        The next node to visit.
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, return to the destination node (start node)
+        return destination_node
+
+    if len(unvisited_nodes) == 1:
+        # If only one unvisited node remains, it must be the next one.
+        # We need to make a copy to use pop() without modifying the original set directly
+        # if the caller expects it to be unchanged immediately.
+        # However, for the purpose of this function, taking the last node is fine.
+        return list(unvisited_nodes)[0] 
+
+    next_node = -1
+    min_combined_score = math.inf
+
+    for candidate_node in unvisited_nodes:
+        immediate_distance = distance_matrix[current_node][candidate_node]
+        
+        # Calculate the sum of distances from the candidate node to all *other* unvisited nodes.
+        # This helps to evaluate how 'central' or 'well-connected' the candidate is to the remaining journey.
+        sum_of_distances_to_others = 0.0
+        count_of_others = 0
+        
+        for other_unvisited_node in unvisited_nodes:
+            if other_unvisited_node != candidate_node:
+                sum_of_distances_to_others += distance_matrix[candidate_node][other_unvisited_node]
+                count_of_others += 1
+        
+        # If there are other unvisited nodes, calculate the average distance.
+        # If count_of_others is 0, it means the candidate_node was the only unvisited node,
+        # which is handled by the `len(unvisited_nodes) == 1` check above.
+        average_distance_to_others = sum_of_distances_to_others / count_of_others
+        
+        # The combined score prioritizes immediate proximity but also considers how well the candidate
+        # node sets up for the remaining part of the tour by being relatively central to other unvisited nodes.
+        combined_score = immediate_distance + average_distance_to_others
+
+        if combined_score < min_combined_score:
+            min_combined_score = combined_score
+            next_node = candidate_node
+
+    return next_node

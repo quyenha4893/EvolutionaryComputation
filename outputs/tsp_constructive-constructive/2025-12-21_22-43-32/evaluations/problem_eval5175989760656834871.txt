@@ -1,0 +1,45 @@
+import numpy as np
+
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node using a heuristic that balances immediate cost with a
+    more comprehensive look-ahead strategy, considering both the final destination
+    and the cluster of remaining unvisited nodes.
+    """
+    next_node = None
+    best_score = float('inf')
+
+    # Weights for the three components of the score.
+    # w1: Weight for the immediate distance (greedy choice).
+    # w2: Weight for the distance to the final destination (long-term goal).
+    # w3: Weight for the average distance to all other unvisited nodes (strategic positioning).
+    w1 = 0.5  # Prioritizes the immediate next step, similar to the better-performing algorithm.
+    w2 = 0.2  # Considers the final destination, but with less weight.
+    w3 = 0.3  # Adds a new strategic factor for how central a node is to the remaining sub-problem.
+
+    for candidate_node in unvisited_nodes:
+        # 1. Cost from the current node to the candidate node.
+        dist_from_current = distance_matrix[current_node][candidate_node]
+
+        # 2. Cost from the candidate node back to the destination.
+        dist_to_destination = distance_matrix[candidate_node][destination_node]
+
+        # 3. Average distance from the candidate to all OTHER unvisited nodes.
+        # This helps select a node that is centrally located to the remaining nodes.
+        other_unvisited_nodes = unvisited_nodes - {candidate_node}
+        if not other_unvisited_nodes:
+            avg_dist_to_others = 0
+        else:
+            total_dist_to_others = sum(distance_matrix[candidate_node][other] for other in other_unvisited_nodes)
+            avg_dist_to_others = total_dist_to_others / len(other_unvisited_nodes)
+
+        # Calculate the composite score.
+        score = (w1 * dist_from_current) + \
+                (w2 * dist_to_destination) + \
+                (w3 * avg_dist_to_others)
+
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+
+    return next_node

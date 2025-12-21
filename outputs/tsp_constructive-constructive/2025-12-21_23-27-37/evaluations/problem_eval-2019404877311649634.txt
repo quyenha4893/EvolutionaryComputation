@@ -1,0 +1,42 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node by scoring each candidate based on the sum of the immediate
+    travel cost and its average distance to all other unvisited nodes. This heuristic
+    balances choosing a nearby node with choosing a node that is centrally located
+    among the remaining options, avoiding the creation of isolated, hard-to-reach
+    nodes for later in the tour.
+    """
+    next_node = None
+    best_score = float('inf')
+
+    if not unvisited_nodes:
+        return None
+
+    # If only one unvisited node is left, it's the only choice.
+    if len(unvisited_nodes) == 1:
+        return list(unvisited_nodes)[0]
+
+    # Evaluate each unvisited node as a potential candidate for the next step.
+    for candidate_node in unvisited_nodes:
+        # Cost of the first step: from the current node to the candidate.
+        cost_step1 = distance_matrix[current_node][candidate_node]
+        
+        # The second component of the score is inspired by Algorithm 1's "remoteness factor".
+        # It's the average distance from the candidate to all *other* unvisited nodes.
+        other_unvisited = unvisited_nodes - {candidate_node}
+        
+        if not other_unvisited:
+            # This case occurs if there's only one candidate, handled above, but for safety:
+            avg_dist_to_others = 0.0
+        else:
+            total_dist_to_others = sum(distance_matrix[candidate_node][other] for other in other_unvisited)
+            avg_dist_to_others = total_dist_to_others / len(other_unvisited)
+
+        # The total score combines the immediate cost with the strategic cost of the candidate's position.
+        score = cost_step1 + avg_dist_to_others
+
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

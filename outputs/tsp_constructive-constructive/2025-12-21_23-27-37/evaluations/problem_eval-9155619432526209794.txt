@@ -1,0 +1,29 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    next_node = None
+    best_score = float('inf')
+
+    if not unvisited_nodes:
+        return None
+
+    # Dynamically adjust alpha based on tour progress.
+    # The denominator represents the initial number of nodes to visit.
+    # We use len(distance_matrix) - 1, assuming the tour visits all nodes.
+    initial_unvisited_count = len(distance_matrix) - 1
+    if initial_unvisited_count > 0:
+        alpha = len(unvisited_nodes) / initial_unvisited_count
+    else:
+        alpha = 1.0 # Fallback for edge cases
+
+    for candidate_node in unvisited_nodes:
+        dist_to_candidate = distance_matrix[current_node][candidate_node]
+        dist_from_candidate = distance_matrix[candidate_node][destination_node]
+
+        # The score is heavily weighted towards the nearest neighbor at the start (high alpha)
+        # and shifts focus towards the destination as the tour progresses (low alpha).
+        score = (alpha * dist_to_candidate) + ((1 - alpha) * dist_from_candidate)
+
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

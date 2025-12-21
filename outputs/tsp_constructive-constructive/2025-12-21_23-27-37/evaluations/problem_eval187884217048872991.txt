@@ -1,0 +1,49 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node by evaluating a score that combines a two-step lookahead
+    with a dynamically weighted penalty for distance to the final destination.
+    The destination's influence grows as the tour progresses, encouraging a more
+    globally aware path choice.
+    """
+    next_node = None
+    best_score = float('inf')
+
+    if not unvisited_nodes:
+        return None
+
+    # If only one unvisited node is left, it's the only choice to make.
+    if len(unvisited_nodes) == 1:
+        return list(unvisited_nodes)[0]
+
+    # The dynamic weight strengthens the pull of the destination as nodes are visited.
+    # The weight is inversely proportional to the number of remaining choices.
+    dynamic_weight = 1.0 / len(unvisited_nodes)
+
+    # Iterate through each potential next node to evaluate its score.
+    for candidate_node in unvisited_nodes:
+        # Cost of the first step (current -> candidate).
+        cost_step1 = distance_matrix[current_node][candidate_node]
+        
+        # Find the cost of the cheapest second step (candidate -> another unvisited node).
+        cost_step2 = float('inf')
+        nodes_for_step2 = unvisited_nodes - {candidate_node}
+        
+        # This inner loop is guaranteed to run since len(unvisited_nodes) > 1.
+        for next_hop_node in nodes_for_step2:
+            dist = distance_matrix[candidate_node][next_hop_node]
+            if dist < cost_step2:
+                cost_step2 = dist
+        
+        # Cost from the candidate to the final destination (the start of the tour).
+        cost_to_destination = distance_matrix[candidate_node][destination_node]
+        
+        # The new score combines the immediate cost, the lookahead cost, and the
+        # dynamically weighted cost to return to the destination.
+        # score = immediate_cost + lookahead_cost + pull_of_destination
+        total_score = cost_step1 + cost_step2 + (dynamic_weight * cost_to_destination)
+        
+        if total_score < best_score:
+            best_score = total_score
+            next_node = candidate_node
+            
+    return next_node

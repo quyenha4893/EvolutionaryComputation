@@ -1,0 +1,41 @@
+importance to immediate travel distance and the candidate node's distance to the tour's destination.}
+```python
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    """
+    Selects the next node to visit based on an equal weighting of immediate distance
+    and the distance from the candidate node back to the destination node.
+
+    Args:
+        current_node: The node currently at.
+        destination_node: The starting node of the tour, to which the path must return.
+        unvisited_nodes: A set of nodes that have not yet been visited.
+        distance_matrix: A 2D list (matrix) where distance_matrix[i][j]
+                         is the distance between node i and node j.
+
+    Returns:
+        The next node to visit.
+    """
+    if not unvisited_nodes:
+        return destination_node
+
+    next_node = -1
+    min_combined_cost = math.inf
+
+    # New parameter setting: W is now 0.5, giving equal weight to both components.
+    W = 0.5 
+
+    for candidate_node in unvisited_nodes:
+        immediate_distance = distance_matrix[current_node][candidate_node]
+        distance_to_destination_from_candidate = distance_matrix[candidate_node][destination_node]
+
+        # Combine immediate distance with the weighted distance from candidate back to destination.
+        # This formula now equally balances the locally optimal move with the eventual return cost.
+        combined_cost = (1 - W) * immediate_distance + W * distance_to_destination_from_candidate
+
+        if combined_cost < min_combined_cost:
+            min_combined_cost = combined_cost
+            next_node = candidate_node
+
+    return next_node

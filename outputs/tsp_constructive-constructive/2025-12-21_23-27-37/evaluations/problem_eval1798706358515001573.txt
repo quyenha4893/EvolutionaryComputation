@@ -1,0 +1,29 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node by prioritizing candidates that are close to the final destination,
+    even at the cost of a longer immediate step. This heuristic attempts to "jump"
+    towards the end of the tour.
+    """
+    next_node = None
+    best_score = float('inf')
+
+    if not unvisited_nodes:
+        return None
+
+    for candidate_node in unvisited_nodes:
+        # Distance from the current node to the potential next node.
+        dist_to_candidate = distance_matrix[current_node][candidate_node]
+        
+        # Distance from the potential next node back to the tour's starting point.
+        dist_from_candidate_to_dest = distance_matrix[candidate_node][destination_node]
+        
+        # The score prioritizes nodes close to the destination by subtracting the distance
+        # from the current node. This favors nodes that are far from the current one
+        # but close to the destination.
+        score = dist_from_candidate_to_dest - dist_to_candidate
+
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

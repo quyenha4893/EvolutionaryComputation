@@ -1,0 +1,41 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node using a minimal detour cost heuristic.
+    For each candidate node, the algorithm calculates an "insertion cost" by
+    evaluating the path change of `current -> candidate -> its_nearest_neighbor`
+    versus going directly `current -> its_nearest_neighbor`. The node that
+    results in the smallest detour is chosen, favoring nodes that fit
+    efficiently into a compact local path.
+    """
+    if len(unvisited_nodes) == 1:
+        return list(unvisited_nodes)[0]
+
+    best_node = None
+    min_detour_cost = float('inf')
+
+    for candidate_node in unvisited_nodes:
+        other_unvisited = unvisited_nodes - {candidate_node}
+        
+        # This check is technically redundant if len(unvisited_nodes) > 1,
+        # but included for clarity.
+        if not other_unvisited:
+            continue
+
+        # Find the nearest unvisited neighbor to the candidate node.
+        nearest_neighbor = min(other_unvisited, key=lambda neighbor: distance_matrix[candidate_node][neighbor])
+        
+        # Calculate the detour cost:
+        # (dist from current to candidate) + (dist from candidate to its nearest neighbor)
+        # - (dist from current to that same nearest neighbor)
+        # This measures how much the path is elongated by inserting the candidate.
+        cost_current_to_candidate = distance_matrix[current_node][candidate_node]
+        cost_candidate_to_neighbor = distance_matrix[candidate_node][nearest_neighbor]
+        cost_current_to_neighbor = distance_matrix[current_node][nearest_neighbor]
+        
+        detour_cost = cost_current_to_candidate + cost_candidate_to_neighbor - cost_current_to_neighbor
+
+        if detour_cost < min_detour_cost:
+            min_detour_cost = detour_cost
+            best_node = candidate_node
+            
+    return next_node

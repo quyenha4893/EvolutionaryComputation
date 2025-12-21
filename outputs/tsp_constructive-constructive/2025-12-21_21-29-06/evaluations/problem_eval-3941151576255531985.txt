@@ -1,0 +1,56 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    """
+    Selects the next node to visit using a "Sum of Future Connections" (SFC) heuristic.
+    This heuristic selects the next node by minimizing a composite score that combines
+    the immediate travel distance to a candidate node with the sum of distances from
+    that candidate node to all other currently unvisited nodes and to the destination.
+    This strategy aims to pick nodes that are well-connected to the remaining parts
+    of the tour, balancing immediate cost with overall future connectivity.
+
+    Args:
+        current_node: The node currently at.
+        destination_node: The starting node of the tour, to which the path must return.
+        unvisited_nodes: A set of nodes that have not yet been visited.
+        distance_matrix: A 2D list (matrix) where distance_matrix[i][j]
+                         is the distance between node i and node j.
+
+    Returns:
+        The next node to visit.
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, return to the destination node (start node)
+        return destination_node
+
+    next_node = -1
+    min_total_score = math.inf
+
+    for candidate_node in unvisited_nodes:
+        immediate_cost = distance_matrix[current_node][candidate_node]
+        
+        # Simulate visiting this candidate node by removing it from the unvisited set
+        temp_unvisited = unvisited_nodes - {candidate_node}
+        
+        future_connectivity_sum = 0.0
+
+        if not temp_unvisited:
+            # If no other nodes are left after selecting candidate_node,
+            # the only future cost is returning from candidate_node to the destination.
+            future_connectivity_sum = distance_matrix[candidate_node][destination_node]
+        else:
+            # Calculate the sum of distances from the candidate_node
+            # to all remaining unvisited nodes and to the destination node.
+            for u in temp_unvisited:
+                future_connectivity_sum += distance_matrix[candidate_node][u]
+            future_connectivity_sum += distance_matrix[candidate_node][destination_node]
+        
+        # The total score combines the immediate cost to reach the candidate node
+        # and the sum of potential future connection costs from that candidate.
+        total_score = immediate_cost + future_connectivity_sum
+
+        if total_score < min_total_score:
+            min_total_score = total_score
+            next_node = candidate_node
+
+    return next_node

@@ -1,0 +1,36 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    if not unvisited_nodes:
+        return None
+
+    # Define the size of the candidate list (e.g., top 3 nearest neighbors).
+    CANDIDATE_LIST_SIZE = 3
+
+    # Step 1: Find the nearest neighbors (inspired by the greedy approach).
+    # Create a list of (distance, node) tuples for all unvisited nodes.
+    neighbors_with_dist = [
+        (distance_matrix[current_node][node], node) for node in unvisited_nodes
+    ]
+
+    # Sort the list by distance in ascending order.
+    neighbors_with_dist.sort()
+
+    # Create a candidate list of the closest nodes.
+    # The slice [:CANDIDATE_LIST_SIZE] correctly handles cases where
+    # len(unvisited_nodes) < CANDIDATE_LIST_SIZE.
+    candidate_nodes = [node for dist, node in neighbors_with_dist[:CANDIDATE_LIST_SIZE]]
+
+    # Step 2: From the candidate list, select the best one based on a look-ahead.
+    # (inspired by the look-ahead heuristic).
+    best_next_node = None
+    min_dist_to_destination = float('inf')
+
+    for candidate in candidate_nodes:
+        # Find the distance from the candidate to the final destination.
+        dist_to_dest = distance_matrix[candidate][destination_node]
+
+        # Choose the candidate that is closest to the destination.
+        if dist_to_dest < min_dist_to_destination:
+            min_dist_to_destination = dist_to_dest
+            best_next_node = candidate
+            
+    return next_node

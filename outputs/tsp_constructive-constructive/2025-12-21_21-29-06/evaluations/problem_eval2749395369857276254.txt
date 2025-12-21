@@ -1,0 +1,45 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    """
+    Selects the next node to visit by prioritizing the nearest neighbor,
+    and using the distance to the destination node as a tie-breaker.
+
+    Args:
+        current_node: The node currently at.
+        destination_node: The starting node of the tour, to which the path must return.
+        unvisited_nodes: A set of nodes that have not yet been visited.
+        distance_matrix: A 2D list (matrix) where distance_matrix[i][j]
+                         is the distance between node i and node j.
+
+    Returns:
+        The next node to visit.
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, return to the destination node (start node)
+        return destination_node
+
+    next_node = -1
+    min_immediate_distance = math.inf
+    # Secondary criterion: distance from candidate node to the destination_node, used for tie-breaking
+    min_destination_distance_for_tie_break = math.inf 
+
+    # A small tolerance for floating point comparisons to identify "ties"
+    EPSILON = 1e-9 
+
+    for candidate_node in unvisited_nodes:
+        immediate_distance = distance_matrix[current_node][candidate_node]
+        distance_to_destination_from_candidate = distance_matrix[candidate_node][destination_node]
+
+        if immediate_distance < min_immediate_distance:
+            # Found a strictly better immediate neighbor
+            min_immediate_distance = immediate_distance
+            min_destination_distance_for_tie_break = distance_to_destination_from_candidate
+            next_node = candidate_node
+        elif math.isclose(immediate_distance, min_immediate_distance, abs_tol=EPSILON):
+            # If immediate distances are approximately equal, use destination proximity as a tie-breaker
+            if distance_to_destination_from_candidate < min_destination_distance_for_tie_break:
+                min_destination_distance_for_tie_break = distance_to_destination_from_candidate
+                next_node = candidate_node
+        
+    return next_node

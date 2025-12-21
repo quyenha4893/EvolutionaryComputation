@@ -1,0 +1,7 @@
+{
+     "algorithm": "This algorithm implements a greedy Nearest Neighbor heuristic, constructing the tour by iteratively selecting the absolute closest unvisited node from the current location. The selection logic solely prioritizes minimizing the immediate distance to the next node, completely ignoring the final destination node during the construction process.",
+     "thought": "The algorithm constructs a tour by starting at an arbitrary node and repeatedly visiting the closest unvisited node until all nodes are visited, finally returning to the start.",
+     "code": "def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):\n    next_node = None\n    shortest_distance = float('inf')\n\n    if not unvisited_nodes:\n        return None\n\n    for candidate_node in unvisited_nodes:\n        distance = distance_matrix[current_node][candidate_node]\n        if distance < shortest_distance:\n            shortest_distance = distance\n            next_node = candidate_node\n            \n    return next_node",
+     "objective": 7.00437,
+     "other_inf": null
+}

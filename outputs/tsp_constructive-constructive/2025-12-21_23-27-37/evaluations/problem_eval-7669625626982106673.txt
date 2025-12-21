@@ -1,0 +1,46 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    next_node = None
+    best_score = float('inf')
+    
+    total_nodes = len(distance_matrix)
+    if not unvisited_nodes:
+        return None
+
+    # This factor determines the maximum weight given to the sparseness bonus.
+    max_sparseness_influence = 0.4
+    num_unvisited = len(unvisited_nodes)
+    
+    # The weight for the sparseness factor, 'gamma', is calculated dynamically.
+    # It is highest at the start of the tour and decreases as nodes are visited.
+    if total_nodes > 1:
+        gamma = max_sparseness_influence * (num_unvisited - 1) / (total_nodes - 1)
+    else:
+        gamma = 0
+    
+    # The original greedy ('alpha') and foresight ('beta') weights are scaled
+    # by the remaining influence after the sparseness factor is accounted for.
+    alpha = (1 - gamma) * 0.7
+    beta = (1 - gamma) * 0.3
+
+    for candidate_node in unvisited_nodes:
+        cost_to_candidate = distance_matrix[current_node][candidate_node]
+        cost_from_candidate_to_dest = distance_matrix[candidate_node][destination_node]
+        
+        # A new "sparseness" mechanism is introduced. It calculates the average
+        # distance from the candidate to all other unvisited nodes.
+        other_unvisited_nodes = unvisited_nodes - {candidate_node}
+        sparseness_score = 0
+        if other_unvisited_nodes:
+            total_dist_to_others = sum(distance_matrix[candidate_node][other] for other in other_unvisited_nodes)
+            sparseness_score = total_dist_to_others / len(other_unvisited_nodes)
+        
+        # The new evaluation equation incorporates the dynamic sparseness bonus.
+        # A bonus is given (score is reduced) for selecting "sparse" nodes,
+        # which are likely outliers that would be costly to visit later.
+        score = (alpha * cost_to_candidate) + (beta * cost_from_candidate_to_dest) - (gamma * sparseness_score)
+
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

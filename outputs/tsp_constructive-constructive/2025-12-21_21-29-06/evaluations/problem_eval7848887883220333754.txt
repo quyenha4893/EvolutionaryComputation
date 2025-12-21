@@ -1,0 +1,63 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    """
+    Selects the next node to visit based on a weighted combination of immediate distance,
+    the candidate node's average connectivity to other unvisited nodes, and its distance
+    back to the destination node. This introduces a look-ahead mechanism for future tour
+    segments beyond just the immediate return.
+
+    Args:
+        current_node: The node currently at.
+        destination_node: The starting node of the tour, to which the path must return.
+        unvisited_nodes: A set of nodes that have not yet been visited.
+        distance_matrix: A 2D list (matrix) where distance_matrix[i][j]
+                         is the distance between node i and node j.
+
+    Returns:
+        The next node to visit.
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, return to the destination node (start node)
+        return destination_node
+
+    next_node = -1
+    min_combined_cost = math.inf
+
+    # Weighting factors for the three components of the combined cost function.
+    # These weights are designed to prioritize immediate travel, but also
+    # give significant consideration to both the future path's connectivity
+    # and the eventual return to the destination.
+    W_immediate = 0.6  # Higher priority for direct travel to candidate
+    W_return = 0.2     # Consideration for distance from candidate back to destination
+    W_future_connectivity = 0.2 # New weight: consideration for candidate's average distance to remaining unvisited nodes
+
+    for candidate_node in unvisited_nodes:
+        immediate_distance = distance_matrix[current_node][candidate_node]
+        distance_to_destination_from_candidate = distance_matrix[candidate_node][destination_node]
+
+        # Calculate the average distance from the candidate node to all *other* unvisited nodes.
+        # This term assesses how "central" or "well-connected" the candidate node is to the rest of the tour.
+        other_unvisited_after_candidate = [
+            u for u in unvisited_nodes if u != candidate_node
+        ]
+        
+        avg_future_connectivity_cost = 0.0
+        if other_unvisited_after_candidate:
+            sum_distances_to_others = sum(distance_matrix[candidate_node][u] for u in other_unvisited_after_candidate)
+            avg_future_connectivity_cost = sum_distances_to_others / len(other_unvisited_after_candidate)
+        # If there are no other unvisited nodes (i.e., candidate_node is the very last node to visit),
+        # this term becomes 0, as there are no further connections to consider from this node before returning.
+
+        # The new combined cost function incorporates a third term for future connectivity.
+        # This balances making a locally optimal move with considering the subsequent path choices
+        # and the eventual return cost.
+        combined_cost = (W_immediate * immediate_distance +
+                         W_return * distance_to_destination_from_candidate +
+                         W_future_connectivity * avg_future_connectivity_cost)
+
+        if combined_cost < min_combined_cost:
+            min_combined_cost = combined_cost
+            next_node = candidate_node
+
+    return next_node

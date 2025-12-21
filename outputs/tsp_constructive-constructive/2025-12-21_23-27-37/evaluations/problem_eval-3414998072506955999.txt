@@ -1,0 +1,27 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    next_node = None
+    best_score = float('inf')
+
+    if not unvisited_nodes:
+        return None
+
+    # Alpha is a weighting factor. A value of 1.0 makes this equivalent to the standard nearest neighbor.
+    # A value of 0.0 would always choose the unvisited node closest to the destination.
+    # A value of 0.7 prioritizes the nearest neighbor but also considers the return journey.
+    alpha = 0.7
+
+    for candidate_node in unvisited_nodes:
+        # Part 1: Distance from the current node to the candidate (immediate cost)
+        dist_to_candidate = distance_matrix[current_node][candidate_node]
+
+        # Part 2: Distance from the candidate to the final destination (future cost)
+        dist_from_candidate = distance_matrix[candidate_node][destination_node]
+
+        # Weighted score equation to balance immediate and future costs
+        score = (alpha * dist_to_candidate) + ((1 - alpha) * dist_from_candidate)
+
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

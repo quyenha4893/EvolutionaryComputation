@@ -1,0 +1,58 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    """
+    Selects the next node to visit using a 2-step Nearest Neighbor lookahead heuristic.
+    This heuristic selects the next node by minimizing a composite score that combines
+    the immediate travel distance to a candidate node with the shortest possible travel
+    distance from that candidate node to any of the remaining unvisited nodes or
+    the destination node.
+
+    Args:
+        current_node: The node currently at.
+        destination_node: The starting node of the tour, to which the path must return.
+        unvisited_nodes: A set of nodes that have not yet been visited.
+        distance_matrix: A 2D list (matrix) where distance_matrix[i][j]
+                         is the distance between node i and node j.
+
+    Returns:
+        The next node to visit.
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, return to the destination node (start node)
+        return destination_node
+
+    next_node = -1
+    min_total_score = math.inf
+
+    for candidate_node in unvisited_nodes:
+        immediate_cost = distance_matrix[current_node][candidate_node]
+        
+        # Simulate visiting this candidate node by removing it from the unvisited set
+        temp_unvisited = unvisited_nodes - {candidate_node}
+        
+        future_lookahead_cost = 0.0
+
+        if not temp_unvisited:
+            # If no other nodes are left after selecting candidate_node,
+            # the future cost is just returning from candidate_node to the destination.
+            future_lookahead_cost = distance_matrix[candidate_node][destination_node]
+        else:
+            # Calculate the shortest distance from the candidate_node to any of the
+            # remaining unvisited nodes. This represents the next greedy step.
+            min_dist_from_candidate_to_next = math.inf
+            # Iterate over the remaining unvisited nodes to find the closest one
+            for u in temp_unvisited:
+                min_dist_from_candidate_to_next = min(min_dist_from_candidate_to_next, distance_matrix[candidate_node][u])
+            
+            future_lookahead_cost = min_dist_from_candidate_to_next
+        
+        # The total score combines the immediate cost to reach the candidate node
+        # and the estimated cost of the next best step from that candidate.
+        total_score = immediate_cost + future_lookahead_cost
+
+        if total_score < min_total_score:
+            min_total_score = total_score
+            next_node = candidate_node
+
+    return next_node

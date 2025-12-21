@@ -1,0 +1,23 @@
+importance to returning to the start.
+    alpha = 0.7  
+
+    # If only one node is left, it must be the next one
+    if len(unvisited_nodes) == 1:
+        return list(unvisited_nodes)[0]
+
+    for node in unvisited_nodes:
+        # Cost from the current node to the potential next node
+        cost_to_next = distance_matrix[current_node][node]
+        
+        # Cost from the potential next node to the final destination
+        cost_to_destination = distance_matrix[node][destination_node]
+
+        # Calculate the weighted score
+        # This equation balances the immediate greedy choice with the long-term goal of returning to the start
+        score = (alpha * cost_to_next) + ((1 - alpha) * cost_to_destination)
+        
+        if score < min_score:
+            min_score = score
+            best_node = node
+            
+    return next_node

@@ -1,0 +1,31 @@
+importance to the lookahead cost (candidate to destination) over the immediate travel cost (current to candidate) to more strongly favor nodes closer to the tour's origin.}
+```python
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node by minimizing a weighted score that prioritizes
+    keeping the tour close to the starting point. It gives double weight to
+    the cost of returning to the destination compared to the immediate travel cost.
+    """
+    next_node = None
+    best_score = float('inf')
+
+    if not unvisited_nodes:
+        return None
+
+    # Evaluate each unvisited node as a potential next step.
+    for candidate_node in unvisited_nodes:
+        # Cost of the immediate step: current -> candidate.
+        cost_to_candidate = distance_matrix[current_node][candidate_node]
+        
+        # Lookahead cost, weighted more heavily: the distance from the candidate back to the tour's start.
+        cost_from_candidate_to_dest = distance_matrix[candidate_node][destination_node]
+        
+        # The score is a weighted sum, penalizing nodes far from the destination more.
+        score = cost_to_candidate + 2 * cost_from_candidate_to_dest
+        
+        # Choose the candidate with the minimum score.
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

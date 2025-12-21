@@ -1,0 +1,57 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    """
+    Selects the next node to visit using a Balanced Connectivity heuristic.
+    This heuristic considers both the immediate distance to a candidate node
+    and the average distance from that candidate to all other remaining
+    unvisited nodes and the final destination node.
+
+    Args:
+        current_node: The node currently at.
+        destination_node: The starting node of the tour, to which the path must return.
+        unvisited_nodes: A set of nodes that have not yet been visited.
+        distance_matrix: A 2D list (matrix) where distance_matrix[i][j]
+                         is the distance between node i and node j.
+
+    Returns:
+        The next node to visit.
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, return to the destination node (start node)
+        return destination_node
+
+    next_node = -1
+    min_total_score = math.inf
+
+    for candidate_node in unvisited_nodes:
+        direct_cost = distance_matrix[current_node][candidate_node]
+
+        if len(unvisited_nodes) == 1:
+            # If this is the last unvisited node, the final leg is to destination_node
+            total_score = direct_cost + distance_matrix[candidate_node][destination_node]
+        else:
+            # Calculate an average "future connectivity" cost from the candidate_node
+            sum_future_distances = 0.0
+            count_future_nodes = 0
+
+            # Add distances to all other unvisited nodes
+            for other_unvisited in unvisited_nodes:
+                if other_unvisited != candidate_node:
+                    sum_future_distances += distance_matrix[candidate_node][other_unvisited]
+                    count_future_nodes += 1
+            
+            # Add distance to the destination node
+            sum_future_distances += distance_matrix[candidate_node][destination_node]
+            count_future_nodes += 1
+            
+            average_future_cost = sum_future_distances / count_future_nodes
+            
+            # The total score is the direct cost plus this average future cost
+            total_score = direct_cost + average_future_cost
+
+        if total_score < min_total_score:
+            min_total_score = total_score
+            next_node = candidate_node
+
+    return next_node

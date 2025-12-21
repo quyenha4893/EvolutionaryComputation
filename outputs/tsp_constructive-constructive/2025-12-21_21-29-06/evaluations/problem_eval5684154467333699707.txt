@@ -1,0 +1,33 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    """
+    Selects the next node to visit based on a heuristic that considers both immediate distance and return distance to the destination.
+
+    Args:
+        current_node: The node currently at.
+        destination_node: The starting node of the tour, to which the path must return.
+        unvisited_nodes: A set of nodes that have not yet been visited.
+        distance_matrix: A 2D list (matrix) where distance_matrix[i][j]
+                         is the distance between node i and node j.
+
+    Returns:
+        The next node to visit.
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, return to the destination node (start node)
+        return destination_node
+
+    next_node = -1
+    min_combined_distance = math.inf
+
+    for node in unvisited_nodes:
+        # Calculate the combined distance: distance from current to this node, plus distance from this node back to the destination.
+        # This heuristic attempts to choose a node that is both close now and reduces the 'cost to close the loop' later.
+        combined_distance = distance_matrix[current_node][node] + distance_matrix[node][destination_node]
+        
+        if combined_distance < min_combined_distance:
+            min_combined_distance = combined_distance
+            next_node = node
+
+    return next_node

@@ -1,0 +1,42 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node by minimizing a score that combines ideas from
+    both previous algorithms. The score is a ratio: the numerator is a
+    penalized distance (like algorithm 1) and the denominator is the distance
+    to the destination (like algorithm 2).
+    """
+    next_node = None
+    best_score = float('inf')
+
+    # Alpha is a weighting factor for the penalty, balancing the greedy choice
+    # with the strategic goal of staying close to the unvisited cluster.
+    alpha = 0.15
+
+    for candidate_node in unvisited_nodes:
+        # Numerator part 1: Distance from the current node to the candidate.
+        dist_to_candidate = distance_matrix[current_node][candidate_node]
+
+        # Numerator part 2: Penalty based on candidate's distance to other unvisited nodes.
+        other_unvisited = unvisited_nodes - {candidate_node}
+        penalty = 0
+        if other_unvisited:
+            total_dist_to_others = sum(distance_matrix[candidate_node][other] for other in other_unvisited)
+            penalty = total_dist_to_others / len(other_unvisited)
+        
+        # The numerator combines the greedy choice with the strategic penalty.
+        numerator = dist_to_candidate + alpha * penalty
+
+        # Denominator: Distance from the candidate to the final destination.
+        dist_from_candidate_to_dest = distance_matrix[candidate_node][destination_node]
+
+        # The score prioritizes nodes that are strategically attractive (low numerator)
+        # and far from the end point (high denominator), effectively tackling
+        # challenging parts of the tour early.
+        # A small epsilon avoids division by zero.
+        score = numerator / (dist_from_candidate_to_dest + 1e-9)
+        
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

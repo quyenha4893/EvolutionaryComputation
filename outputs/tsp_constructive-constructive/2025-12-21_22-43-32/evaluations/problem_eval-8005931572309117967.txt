@@ -1,0 +1,47 @@
+import math
+
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node by enhancing Algorithm 2's score. It introduces a
+    weighting parameter 'beta' to give more importance to the 'remoteness'
+    of a candidate node, thus more aggressively pursuing an "outlier-first"
+    strategy.
+    """
+    next_node = None
+    best_score = float('inf')
+
+    # Beta is a weighting factor that amplifies the importance of a node's
+    # remoteness from the rest of the unvisited cluster. A beta > 1
+    # makes the heuristic more aggressively seek out outliers.
+    beta = 1.75
+
+    for candidate_node in unvisited_nodes:
+        # Numerator: Greedy distance from the current node to the candidate.
+        dist_to_candidate = distance_matrix[current_node][candidate_node]
+        
+        # Denominator Component 1: Distance to the final destination.
+        dist_from_candidate_to_dest = distance_matrix[candidate_node][destination_node]
+
+        # Denominator Component 2: Candidate's average distance to all other
+        # unvisited nodes (its "remoteness").
+        other_unvisited_nodes = unvisited_nodes - {candidate_node}
+        remoteness_factor = 0.0
+        if other_unvisited_nodes:
+            sum_dist_to_others = sum(distance_matrix[candidate_node][other] for other in other_unvisited_nodes)
+            remoteness_factor = sum_dist_to_others / len(other_unvisited_nodes)
+
+        # New Denominator: The look-ahead factor is a weighted sum, with 'beta'
+        # amplifying the remoteness factor. This modification more strongly
+        # favors nodes that are far from the destination AND very far from the
+        # remaining cluster of nodes.
+        look_ahead_factor = dist_from_candidate_to_dest + beta * remoteness_factor
+        
+        # The score is the ratio of the immediate cost to the strategic
+        # look-ahead benefit. A small epsilon avoids division by zero.
+        score = dist_to_candidate / (look_ahead_factor + 1e-9)
+        
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

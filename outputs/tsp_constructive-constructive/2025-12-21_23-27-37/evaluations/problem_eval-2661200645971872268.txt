@@ -1,0 +1,39 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node by calculating a score that is the ratio of the "detour cost" 
+    to a "remoteness factor", effectively balancing the immediate path efficiency with 
+    the urgency of visiting isolated nodes.
+    """
+    next_node = None
+    best_score = float('inf')
+
+    if not unvisited_nodes:
+        return None
+
+    for candidate_node in unvisited_nodes:
+        # Calculate the standard "detour" cost as in the original algorithm.
+        dist_to_candidate = distance_matrix[current_node][candidate_node]
+        dist_from_candidate_to_dest = distance_matrix[candidate_node][destination_node]
+        detour_cost = dist_to_candidate + dist_from_candidate_to_dest
+
+        # Calculate the "remoteness factor": the average distance from the candidate
+        # to all *other* unvisited nodes. This quantifies how isolated the candidate is.
+        other_unvisited = [n for n in unvisited_nodes if n != candidate_node]
+        
+        if not other_unvisited:
+            # If this is the last unvisited node, remoteness is not a factor.
+            remoteness_factor = 1.0
+        else:
+            total_dist_to_others = sum(distance_matrix[candidate_node][other] for other in other_unvisited)
+            remoteness_factor = total_dist_to_others / len(other_unvisited)
+
+        # The new score prioritizes nodes with a low detour cost, but gives preference
+        # to those that are more remote (higher remoteness_factor) by normalizing the detour cost.
+        # A small positive number is added to avoid division by zero if all distances are 0.
+        score = detour_cost / (remoteness_factor + 1e-9)
+
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

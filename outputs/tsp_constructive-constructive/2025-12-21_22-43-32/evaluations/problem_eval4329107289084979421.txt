@@ -1,0 +1,37 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    best_next_node = None
+    min_combined_distance = float('inf')
+
+    # If only one node is left, it must be the next one.
+    if len(unvisited_nodes) == 1:
+        return list(unvisited_nodes)[0]
+
+    # Iterate through each unvisited node as a potential next step.
+    for candidate_node in unvisited_nodes:
+        # First step: Distance from the current node to the candidate.
+        dist_step_1 = distance_matrix[current_node][candidate_node]
+
+        # Second step: Find the nearest neighbor to the candidate from the *other* unvisited nodes.
+        min_dist_step_2 = float('inf')
+        
+        # Consider the other unvisited nodes for the look-ahead step.
+        other_unvisited = unvisited_nodes - {candidate_node}
+
+        if not other_unvisited:
+            # If the candidate is the last unvisited node, the next logical step is to the destination.
+            min_dist_step_2 = distance_matrix[candidate_node][destination_node]
+        else:
+            for other_node in other_unvisited:
+                distance = distance_matrix[candidate_node][other_node]
+                if distance < min_dist_step_2:
+                    min_dist_step_2 = distance
+
+        # The score for this candidate is the sum of the two steps.
+        combined_distance = dist_step_1 + min_dist_step_2
+
+        # Update the best node found so far.
+        if combined_distance < min_combined_distance:
+            min_combined_distance = combined_distance
+            best_next_node = candidate_node
+
+    return next_node

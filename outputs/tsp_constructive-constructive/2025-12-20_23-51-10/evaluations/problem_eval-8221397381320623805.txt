@@ -1,0 +1,60 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node to visit based on a constructive heuristic that prioritizes
+    nodes central to the remaining unvisited nodes.
+    
+    Args:
+        current_node (int): The index of the node currently at.
+        destination_node (int): The index of the final node to return to (usually the starting node).
+        unvisited_nodes (set): A set of indices of nodes that have not yet been visited.
+        distance_matrix (list of lists): A 2D list where distance_matrix[i][j] is the 
+                                         distance from node i to node j.
+    
+    Returns:
+        int: The index of the next node to visit.
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, the next step is to return to the destination node.
+        return destination_node
+
+    # If only one unvisited node left, it must be the next node
+    if len(unvisited_nodes) == 1:
+        return list(unvisited_nodes)[0]
+
+    # Initialize with an infinitely high score to ensure any valid node will be preferred
+    # The heuristic score is a tuple: (average_distance_to_others, distance_from_current)
+    # This ensures primary sorting by average_distance_to_others, then by distance_from_current for ties.
+    min_heuristic_score_tuple = (float('inf'), float('inf')) 
+    next_node = -1
+
+    for candidate_node in unvisited_nodes:
+        sum_other_unvisited_distances = 0
+        count_other_unvisited = 0
+        
+        # Calculate the sum of distances from the candidate_node to all other *remaining* unvisited nodes
+        for other_unvisited_node in unvisited_nodes:
+            if other_unvisited_node != candidate_node:
+                sum_other_unvisited_distances += distance_matrix[candidate_node][other_unvisited_node]
+                count_other_unvisited += 1
+        
+        # Calculate the average distance to other unvisited nodes
+        # If count_other_unvisited is 0, it means candidate_node is the only node in unvisited_nodes,
+        # which should be handled by the `len(unvisited_nodes) == 1` case. 
+        # For safety, assign infinity if for some reason this condition is met.
+        if count_other_unvisited == 0:
+            avg_distance_to_others = float('inf')
+        else:
+            avg_distance_to_others = sum_other_unvisited_distances / count_other_unvisited
+        
+        # The secondary criterion: distance from the current_node to the candidate_node
+        distance_from_current = distance_matrix[current_node][candidate_node]
+        
+        # Form the heuristic score tuple
+        heuristic_score_tuple = (avg_distance_to_others, distance_from_current)
+        
+        # Compare tuples: Python's tuple comparison works element by element (lexicographical)
+        if heuristic_score_tuple < min_heuristic_score_tuple:
+            min_heuristic_score_tuple = heuristic_score_tuple
+            next_node = candidate_node
+            
+    return next_node

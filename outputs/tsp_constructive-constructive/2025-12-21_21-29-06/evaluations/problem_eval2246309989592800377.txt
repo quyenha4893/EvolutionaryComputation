@@ -1,0 +1,47 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    """
+    Selects the next node by continuously incorporating a small, fixed-weight foresight component
+    to bias the choice towards nodes that are not only close but also help reduce the eventual
+    return distance to the starting node.
+
+    Args:
+        current_node: The node currently at.
+        destination_node: The starting node of the tour, to which the path must return.
+        unvisited_nodes: A set of nodes that have not yet been visited.
+        distance_matrix: A 2D list (matrix) where distance_matrix[i][j]
+                         is the distance between node i and node j.
+
+    Returns:
+        The next node to visit.
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, return to the destination node (start node)
+        return destination_node
+
+    next_node = -1
+    min_combined_cost = math.inf
+
+    # A fixed, small foresight weight is applied continuously throughout the tour.
+    # This value is chosen to provide a gentle bias towards the destination node
+    # without overriding the immediate nearest-neighbor consideration too strongly,
+    # aiming for a better balance than either of the previous algorithms.
+    W_return_foresight = 0.1 
+
+    for candidate_node in unvisited_nodes:
+        # 1. Immediate cost from current_node to candidate_node (primary factor)
+        immediate_distance = distance_matrix[current_node][candidate_node]
+
+        # 2. Weighted distance from the candidate node back to the destination node
+        # (secondary, fixed-weight foresight factor)
+        distance_to_destination_from_candidate = distance_matrix[candidate_node][destination_node]
+
+        # Combine the immediate distance with the fixed-weight foresight component
+        combined_cost = immediate_distance + (W_return_foresight * distance_to_destination_from_candidate)
+
+        if combined_cost < min_combined_cost:
+            min_combined_cost = combined_cost
+            next_node = candidate_node
+
+    return next_node

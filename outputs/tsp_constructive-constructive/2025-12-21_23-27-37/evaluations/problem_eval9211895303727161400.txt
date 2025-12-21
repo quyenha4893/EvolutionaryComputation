@@ -1,0 +1,32 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node by combining the full immediate travel cost with a
+    fractional penalty for the distance from the candidate back to the destination,
+    strongly favoring the nearest neighbor choice.
+    """
+    next_node = None
+    best_score = float('inf')
+
+    if not unvisited_nodes:
+        return None
+
+    # This fraction determines how much the return-trip distance is penalized.
+    # A value of 0.5 creates a stronger greedy bias than a simple weighted average.
+    beta = 0.5
+
+    for candidate_node in unvisited_nodes:
+        # Part 1: The full cost of the immediate travel to the candidate.
+        dist_to_candidate = distance_matrix[current_node][candidate_node]
+        
+        # Part 2: The cost of returning from the candidate to the start.
+        dist_to_destination = distance_matrix[candidate_node][destination_node]
+        
+        # The score heavily weights the immediate distance, adding only a fraction
+        # of the return-trip cost as a penalty.
+        score = dist_to_candidate + (beta * dist_to_destination)
+        
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

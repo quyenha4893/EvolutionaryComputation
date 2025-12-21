@@ -1,0 +1,67 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node based on a score combining immediate cost,
+    local future cost (average to k-nearest), and a dynamic destination penalty.
+    """
+    next_node = None
+    best_score = float('inf')
+
+    if not unvisited_nodes:
+        return None
+
+    # --- Algorithm Parameters ---
+    # k: Number of nearest neighbors to consider for the local future cost.
+    k = 3
+    # Weights for the score components:
+    # alpha: weight for the immediate cost (current -> candidate).
+    # beta: weight for the local future cost (candidate's neighborhood).
+    # gamma: base weight for the destination penalty.
+    alpha = 0.5  # Immediate cost
+    beta = 0.3   # Local cluster cost
+    gamma = 0.2  # Destination proximity penalty
+
+    total_nodes = len(distance_matrix)
+    # Progress factor: increases as more nodes are visited.
+    # Ranges from approx 1/N to (N-1)/N during the tour.
+    progress = (total_nodes - len(unvisited_nodes)) / total_nodes
+
+    for candidate_node in unvisited_nodes:
+        # --- Component 1: Immediate Cost ---
+        # The direct distance from the current node to the candidate.
+        immediate_cost = distance_matrix[current_node][candidate_node]
+
+        # --- Component 2: Local Future Cost ---
+        # Average distance from the candidate to its k-nearest unvisited neighbors.
+        # This gives a sense of how well-connected the candidate is to the remaining cluster.
+        remaining_nodes = unvisited_nodes - {candidate_node}
+        local_future_cost = 0.0
+
+        if not remaining_nodes:
+            # If the candidate is the last node, the future cost is the trip back to the start.
+            local_future_cost = distance_matrix[candidate_node][destination_node]
+        else:
+            # Find distances from the candidate to all other unvisited nodes.
+            dists_from_candidate = sorted([distance_matrix[candidate_node][n] for n in remaining_nodes])
+            
+            # Determine how many neighbors to average (up to k).
+            num_neighbors_to_consider = min(k, len(dists_from_candidate))
+            
+            # Calculate the average distance to the k-nearest neighbors.
+            if num_neighbors_to_consider > 0:
+                local_future_cost = sum(dists_from_candidate[:num_neighbors_to_consider]) / num_neighbors_to_consider
+
+        # --- Component 3: Dynamic Destination Penalty ---
+        # A penalty for moving to a node far from the destination.
+        # The penalty's influence grows as the tour progresses (progress factor).
+        dist_to_destination = distance_matrix[candidate_node][destination_node]
+        destination_penalty = progress * dist_to_destination
+
+        # --- Final Score Calculation ---
+        # Combine the three components using the defined weights.
+        score = (alpha * immediate_cost) + (beta * local_future_cost) + (gamma * destination_penalty)
+
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

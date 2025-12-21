@@ -1,0 +1,60 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    """
+    Selects the next node to visit by minimizing a cost function that multiplicatively
+    combines immediate travel distance with a foresight penalty for deviating from the
+    destination and an 'isolation' penalty for nodes that are peripherally located
+    relative to the cluster of remaining unvisited nodes.
+
+    Args:
+        current_node: The node currently at.
+        destination_node: The starting node of the tour, to which the path must return.
+        unvisited_nodes: A set of nodes that have not yet been visited.
+        distance_matrix: A 2D list (matrix) where distance_matrix[i][j]
+                         is the distance between node i and node j.
+
+    Returns:
+        The next node to visit.
+    """
+    if not unvisited_nodes:
+        return destination_node
+
+    next_node = -1
+    min_combined_cost = math.inf
+
+    # Weighting factor for the multiplicative penalty of the return distance to the destination.
+    W_multiplicative_penalty_destination = 0.005 
+    
+    # Weighting factor for the multiplicative penalty of a node's isolation from other unvisited nodes.
+    W_multiplicative_penalty_isolation = 0.005 # A new weight for the isolation penalty.
+
+    for candidate_node in unvisited_nodes:
+        # 1. Immediate cost from current_node to candidate_node (primary factor)
+        immediate_distance = distance_matrix[current_node][candidate_node]
+
+        # 2. Distance from the candidate node back to the destination node (global foresight factor)
+        distance_to_destination_from_candidate = distance_matrix[candidate_node][destination_node]
+
+        # 3. Calculate an 'Isolation Score' for the candidate node:
+        #    Average distance from the candidate node to all *other* remaining unvisited nodes.
+        other_unvisited_nodes = [u for u in unvisited_nodes if u != candidate_node]
+        other_unvisited_nodes_count = len(other_unvisited_nodes)
+
+        isolation_score = 0.0
+        if other_unvisited_nodes_count > 0:
+            isolation_score = sum(distance_matrix[candidate_node][u] for u in other_unvisited_nodes) / other_unvisited_nodes_count
+        # If no other unvisited nodes exist (candidate is the last one), isolation_score is 0.
+
+        # Combine immediate distance with two multiplicative penalties:
+        # - Penalty for distance to destination: (1 + W_dest * dist_to_dest)
+        # - Penalty for isolation from other unvisited nodes: (1 + W_isol * isolation_score)
+        combined_cost = immediate_distance * \
+                        (1 + W_multiplicative_penalty_destination * distance_to_destination_from_candidate) * \
+                        (1 + W_multiplicative_penalty_isolation * isolation_score)
+
+        if combined_cost < min_combined_cost:
+            min_combined_cost = combined_cost
+            next_node = candidate_node
+
+    return next_node

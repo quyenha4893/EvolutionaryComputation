@@ -1,0 +1,33 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    next_node = None
+    best_score = float('inf')
+
+    if not unvisited_nodes:
+        return None
+
+    # The total number of nodes in the problem is used to determine tour progress.
+    total_nodes = len(distance_matrix)
+    
+    # Alpha is now dynamic. It starts low (emphasizing destination) and increases
+    # as the number of unvisited nodes decreases, making the selection greedier over time.
+    # This represents a shift from long-term planning to short-term optimization.
+    if total_nodes > 0:
+        alpha = 1.0 - (len(unvisited_nodes) / total_nodes)
+    else:
+        alpha = 0.5 # Default fallback
+
+    for candidate_node in unvisited_nodes:
+        # Cost to travel from the current node to the candidate
+        cost_to_candidate = distance_matrix[current_node][candidate_node]
+        
+        # Estimated cost from the candidate to the final destination
+        cost_from_candidate_to_dest = distance_matrix[candidate_node][destination_node]
+        
+        # The score function uses the dynamically calculated alpha to adjust its strategy.
+        score = (alpha * cost_to_candidate) + ((1 - alpha) * cost_from_candidate_to_dest)
+
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

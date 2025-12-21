@@ -1,0 +1,59 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    """
+    Selects the next node to visit using a Connectivity-Aware Proximity heuristic.
+    This heuristic considers the immediate distance, the direct return distance to the destination,
+    and a penalty based on the maximum distance from the candidate node to any other
+    remaining unvisited node, aiming to prevent the isolation of future nodes.
+
+    Args:
+        current_node: The node currently at.
+        destination_node: The starting node of the tour, to which the path must return.
+        unvisited_nodes: A set of nodes that have not yet been visited.
+        distance_matrix: A 2D list (matrix) where distance_matrix[i][j]
+                         is the distance between node i and node j.
+
+    Returns:
+        The next node to visit.
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, return to the destination node (start node)
+        return destination_node
+
+    next_node = -1
+    min_total_score = math.inf
+
+    for candidate_node in unvisited_nodes:
+        # 1. Calculate the immediate cost to travel from current_node to candidate_node
+        immediate_cost = distance_matrix[current_node][candidate_node]
+        
+        # 2. Calculate the direct cost to return to the destination from the candidate_node.
+        # This term helps prioritize candidates that are also 'close' to the final destination.
+        return_cost_to_destination = distance_matrix[candidate_node][destination_node]
+        
+        # 3. Calculate a connectivity penalty: max distance from candidate to any OTHER unvisited node.
+        # This new term penalizes candidates that leave other unvisited nodes far away, promoting
+        # candidates that keep the remaining nodes relatively 'close' to it,
+        # thus simplifying the connections for future steps and maintaining global cohesion.
+        connectivity_penalty = 0.0
+        remaining_other_unvisited = unvisited_nodes - {candidate_node}
+        
+        if remaining_other_unvisited: # If there are still other unvisited nodes besides the candidate
+            max_dist_to_other_unvisited = 0.0
+            for other_unvisited in remaining_other_unvisited:
+                max_dist_to_other_unvisited = max(max_dist_to_other_unvisited, distance_matrix[candidate_node][other_unvisited])
+            connectivity_penalty = max_dist_to_other_unvisited
+        # If remaining_other_unvisited is empty (i.e., candidate_node is the last unvisited node),
+        # connectivity_penalty remains 0.0, which is correct as there are no other nodes to be concerned about isolating.
+            
+        # The total score is the sum of the immediate cost, the cost to return
+        # to the destination, and the connectivity penalty.
+        # This implicitly assigns equal weight to these three components in the scoring function.
+        total_score = immediate_cost + return_cost_to_destination + connectivity_penalty
+
+        if total_score < min_total_score:
+            min_total_score = total_score
+            next_node = candidate_node
+
+    return next_node

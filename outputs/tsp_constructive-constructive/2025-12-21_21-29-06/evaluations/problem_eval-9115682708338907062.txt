@@ -1,0 +1,42 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    if not unvisited_nodes:
+        return destination_node
+
+    next_node = -1
+    min_combined_cost = math.inf
+
+    # A weighting factor for the look-ahead distance, giving it more significance.
+    # This K value (e.g., 0.2) is chosen to provide a more balanced consideration
+    # between immediate proximity and future path quality, rather than a subtle bias.
+    K = 0.2 
+
+    for candidate_node in unvisited_nodes:
+        # Step 1: Calculate the immediate cost to move from current_node to candidate_node
+        immediate_cost = distance_matrix[current_node][candidate_node]
+
+        # Step 2: Calculate the minimum future distance from candidate_node to another remaining unvisited node
+        min_future_dist = math.inf
+        remaining_unvisited_after_candidate = unvisited_nodes - {candidate_node}
+
+        if not remaining_unvisited_after_candidate:
+            # If candidate_node is the last remaining unvisited node, the next step must be to the destination_node
+            min_future_dist = distance_matrix[candidate_node][destination_node]
+        else:
+            # Find the closest node from candidate_node among the *remaining* unvisited nodes
+            for future_node in remaining_unvisited_after_candidate:
+                future_distance = distance_matrix[candidate_node][future_node]
+                if future_distance < min_future_dist:
+                    min_future_dist = future_distance
+        
+        # Combine immediate cost with the weighted future look-ahead distance using a weighted average.
+        # This equation provides a more direct balance between immediate and future costs,
+        # where K explicitly controls the influence of the look-ahead in a proportional manner.
+        combined_cost = (1 - K) * immediate_cost + K * min_future_dist
+
+        if combined_cost < min_combined_cost:
+            min_combined_cost = combined_cost
+            next_node = candidate_node
+
+    return next_node

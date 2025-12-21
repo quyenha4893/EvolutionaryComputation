@@ -1,0 +1,51 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node by first finding a "central" node among the remaining
+    unvisited nodes and then choosing the candidate that minimizes the path cost
+    from the current node to this dynamic central point. This guides the tour
+    towards the middle of the remaining cluster, avoiding isolated nodes.
+    """
+    if not unvisited_nodes:
+        return None
+
+    # If only one or two nodes are left, the strategy is less meaningful.
+    # A simple nearest neighbor or direct choice is sufficient.
+    if len(unvisited_nodes) == 1:
+        return list(unvisited_nodes)[0]
+    if len(unvisited_nodes) == 2:
+        # Choose the one closer to the current node
+        node1, node2 = list(unvisited_nodes)
+        if distance_matrix[current_node][node1] < distance_matrix[current_node][node2]:
+            return node1
+        else:
+            return node2
+
+    # Step 1: Find the "centroid" of the remaining unvisited nodes.
+    # The centroid is the node that has the minimum sum of distances to all other unvisited nodes.
+    centroid_node = -1
+    min_sum_dist_to_others = float('inf')
+
+    for potential_centroid in unvisited_nodes:
+        current_sum_dist = sum(distance_matrix[potential_centroid][other] for other in unvisited_nodes)
+        
+        if current_sum_dist < min_sum_dist_to_others:
+            min_sum_dist_to_others = current_sum_dist
+            centroid_node = potential_centroid
+
+    # Step 2: Select the next node by finding the one that minimizes the detour
+    # from the current node to this new dynamic centroid.
+    next_node = None
+    best_score = float('inf')
+    
+    for candidate_node in unvisited_nodes:
+        # The score is the path cost: current_node -> candidate_node -> centroid_node
+        dist_to_candidate = distance_matrix[current_node][candidate_node]
+        dist_from_candidate_to_centroid = distance_matrix[candidate_node][centroid_node]
+        
+        score = dist_to_candidate + dist_from_candidate_to_centroid
+        
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

@@ -1,0 +1,30 @@
+import math
+
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node to visit based on the Nearest Neighbor heuristic.
+
+    Args:
+        current_node (int): The index of the current node.
+        destination_node (int): The index of the final node to return to (usually the starting node).
+        unvisited_nodes (set): A set of node indices that have not yet been visited.
+        distance_matrix (list of list): A square matrix where distance_matrix[i][j]
+                                       is the distance from node i to node j.
+
+    Returns:
+        int: The index of the next node to visit.
+    """
+    if not unvisited_nodes:
+        # If all intermediate nodes are visited, return to the destination node
+        return destination_node
+
+    next_node = -1
+    min_distance = math.inf
+
+    for node in unvisited_nodes:
+        distance = distance_matrix[current_node][node]
+        if distance < min_distance:
+            min_distance = distance
+            next_node = node
+            
+    return next_node

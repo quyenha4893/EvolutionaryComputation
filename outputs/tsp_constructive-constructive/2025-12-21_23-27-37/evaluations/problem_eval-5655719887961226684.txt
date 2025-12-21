@@ -1,0 +1,43 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    best_score = float('inf')
+    next_node = None
+
+    # These weighting factors balance three different strategic considerations.
+    # alpha: Greed (immediate cost)
+    # beta:  Foresight (pull towards the end destination)
+    # gamma: Neighborhood Awareness (centrality among remaining nodes)
+    alpha = 0.5  
+    beta = 0.2
+    gamma = 0.3
+
+    if not unvisited_nodes:
+        return None
+
+    for candidate_node in unvisited_nodes:
+        # Heuristic 1: The immediate cost to travel to the candidate node.
+        cost_to_candidate = distance_matrix[current_node][candidate_node]
+        
+        # Heuristic 2: The cost from the candidate to the final destination.
+        cost_from_candidate_to_dest = distance_matrix[candidate_node][destination_node]
+        
+        # Heuristic 3: A new mechanism to assess how "central" a candidate is
+        # to the cluster of other remaining unvisited nodes.
+        other_unvisited = unvisited_nodes - {candidate_node}
+        if not other_unvisited:
+            # If the candidate is the last unvisited node, this cost is zero.
+            avg_cost_to_others = 0.0
+        else:
+            # Calculate the average distance from the candidate to all other unvisited nodes.
+            # A lower value suggests the candidate is well-positioned for subsequent moves.
+            total_neighbor_cost = sum(distance_matrix[candidate_node][other] for other in other_unvisited)
+            avg_cost_to_others = total_neighbor_cost / len(other_unvisited)
+
+        # The final score is a weighted sum of the three heuristics.
+        # This equation provides a more nuanced evaluation than the original two-part score.
+        score = (alpha * cost_to_candidate) + (beta * cost_from_candidate_to_dest) + (gamma * avg_cost_to_others)
+
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

@@ -1,0 +1,26 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node using a multiplicative heuristic that balances the distance
+    from the current node and the distance to the final destination node.
+    """
+    next_node = None
+    best_score = float('inf')
+
+    for candidate_node in unvisited_nodes:
+        # Cost to travel from the current node to the candidate node
+        dist_to_candidate = distance_matrix[current_node][candidate_node]
+        
+        # Cost to travel from the candidate node to the final destination
+        dist_from_candidate_to_dest = distance_matrix[candidate_node][destination_node]
+
+        # The score is the product of the two distances. This is a different way
+        # to balance the greedy choice (short distance now) against the
+        # strategic choice (not moving too far from the end point).
+        # A small value for either distance will heavily reduce the score.
+        score = dist_to_candidate * dist_from_candidate_to_dest
+        
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

@@ -1,0 +1,74 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    """
+    Selects the next node to visit based on a dynamically weighted combination of
+    immediate distance, distance to destination, and average connectivity to other
+    remaining unvisited nodes.
+
+    Args:
+        current_node: The node currently at.
+        destination_node: The starting node of the tour, to which the path must return.
+        unvisited_nodes: A set of nodes that have not yet been visited.
+        distance_matrix: A 2D list (matrix) where distance_matrix[i][j]
+                         is the distance between node i and node j.
+
+    Returns:
+        The next node to visit.
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, return to the destination node (start node)
+        return destination_node
+
+    next_node = -1
+    min_combined_cost = math.inf
+
+    # Parameters for dynamic weighting and future connectivity
+    W_min = 0.1  # Minimum weight for destination/future cost (more emphasis on immediate)
+    W_max = 0.5  # Maximum weight for destination/future cost (more emphasis on destination/future)
+    K_future_connectivity = 0.2  # Weight for the average distance to other unvisited nodes
+
+    num_total_nodes = len(distance_matrix)
+    num_nodes_to_visit_in_path = num_total_nodes - 1 # Total nodes to visit before returning to dest
+
+    # Calculate tour progress: 0 at start, approaches 1 at end
+    if num_nodes_to_visit_in_path > 0:
+        num_visited_so_far = num_nodes_to_visit_in_path - len(unvisited_nodes)
+        tour_progress = num_visited_so_far / num_nodes_to_visit_in_path
+    else:
+        tour_progress = 1.0 # Only destination node exists, path completed
+
+    # Dynamically adjust W: increases as the tour progresses
+    W_dynamic = W_min + (W_max - W_min) * tour_progress
+
+    for candidate_node in unvisited_nodes:
+        immediate_distance = distance_matrix[current_node][candidate_node]
+        distance_to_destination_from_candidate = distance_matrix[candidate_node][destination_node]
+
+        # Calculate average distance from candidate to other unvisited nodes
+        average_distance_to_other_unvisited = 0.0
+        other_unvisited_count = 0
+        sum_other_unvisited_distances = 0.0
+
+        for other_node in unvisited_nodes:
+            if other_node != candidate_node:
+                sum_other_unvisited_distances += distance_matrix[candidate_node][other_node]
+                other_unvisited_count += 1
+        
+        if other_unvisited_count > 0:
+            average_distance_to_other_unvisited = sum_other_unvisited_distances / other_unvisited_count
+        # If other_unvisited_count is 0 (i.e., candidate is the last unvisited node),
+        # average_distance_to_other_unvisited remains 0, which is correct.
+
+        # Combined cost function:
+        # Prioritizes immediate travel, but dynamically increases weight for
+        # (distance to destination + penalty for isolating other unvisited nodes)
+        combined_cost = (1 - W_dynamic) * immediate_distance + \
+                        W_dynamic * (distance_to_destination_from_candidate + 
+                                     K_future_connectivity * average_distance_to_other_unvisited)
+
+        if combined_cost < min_combined_cost:
+            min_combined_cost = combined_cost
+            next_node = candidate_node
+
+    return next_node

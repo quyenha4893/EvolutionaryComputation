@@ -1,0 +1,90 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    """
+    Selects the next node to visit using a Two-Step Average Cost heuristic.
+    This heuristic considers the immediate distance to a candidate node and
+    then estimates the average possible next step from that candidate node
+    to any subsequent unvisited node or directly to the destination.
+
+    Args:
+        current_node: The node currently at.
+        destination_node: The starting node of the tour, to which the path must return.
+        unvisited_nodes: A set of nodes that have not yet been visited.
+        distance_matrix: A 2D list (matrix) where distance_matrix[i][j]
+                         is the distance between node i and node j.
+
+    Returns:
+        The next node to visit.
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, return to the destination node (start node)
+        return destination_node
+
+    next_node = -1
+    min_total_score = math.inf
+
+    for candidate_node in unvisited_nodes:
+        # Calculate the immediate cost to travel from current_node to candidate_node
+        immediate_cost = distance_matrix[current_node][candidate_node]
+        
+        # Calculate the estimated cost for the *next* step from the candidate_node
+        # by averaging the distances to all potential next targets.
+        
+        possible_next_targets_from_candidate = set(unvisited_nodes) - {candidate_node}
+        
+        # Add the destination node as a possible next target if it's not the candidate itself
+        # This handles cases where candidate_node might be the last remaining unvisited node.
+        if destination_node != candidate_node:
+            possible_next_targets_from_candidate.add(destination_node)
+        
+        estimated_next_step_cost = 0.0
+        if not possible_next_targets_from_candidate:
+            # This can happen if candidate_node is the only unvisited node and also the destination_node,
+            # or if it's the last unvisited node and the destination was already added.
+            # In TSP, destination_node is usually outside unvisited_nodes until the very end,
+            # or it's the starting node itself.
+            # If the only remaining unvisited node is the candidate and destination_node
+            # is not among the unvisited nodes, this implies the tour must return to destination.
+            # If there's no other node to go to, and destination_node was not added
+            # (because candidate_node is destination_node), this condition might mean
+            # we are choosing the very last node.
+            
+            # The most robust way is to ensure destination_node is always a potential target
+            # if candidate_node is not destination_node itself.
+            # If after removing candidate_node from unvisited, and adding destination_node,
+            # the set is empty, it means candidate_node was the only unvisited_node AND destination_node.
+            # In this highly unusual case (destination_node is picked as an unvisited node for path building),
+            # or if no actual "next" step is logically possible, we'll assign a placeholder or handle explicitly.
+            # For a typical TSP where destination_node is the start, it's not in unvisited_nodes
+            # until the last step.
+            
+            # If `possible_next_targets_from_candidate` is empty, it implies candidate_node
+            # is the last node, and destination_node was already handled or is the candidate.
+            # In such a case, the only remaining "next step" is implicitly returning to destination
+            # if it hasn't been added. Let's make sure it's always included unless candidate_node itself is destination_node.
+            if destination_node == candidate_node:
+                # If the candidate node is the destination, and it's the only
+                # remaining "unvisited" node to consider for the path, its
+                # future cost could be considered 0 as it closes the loop.
+                # However, this scenario is typically handled when unvisited_nodes becomes empty.
+                estimated_next_step_cost = 0.0
+            else:
+                # This should not happen in a correctly formed TSP logic
+                # unless candidate_node is the only unvisited node AND destination_node is not targetable.
+                # Revert to direct path to destination.
+                estimated_next_step_cost = distance_matrix[candidate_node][destination_node]
+        else:
+            total_distances_from_candidate = 0.0
+            for target in possible_next_targets_from_candidate:
+                total_distances_from_candidate += distance_matrix[candidate_node][target]
+            estimated_next_step_cost = total_distances_from_candidate / len(possible_next_targets_from_candidate)
+        
+        # The total score is the sum of the immediate cost and the estimated average cost for the next step.
+        total_score = immediate_cost + estimated_next_step_cost
+
+        if total_score < min_total_score:
+            min_total_score = total_score
+            next_node = candidate_node
+
+    return next_node

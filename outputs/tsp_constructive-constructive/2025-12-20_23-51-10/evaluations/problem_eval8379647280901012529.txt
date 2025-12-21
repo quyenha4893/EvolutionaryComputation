@@ -1,0 +1,52 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node to visit based on a constructive heuristic with a one-step look-ahead.
+    
+    Args:
+        current_node (int): The index of the node currently at.
+        destination_node (int): The index of the final node to return to (usually the starting node).
+        unvisited_nodes (set): A set of indices of nodes that have not yet been visited.
+        distance_matrix (list of lists): A 2D list where distance_matrix[i][j] is the 
+                                         distance from node i to node j.
+    
+    Returns:
+        int: The index of the next node to visit.
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, the next step is to return to the destination node.
+        return destination_node
+
+    min_total_estimated_cost = float('inf')
+    next_node = -1
+
+    for candidate_node in unvisited_nodes:
+        # Calculate the direct cost to reach the candidate node from the current position
+        cost_to_candidate = distance_matrix[current_node][candidate_node]
+        
+        # Estimate the cost of the *next* step after visiting the candidate node.
+        # This is a one-step look-ahead: find the minimum distance from candidate_node
+        # to any other truly remaining unvisited node, or to the destination if no other nodes remain.
+        
+        remaining_unvisited_after_candidate = unvisited_nodes - {candidate_node}
+        
+        cost_from_candidate_to_next_best = float('inf')
+
+        if not remaining_unvisited_after_candidate:
+            # If candidate_node is the last node to visit before returning to the start,
+            # the next step is the return trip to the destination_node.
+            cost_from_candidate_to_next_best = distance_matrix[candidate_node][destination_node]
+        else:
+            # Find the closest node among the truly remaining unvisited nodes from the candidate.
+            for future_node in remaining_unvisited_after_candidate:
+                cost_from_candidate_to_next_best = min(cost_from_candidate_to_next_best, 
+                                                       distance_matrix[candidate_node][future_node])
+        
+        # The new selection mechanism: Combine the direct travel cost and the estimated subsequent cost
+        # to get a total score for this candidate path segment.
+        total_estimated_cost = cost_to_candidate + cost_from_candidate_to_next_best
+        
+        if total_estimated_cost < min_total_estimated_cost:
+            min_total_estimated_cost = total_estimated_cost
+            next_node = candidate_node
+            
+    return next_node

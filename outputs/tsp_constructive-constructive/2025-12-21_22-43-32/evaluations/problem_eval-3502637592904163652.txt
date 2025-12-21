@@ -1,0 +1,31 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node using a weighted heuristic that considers both the distance
+    from the current node and the distance to the final destination node.
+    """
+    next_node = None
+    best_score = float('inf')
+
+    # Alpha is a weighting factor.
+    # alpha = 1.0 behaves like the standard Nearest Neighbor.
+    # alpha = 0.0 would only focus on picking the node closest to the destination.
+    # A value between 0 and 1 balances these two desires.
+    alpha = 0.6
+
+    for candidate_node in unvisited_nodes:
+        # Cost to travel from the current node to the candidate node
+        dist_to_candidate = distance_matrix[current_node][candidate_node]
+        
+        # Cost to travel from the candidate node to the final destination
+        dist_from_candidate_to_dest = distance_matrix[candidate_node][destination_node]
+
+        # The score is a weighted sum of the two distances. This balances the
+        # greedy choice (short distance now) with a more strategic choice
+        # (not moving too far away from the end point).
+        score = alpha * dist_to_candidate + (1 - alpha) * dist_from_candidate_to_dest
+        
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

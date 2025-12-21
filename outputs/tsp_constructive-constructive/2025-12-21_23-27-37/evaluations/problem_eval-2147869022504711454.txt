@@ -1,0 +1,42 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node using a dynamic weighting factor 'alpha' that adapts
+    based on the number of remaining unvisited nodes.
+    """
+    next_node = None
+    best_score = float('inf')
+
+    if not unvisited_nodes:
+        return None
+
+    total_nodes = len(distance_matrix)
+    
+    # Alpha is now dynamic. It changes based on the progress of the tour.
+    # It is calculated as the ratio of remaining choices to the total number of choices.
+    # When many nodes are unvisited, alpha is high (close to 1), prioritizing the nearest neighbor.
+    # As the tour nears completion (few unvisited nodes), alpha becomes low (close to 0),
+    # prioritizing the node closest to the final destination.
+    # We handle the case where total_nodes <= 2 to avoid division by zero.
+    if total_nodes > 2:
+        # The number of choices to be made is total_nodes - 2 (excluding start and end).
+        # The number of remaining choices is len(unvisited_nodes) - 1.
+        alpha = (len(unvisited_nodes) - 1) / (total_nodes - 2)
+    else:
+        # For trivial cases, default to a greedy choice.
+        alpha = 1.0
+
+    for candidate_node in unvisited_nodes:
+        # Part 1: Distance from the current node to the candidate
+        dist_to_candidate = distance_matrix[current_node][candidate_node]
+
+        # Part 2: Distance from the candidate to the final destination
+        dist_from_candidate = distance_matrix[candidate_node][destination_node]
+
+        # Dynamic weighted score
+        score = (alpha * dist_to_candidate) + ((1 - alpha) * dist_from_candidate)
+
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

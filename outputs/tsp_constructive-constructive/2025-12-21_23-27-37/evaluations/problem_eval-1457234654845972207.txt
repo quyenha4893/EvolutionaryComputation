@@ -1,0 +1,35 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node by giving more weight to the immediate travel cost
+    compared to the cost of returning to the start. It chooses the candidate
+    that minimizes a weighted sum of the distance from the current node and the
+    distance back to the destination.
+    """
+    next_node = None
+    best_score = float('inf')
+
+    if not unvisited_nodes:
+        return None
+
+    # Define weights for the two cost components.
+    # A higher weight for cost_to_candidate makes the algorithm more "greedy".
+    weight_immediate = 0.75
+    weight_lookahead = 0.25
+
+    # Evaluate each unvisited node as a potential next step.
+    for candidate_node in unvisited_nodes:
+        # Cost of the immediate step: current -> candidate.
+        cost_to_candidate = distance_matrix[current_node][candidate_node]
+        
+        # Lookahead cost: the distance from the candidate back to the tour's starting point.
+        cost_from_candidate_to_dest = distance_matrix[candidate_node][destination_node]
+        
+        # The score is a weighted sum of the two costs.
+        score = (weight_immediate * cost_to_candidate) + (weight_lookahead * cost_from_candidate_to_dest)
+        
+        # Choose the candidate with the minimum score.
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

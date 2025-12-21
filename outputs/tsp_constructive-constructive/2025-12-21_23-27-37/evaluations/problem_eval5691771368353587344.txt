@@ -1,0 +1,25 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node based on a score that balances the distance from the current node
+    and the distance to the final destination. This is a variant of the cheapest insertion
+    heuristic applied sequentially, choosing the node that creates the smallest "detour".
+    """
+    next_node = None
+    best_score = float('inf')
+
+    if not unvisited_nodes:
+        return None
+
+    for candidate_node in unvisited_nodes:
+        # The score is the sum of the distance to the candidate and from the candidate back to the start.
+        # This considers the cost of the "detour" through the candidate node.
+        dist_to_candidate = distance_matrix[current_node][candidate_node]
+        dist_from_candidate_to_dest = distance_matrix[candidate_node][destination_node]
+        
+        score = dist_to_candidate + dist_from_candidate_to_dest
+
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

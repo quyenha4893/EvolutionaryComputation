@@ -1,0 +1,42 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node using a centrality-based heuristic.
+    This heuristic balances the immediate cost (distance from the current node)
+    with a "centrality" measure of the candidate node with respect to all other
+    remaining unvisited nodes. A node is considered more central if its average
+    distance to other unvisited nodes is lower. This strategy avoids committing
+    to an isolated node early in the tour.
+    """
+    next_node = None
+    best_score = float('inf')
+
+    # Weights to balance immediate cost vs. future centrality.
+    weight_immediate = 0.5
+    weight_centrality = 0.5
+
+    # If only one unvisited node is left, it's the only choice.
+    if len(unvisited_nodes) == 1:
+        return list(unvisited_nodes)[0]
+
+    for candidate_node in unvisited_nodes:
+        # 1. Immediate Cost: The direct distance from the current node.
+        immediate_cost = distance_matrix[current_node][candidate_node]
+
+        # 2. Centrality Cost: The average distance from the candidate node to all
+        #    OTHER remaining unvisited nodes.
+        other_unvisited_nodes = unvisited_nodes - {candidate_node}
+        
+        centrality_cost = 0.0
+        if other_unvisited_nodes:
+            total_dist_to_others = sum(distance_matrix[candidate_node][other] for other in other_unvisited_nodes)
+            centrality_cost = total_dist_to_others / len(other_unvisited_nodes)
+
+        # Composite score penalizes nodes that are far from the current node
+        # or far from the "center of mass" of the remaining nodes.
+        score = (weight_immediate * immediate_cost) + (weight_centrality * centrality_cost)
+
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

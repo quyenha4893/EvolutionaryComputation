@@ -1,0 +1,58 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    """
+    Selects the next node to visit using a Regret heuristic.
+    This heuristic considers the cost of not choosing a candidate node by
+    calculating the difference between the best alternative immediate cost
+    and the direct cost to the candidate, and then maximizing this "regret".
+
+    Args:
+        current_node: The node currently at.
+        destination_node: The starting node of the tour, to which the path must return.
+        unvisited_nodes: A set of nodes that have not yet been visited.
+        distance_matrix: A 2D list (matrix) where distance_matrix[i][j]
+                         is the distance between node i and node j.
+
+    Returns:
+        The next node to visit.
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, return to the destination node (start node)
+        return destination_node
+
+    if len(unvisited_nodes) == 1:
+        # If only one unvisited node remains, it must be the next node
+        return next(iter(unvisited_nodes))
+
+    next_node = -1
+    max_regret = -math.inf 
+    min_direct_cost_for_max_regret = math.inf # Used for tie-breaking
+
+    for candidate_node in unvisited_nodes:
+        cost_to_choose_candidate = distance_matrix[current_node][candidate_node]
+
+        # Find the best alternative cost if 'candidate_node' is NOT chosen
+        best_alternative_cost = math.inf
+        for other_unvisited_node in unvisited_nodes:
+            if other_unvisited_node != candidate_node:
+                alt_cost = distance_matrix[current_node][other_unvisited_node]
+                if alt_cost < best_alternative_cost:
+                    best_alternative_cost = alt_cost
+        
+        # Calculate regret: (cost of second best option) - (cost of best option)
+        # A higher regret means we "regret" more if we don't choose the candidate.
+        # This prevents taking a cheap immediate step that might cut off better future options.
+        regret = best_alternative_cost - cost_to_choose_candidate
+
+        if regret > max_regret:
+            max_regret = regret
+            next_node = candidate_node
+            min_direct_cost_for_max_regret = cost_to_choose_candidate
+        elif regret == max_regret:
+            # For tie-breaking, prefer the one with a lower direct cost
+            if cost_to_choose_candidate < min_direct_cost_for_max_regret:
+                next_node = candidate_node
+                min_direct_cost_for_max_regret = cost_to_choose_candidate
+
+    return next_node

@@ -1,0 +1,44 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node using an adaptive weighting strategy that balances
+    exploration (Nearest Neighbor) and exploitation (closing the tour).
+    The weighting shifts as the tour progresses.
+    """
+    next_node = None
+    best_score = float('inf')
+
+    if not unvisited_nodes:
+        return None
+
+    # Calculate tour progress to create adaptive weights.
+    # The total number of nodes to be visited in the tour (excluding the start/destination).
+    total_nodes_in_tour = len(distance_matrix) - 1
+    if total_nodes_in_tour <= 0:
+        # Fallback for a tour with only one or two nodes.
+        return unvisited_nodes.pop() if unvisited_nodes else None
+
+    # Number of nodes already added to the path (after the start node).
+    nodes_visited_count = total_nodes_in_tour - len(unvisited_nodes)
+    
+    # Progress factor 'p' goes from 0.0 towards 1.0 as the tour is built.
+    progress_factor = nodes_visited_count / total_nodes_in_tour
+
+    # At the start (p=0), weight is fully on nearest neighbor (exploration).
+    # At the end (p->1), weight shifts to closing the loop (exploitation).
+    exploration_weight = 1.0 - progress_factor
+    return_weight = progress_factor
+
+    for candidate_node in unvisited_nodes:
+        # Cost to travel from the current node to the candidate.
+        dist_to_candidate = distance_matrix[current_node][candidate_node]
+        # Cost to travel from the candidate to the final destination.
+        dist_from_candidate_to_dest = distance_matrix[candidate_node][destination_node]
+        
+        # The adaptive score dynamically balances immediate cost vs. tour-closing cost.
+        score = (exploration_weight * dist_to_candidate) + (return_weight * dist_from_candidate_to_dest)
+
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

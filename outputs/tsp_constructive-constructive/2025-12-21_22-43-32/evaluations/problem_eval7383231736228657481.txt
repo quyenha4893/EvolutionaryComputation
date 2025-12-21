@@ -1,0 +1,40 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node by adaptively balancing immediate cost against destination proximity,
+    based on the progress of the tour.
+    """
+    next_node = None
+    best_score = float('inf')
+
+    # --- New Mechanism: Dynamic Alpha Calculation ---
+    # The weighting factor 'alpha' is no longer static. It is dynamically calculated
+    # based on the ratio of remaining unvisited nodes to the initial number of nodes to visit.
+    total_nodes = len(distance_matrix)
+    num_unvisited = len(unvisited_nodes)
+
+    # As the tour progresses (num_unvisited decreases), alpha decreases.
+    # This shifts the heuristic's focus from a greedy nearest-neighbor approach (high alpha)
+    # at the beginning of the tour to a more strategic destination-oriented approach
+    # (low alpha) towards the end.
+    if total_nodes > 1:
+        # The denominator represents the initial number of nodes to be visited.
+        alpha = num_unvisited / (total_nodes - 1)
+    else:
+        # Fallback for a trivial case with only one node.
+        alpha = 1.0
+
+    for candidate_node in unvisited_nodes:
+        # Cost to travel from the current node to the candidate node
+        dist_to_candidate = distance_matrix[current_node][candidate_node]
+        
+        # Cost to travel from the candidate node to the final destination
+        dist_from_candidate_to_dest = distance_matrix[candidate_node][destination_node]
+
+        # The score is a weighted sum using the new, dynamically calculated alpha.
+        score = alpha * dist_to_candidate + (1 - alpha) * dist_from_candidate_to_dest
+        
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

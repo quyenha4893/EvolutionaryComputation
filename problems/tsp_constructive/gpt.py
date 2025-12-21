@@ -1,42 +1,40 @@
 def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node by balancing the immediate cost with the average cost
+    of moving from that candidate to all other unvisited nodes. This strategy
+    favors nodes that are centrally located among the remaining options,
+    potentially creating a more balanced path.
+    """
     next_node = None
-    best_combined_score = float('inf')
+    best_score = float('inf')
 
-    # Compute the central node of unvisited nodes
-    center_node = min(unvisited_nodes, key=lambda x: sum(distance_matrix[node][x] for node in unvisited_nodes))
+    if not unvisited_nodes:
+        return None
 
-    # Dynamic weights based on the number of remaining nodes
-    num_unvisited = len(unvisited_nodes)
-    immediate_weight = 0.7 if num_unvisited > 3 else 0.5
-    future_weight = 0.3 if num_unvisited > 3 else 0.5
+    # If only one unvisited node is left, it's the only choice.
+    if len(unvisited_nodes) == 1:
+        return list(unvisited_nodes)[0]
 
-    for node in unvisited_nodes:
-        immediate_distance = distance_matrix[current_node][node]
+    # Iterate through each potential next node to evaluate it.
+    for candidate_node in unvisited_nodes:
+        # Cost of the first step (current -> candidate).
+        cost_step1 = distance_matrix[current_node][candidate_node]
+        
+        # Find the average cost of the second step (candidate -> all other unvisited).
+        nodes_for_step2 = unvisited_nodes - {candidate_node}
+        
+        # Calculate the average distance from the candidate to the remaining unvisited nodes.
+        sum_of_dists_step2 = 0
+        for next_hop_node in nodes_for_step2:
+            sum_of_dists_step2 += distance_matrix[candidate_node][next_hop_node]
+        
+        avg_cost_step2 = sum_of_dists_step2 / len(nodes_for_step2) if nodes_for_step2 else 0
 
-        # Estimate future distance to remaining nodes including return trip
-        future_distance = 0
-        temp_node = node
-        remaining_nodes = unvisited_nodes.copy()
-        remaining_nodes.remove(temp_node)
-
-        while remaining_nodes:
-            next_temp_node = min(remaining_nodes, key=lambda x: distance_matrix[temp_node][x])
-            future_distance += distance_matrix[temp_node][next_temp_node]
-            temp_node = next_temp_node
-            remaining_nodes.remove(next_temp_node)
-
-        return_distance = distance_matrix[temp_node][destination_node]
-        future_distance += return_distance
-
-        # Central node proximity factor with penalty for distance from center
-        distance_from_center_penalty = max(0, distance_matrix[node][center_node] - 1)
-
-        # Combined score
-        combined_score = (immediate_distance * immediate_weight) + (
-                    future_distance * future_weight) + distance_from_center_penalty
-
-        if combined_score < best_combined_score:
-            best_combined_score = combined_score
-            next_node = node
-
+        # The score is the sum of the immediate cost and the average future cost.
+        total_score = cost_step1 + avg_cost_step2
+        
+        if total_score < best_score:
+            best_score = total_score
+            next_node = candidate_node
+            
     return next_node

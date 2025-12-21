@@ -1,0 +1,40 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node by minimizing a score that combines the "detour cost"
+    (current -> candidate -> destination) with a "centrality penalty". The penalty
+    is the average distance from the candidate to all other unvisited nodes,
+    which biases the selection towards nodes that are central to the remaining
+    cluster of points.
+    """
+    next_node = None
+    best_score = float('inf')
+
+    if not unvisited_nodes:
+        return None
+
+    # Evaluate each unvisited node as a potential next step.
+    for candidate_node in unvisited_nodes:
+        # Original component: Calculate the detour cost.
+        detour_cost = distance_matrix[current_node][candidate_node] + distance_matrix[candidate_node][destination_node]
+        
+        # Novel mechanism: Calculate the centrality penalty.
+        # This measures how far the candidate is, on average, from other unvisited nodes.
+        other_unvisited_nodes = [node for node in unvisited_nodes if node != candidate_node]
+        
+        centrality_penalty = 0.0
+        if other_unvisited_nodes:
+            # Sum of distances from the candidate to all other unvisited nodes.
+            sum_of_distances_to_others = sum(distance_matrix[candidate_node][other] for other in other_unvisited_nodes)
+            # The penalty is the average of these distances.
+            centrality_penalty = sum_of_distances_to_others / len(other_unvisited_nodes)
+
+        # New equation: The final score is a sum of the detour cost and the centrality penalty.
+        # This balances the immediate detour with the structure of the remaining problem.
+        score = detour_cost + centrality_penalty
+
+        # Choose the candidate with the minimum combined score.
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

@@ -1,0 +1,186 @@
+[2025-12-21 22:43:32,263][root][INFO] - Workspace: C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\outputs\tsp_constructive-constructive\2025-12-21_22-43-32
+[2025-12-21 22:43:32,264][root][INFO] - Project Root: C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master
+[2025-12-21 22:43:32,264][root][INFO] - Using LLM: gemini-2.5-pro
+[2025-12-21 22:43:32,264][root][INFO] - Using Algorithm: mcts_ahd
+[2025-12-21 22:44:19,173][root][INFO] - Iteration 0: Running Code 960472510969973305
+[2025-12-21 22:44:19,681][root][INFO] - Iteration -1: Code Run -1 successful!
+[2025-12-21 22:44:19,760][root][INFO] - Iteration 0, response_id 0: Objective value: 7.0043697989867315
+[2025-12-21 22:44:59,068][root][INFO] - Iteration 0: Running Code 3101832794085591768
+[2025-12-21 22:45:00,064][root][INFO] - Iteration -1: Code Run -1 successful!
+[2025-12-21 22:45:00,212][root][INFO] - Iteration 0, response_id 0: Objective value: inf
+[2025-12-21 22:45:57,164][root][INFO] - Iteration 0: Running Code -2973692681813416532
+[2025-12-21 22:45:58,093][root][INFO] - Iteration -1: Code Run -1 successful!
+[2025-12-21 22:45:58,182][root][INFO] - Iteration 0, response_id 0: Objective value: inf
+[2025-12-21 22:46:41,688][root][INFO] - Iteration 0: Running Code -5994389478814242212
+[2025-12-21 22:46:42,642][root][INFO] - Iteration -1: Code Run -1 successful!
+[2025-12-21 22:46:42,818][root][INFO] - Iteration 0, response_id 0: Objective value: 8.454004641389677
+[2025-12-21 22:47:39,152][root][INFO] - Iteration 0: Running Code 4329107289084979421
+[2025-12-21 22:47:40,025][root][INFO] - Iteration -1: Code Run -1 successful!
+[2025-12-21 22:47:40,129][root][INFO] - Iteration 0, response_id 0: Objective value: inf
+[2025-12-21 22:48:38,648][root][INFO] - Iteration 0: Running Code 5454853906899119154
+[2025-12-21 22:48:39,478][root][INFO] - Iteration -1: Code Run -1 successful!
+[2025-12-21 22:48:40,959][root][INFO] - Iteration 0, response_id 0: Objective value: 8.545816361959812
+[2025-12-21 22:50:07,983][root][INFO] - Iteration 0: Running Code 2974214454427123759
+[2025-12-21 22:50:08,828][root][INFO] - Iteration -1: Code Run -1 successful!
+[2025-12-21 22:50:10,280][root][INFO] - Iteration 0, response_id 0: Objective value: 7.779202262239416
+[2025-12-21 22:51:12,022][root][INFO] - Iteration 0: Running Code -4880843301654372597
+[2025-12-21 22:51:12,943][root][INFO] - Iteration -1: Code Run -1 successful!
+[2025-12-21 22:51:13,124][root][INFO] - Iteration 0, response_id 0: Objective value: 7.99477320543647
+[2025-12-21 22:51:49,058][root][INFO] - Iteration 0: Running Code -2442653290384554609
+[2025-12-21 22:51:50,008][root][INFO] - Iteration -1: Code Run -1 execution error!
+[2025-12-21 22:51:50,110][root][INFO] - Iteration 0, response_id 0: Objective value: inf
+[2025-12-21 22:52:31,415][root][INFO] - Iteration 0: Running Code -5119266463673470498
+[2025-12-21 22:52:32,419][root][INFO] - Iteration -1: Code Run -1 execution error!
+[2025-12-21 22:52:32,524][root][INFO] - Iteration 0, response_id 0: Objective value: inf
+[2025-12-21 22:53:06,188][root][INFO] - Iteration 0: Running Code 7321381085792346734
+[2025-12-21 22:53:07,120][root][INFO] - Iteration -1: Code Run -1 execution error!
+[2025-12-21 22:53:07,185][root][INFO] - Iteration 0, response_id 0: Objective value: inf
+[2025-12-21 22:54:02,431][root][INFO] - Iteration 0: Running Code 4286066550282324504
+[2025-12-21 22:54:03,640][root][INFO] - Iteration -1: Code Run -1 successful!
+[2025-12-21 22:54:03,728][root][INFO] - Iteration 0, response_id 0: Objective value: inf
+[2025-12-21 22:54:40,299][root][INFO] - Iteration 0: Running Code -3502637592904163652
+[2025-12-21 22:54:41,171][root][INFO] - Iteration -1: Code Run -1 successful!
+[2025-12-21 22:54:41,411][root][INFO] - Iteration 0, response_id 0: Objective value: 7.6330157638130665
+[2025-12-21 22:55:11,025][root][INFO] - Iteration 0: Running Code 418063516936349765
+[2025-12-21 22:55:11,908][root][INFO] - Iteration -1: Code Run -1 successful!
+[2025-12-21 22:55:12,098][root][INFO] - Iteration 0, response_id 0: Objective value: 7.99477320543647
+[2025-12-21 22:55:43,312][root][INFO] - Iteration 0: Running Code -4711366048318729240
+[2025-12-21 22:55:44,245][root][INFO] - Iteration -1: Code Run -1 successful!
+[2025-12-21 22:55:44,434][root][INFO] - Iteration 0, response_id 0: Objective value: 7.99477320543647
+[2025-12-21 22:56:31,902][root][INFO] - Iteration 0: Running Code 5175989760656834871
+[2025-12-21 22:56:32,972][root][INFO] - Iteration -1: Code Run -1 successful!
+[2025-12-21 22:56:34,508][root][INFO] - Iteration 0, response_id 0: Objective value: 8.224501169482748
+[2025-12-21 22:57:27,258][root][INFO] - Iteration 0: Running Code 7383231736228657481
+[2025-12-21 22:57:28,258][root][INFO] - Iteration -1: Code Run -1 successful!
+[2025-12-21 22:57:28,458][root][INFO] - Iteration 0, response_id 0: Objective value: 8.890410627663472
+[2025-12-21 22:58:14,965][root][INFO] - Iteration 0: Running Code 2255052997668941591
+[2025-12-21 22:58:15,823][root][INFO] - Iteration -1: Code Run -1 successful!
+[2025-12-21 22:58:17,167][root][INFO] - Iteration 0, response_id 0: Objective value: 8.005086344914067
+[2025-12-21 22:58:56,390][root][INFO] - Iteration 0: Running Code 4820416007025555261
+[2025-12-21 22:58:57,588][root][INFO] - Iteration -1: Code Run -1 successful!
+[2025-12-21 22:58:57,769][root][INFO] - Iteration 0, response_id 0: Objective value: 7.462242364951092
+[2025-12-21 22:59:36,820][root][INFO] - Iteration 0: Running Code 5704110730935931367
+[2025-12-21 22:59:37,758][root][INFO] - Iteration -1: Code Run -1 successful!
+[2025-12-21 22:59:37,988][root][INFO] - Iteration 0, response_id 0: Objective value: 6.663894690303745
+[2025-12-21 23:00:36,515][root][INFO] - Iteration 0: Running Code -1514386330177148942
+[2025-12-21 23:00:37,408][root][INFO] - Iteration -1: Code Run -1 successful!
+[2025-12-21 23:00:38,938][root][INFO] - Iteration 0, response_id 0: Objective value: 7.445374594142084
+[2025-12-21 23:01:43,157][root][INFO] - Iteration 0: Running Code -8587604067167932368
+[2025-12-21 23:01:43,980][root][INFO] - Iteration -1: Code Run -1 successful!
+[2025-12-21 23:01:45,564][root][INFO] - Iteration 0, response_id 0: Objective value: 7.288373196579108
+[2025-12-21 23:02:37,131][root][INFO] - Iteration 0: Running Code 6829226032235446758
+[2025-12-21 23:02:38,324][root][INFO] - Iteration -1: Code Run -1 successful!
+[2025-12-21 23:02:39,898][root][INFO] - Iteration 0, response_id 0: Objective value: 7.4212586295433915
+[2025-12-21 23:03:30,130][root][INFO] - Iteration 0: Running Code -7681541291720661475
+[2025-12-21 23:03:30,998][root][INFO] - Iteration -1: Code Run -1 successful!
+[2025-12-21 23:03:32,702][root][INFO] - Iteration 0, response_id 0: Objective value: 6.50810090710414
+[2025-12-21 23:04:06,768][root][INFO] - Iteration 0: Running Code 51420536440784970
+[2025-12-21 23:04:07,791][root][INFO] - Iteration -1: Code Run -1 successful!
+[2025-12-21 23:04:08,028][root][INFO] - Iteration 0, response_id 0: Objective value: 7.433225728768652
+[2025-12-21 23:04:41,658][root][INFO] - Iteration 0: Running Code -2115320663623388542
+[2025-12-21 23:04:42,848][root][INFO] - Iteration -1: Code Run -1 successful!
+[2025-12-21 23:04:43,016][root][INFO] - Iteration 0, response_id 0: Objective value: 7.462242364951092
+[2025-12-21 23:05:40,540][root][INFO] - Iteration 0: Running Code 5304566719815562589
+[2025-12-21 23:05:41,438][root][INFO] - Iteration -1: Code Run -1 execution error!
+[2025-12-21 23:05:41,522][root][INFO] - Iteration 0, response_id 0: Objective value: inf
+[2025-12-21 23:06:53,919][root][INFO] - Iteration 0: Running Code -3592648606931169399
+[2025-12-21 23:06:55,006][root][INFO] - Iteration -1: Code Run -1 successful!
+[2025-12-21 23:06:55,243][root][INFO] - Iteration 0, response_id 0: Objective value: 6.668542394274446
+[2025-12-21 23:08:00,393][root][INFO] - Iteration 0: Running Code -8005931572309117967
+[2025-12-21 23:08:01,284][root][INFO] - Iteration -1: Code Run -1 successful!
+[2025-12-21 23:08:02,818][root][INFO] - Iteration 0, response_id 0: Objective value: 6.553809848652223
+[2025-12-21 23:09:26,719][root][INFO] - Iteration 0: Running Code -804657702986911363
+[2025-12-21 23:09:27,565][root][INFO] - Iteration -1: Code Run -1 successful!
+[2025-12-21 23:09:29,810][root][INFO] - Iteration 0, response_id 0: Objective value: 10.493580243428472
+[2025-12-21 23:10:49,454][root][INFO] - Iteration 0: Running Code -2486498967123215463
+[2025-12-21 23:10:50,289][root][INFO] - Iteration -1: Code Run -1 successful!
+[2025-12-21 23:10:53,199][root][INFO] - Iteration 0, response_id 0: Objective value: 6.5110591609519135
+[2025-12-21 23:11:18,940][utils.llm_client.gemini][ERROR] - Vertex AI Gemini API error: {
+  "error": {
+    "code": 429,
+    "message": "Resource exhausted. Please try again later. Please refer to https://cloud.google.com/vertex-ai/generative-ai/docs/error-code-429 for more details.",
+    "status": "RESOURCE_EXHAUSTED"
+  }
+}
+
+[2025-12-21 23:11:18,944][utils.llm_client.base][ERROR] - Vertex AI Gemini API error: {
+  "error": {
+    "code": 429,
+    "message": "Resource exhausted. Please try again later. Please refer to https://cloud.google.com/vertex-ai/generative-ai/docs/error-code-429 for more details.",
+    "status": "RESOURCE_EXHAUSTED"
+  }
+}
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 53, in _chat_completion_api
+    raise RuntimeError(f"Vertex AI Gemini API error: {response.text}")
+RuntimeError: Vertex AI Gemini API error: {
+  "error": {
+    "code": 429,
+    "message": "Resource exhausted. Please try again later. Please refer to https://cloud.google.com/vertex-ai/generative-ai/docs/error-code-429 for more details.",
+    "status": "RESOURCE_EXHAUSTED"
+  }
+}
+
+[2025-12-21 23:11:18,968][utils.llm_client.base][INFO] - Attempt 1 failed with error: Vertex AI Gemini API error: {
+  "error": {
+    "code": 429,
+    "message": "Resource exhausted. Please try again later. Please refer to https://cloud.google.com/vertex-ai/generative-ai/docs/error-code-429 for more details.",
+    "status": "RESOURCE_EXHAUSTED"
+  }
+}
+
+[2025-12-21 23:11:40,011][root][INFO] - Iteration 0: Running Code -5353753754629322894
+[2025-12-21 23:11:40,848][root][INFO] - Iteration -1: Code Run -1 successful!
+[2025-12-21 23:11:42,392][root][INFO] - Iteration 0, response_id 0: Objective value: 7.388530087413574
+[2025-12-21 23:12:33,613][root][INFO] - Iteration 0: Running Code -2843436626791493186
+[2025-12-21 23:12:34,615][root][INFO] - Iteration -1: Code Run -1 successful!
+[2025-12-21 23:12:36,140][root][INFO] - Iteration 0, response_id 0: Objective value: 6.4120485961003695
+[2025-12-21 23:13:57,123][root][INFO] - Iteration 0: Running Code -5541224625202731223
+[2025-12-21 23:13:57,956][root][INFO] - Iteration -1: Code Run -1 successful!
+[2025-12-21 23:13:59,562][root][INFO] - Iteration 0, response_id 0: Objective value: 6.488307914844055
+[2025-12-21 23:14:50,888][root][INFO] - Iteration 0: Running Code 7582126251451008980
+[2025-12-21 23:14:51,788][root][INFO] - Iteration -1: Code Run -1 successful!
+[2025-12-21 23:14:51,908][root][INFO] - Iteration 0, response_id 0: Objective value: inf
+[2025-12-21 23:15:48,225][root][INFO] - Iteration 0: Running Code -127334967839703276
+[2025-12-21 23:15:49,310][root][INFO] - Iteration -1: Code Run -1 successful!
+[2025-12-21 23:15:49,388][root][INFO] - Iteration 0, response_id 0: Objective value: inf
+[2025-12-21 23:15:59,712][utils.llm_client.gemini][ERROR] - Vertex AI Gemini API error: {
+  "error": {
+    "code": 429,
+    "message": "Resource exhausted. Please try again later. Please refer to https://cloud.google.com/vertex-ai/generative-ai/docs/error-code-429 for more details.",
+    "status": "RESOURCE_EXHAUSTED"
+  }
+}
+
+[2025-12-21 23:15:59,713][utils.llm_client.base][ERROR] - Vertex AI Gemini API error: {
+  "error": {
+    "code": 429,
+    "message": "Resource exhausted. Please try again later. Please refer to https://cloud.google.com/vertex-ai/generative-ai/docs/error-code-429 for more details.",
+    "status": "RESOURCE_EXHAUSTED"
+  }
+}
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 53, in _chat_completion_api
+    raise RuntimeError(f"Vertex AI Gemini API error: {response.text}")
+RuntimeError: Vertex AI Gemini API error: {
+  "error": {
+    "code": 429,
+    "message": "Resource exhausted. Please try again later. Please refer to https://cloud.google.com/vertex-ai/generative-ai/docs/error-code-429 for more details.",
+    "status": "RESOURCE_EXHAUSTED"
+  }
+}
+
+[2025-12-21 23:15:59,717][utils.llm_client.base][INFO] - Attempt 1 failed with error: Vertex AI Gemini API error: {
+  "error": {
+    "code": 429,
+    "message": "Resource exhausted. Please try again later. Please refer to https://cloud.google.com/vertex-ai/generative-ai/docs/error-code-429 for more details.",
+    "status": "RESOURCE_EXHAUSTED"
+  }
+}
+

@@ -1,0 +1,49 @@
+defined as the distance from a candidate node back to the final destination, which provides a global lookahead for the tour's completion.
+
+{This algorithm selects the next node using a three-part weighted score that combines the immediate travel cost to a candidate, the local future cost represented by the distance from that candidate to its own nearest neighbor, and the global future cost represented by the distance from the candidate back to the tour's starting point.}
+
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    next_node = None
+    best_score = float('inf')
+
+    if not unvisited_nodes:
+        return None
+
+    # Weights for the three components of the score function.
+    # w1: Immediate cost (current -> candidate)
+    # w2: Local future cost (candidate -> its nearest unvisited neighbor)
+    # w3: Global future cost (candidate -> destination)
+    # These weights are tuned to prioritize immediate cost but include both future cost metrics.
+    w1 = 0.7  # Inspired by Algo 1's high alpha
+    w2 = 0.15 # Splitting the remaining weight
+    w3 = 0.15 # between the two future cost concepts
+
+    for candidate_node in unvisited_nodes:
+        # Part 1: Immediate cost to the candidate (from greedy approach)
+        dist_to_candidate = distance_matrix[current_node][candidate_node]
+
+        # Part 2: Global future cost to return to the destination (from Algo 1)
+        dist_to_destination = distance_matrix[candidate_node][destination_node]
+
+        # Part 3: Local future cost to the candidate's nearest neighbor (from Algo 2)
+        remaining_nodes = unvisited_nodes - {candidate_node}
+        min_dist_from_candidate = float('inf')
+
+        if not remaining_nodes:
+            # If this is the last unvisited node, both future costs are the return trip.
+            min_dist_from_candidate = dist_to_destination
+        else:
+            # Find the nearest neighbor from the rest of the unvisited nodes.
+            for next_step_node in remaining_nodes:
+                distance = distance_matrix[candidate_node][next_step_node]
+                if distance < min_dist_from_candidate:
+                    min_dist_from_candidate = distance
+        
+        # Combined score from all three components
+        score = (w1 * dist_to_candidate) + (w2 * min_dist_from_candidate) + (w3 * dist_to_destination)
+
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

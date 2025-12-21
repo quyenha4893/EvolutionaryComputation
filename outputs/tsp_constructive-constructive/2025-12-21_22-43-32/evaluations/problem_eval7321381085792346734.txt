@@ -1,0 +1,25 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    best_node = None
+    min_combined_cost = float('inf')
+
+    # Weights to balance the greedy choice vs. the pull of the destination
+    # w1 prioritizes the immediate next step (greedy)
+    # w2 prioritizes moving towards the final destination
+    w1 = 0.7  # Weight for the distance to the next node
+    w2 = 0.3  # Weight for the distance from the next node to the destination
+
+    for node in unvisited_nodes:
+        # Cost component 1: Distance from the current node to the candidate node
+        dist_to_node = distance_matrix[current_node][node]
+        
+        # Cost component 2: Distance from the candidate node to the final destination
+        dist_to_dest = distance_matrix[node][destination_node]
+        
+        # New equation: Calculate the weighted composite cost
+        combined_cost = (w1 * dist_to_node) + (w2 * dist_to_dest)
+
+        if combined_cost < min_combined_cost:
+            min_combined_cost = combined_cost
+            best_node = node
+            
+    return next_node

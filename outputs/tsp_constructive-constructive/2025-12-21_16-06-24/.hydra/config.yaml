@@ -1,0 +1,27 @@
+algorithm: mcts_ahd
+max_fe: 1000
+pop_size: 10
+init_pop_size: 4
+timeout: 60
+problem:
+  problem_name: tsp_constructive
+  problem_type: constructive
+  obj_type: min
+  problem_size: 50
+  func_name: select_next_node
+  description: Solving Traveling Salesman Problem (TSP) with constructive heuristics.
+    TSP requires finding the shortest path that visits all given nodes and returns
+    to the starting node.
+llm_client:
+  name: gemini
+  model: gemini-2.5-flash
+  temperature: 1.0
+  use_vertex_ai: true
+  credentials_json_path: C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\google_cloud_key.json
+  location: us-central1
+  chat_completion:
+    max_tokens: 2048
+    top_p: 1.0
+    frequency_penalty: 0.0
+    presence_penalty: 0.0
+    request_timeout: 600

@@ -1,0 +1,37 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node by finding which candidate minimizes the "detour"
+    cost relative to the start and end points of the tour. For each candidate,
+    it calculates the sum of the distance from the current node to the candidate
+    and the distance from the candidate back to the tour's starting node.
+    """
+    next_node = None
+    best_score = float('inf')
+
+    if not unvisited_nodes:
+        return None
+
+    # If only one unvisited node is left, it's the only choice.
+    if len(unvisited_nodes) == 1:
+        return list(unvisited_nodes)[0]
+
+    # Evaluate each unvisited node as a potential next step.
+    for candidate_node in unvisited_nodes:
+        # Cost of the leg from the current node to the candidate.
+        cost_to_candidate = distance_matrix[current_node][candidate_node]
+
+        # Cost of the leg from the candidate to the final destination (the start of the tour).
+        cost_from_candidate_to_dest = distance_matrix[candidate_node][destination_node]
+
+        # The score is the sum of these two legs, representing the cost of inserting
+        # the candidate between the current location and the final destination.
+        # This is equivalent to minimizing insertion cost: d(i,k) + d(k,j) - d(i,j),
+        # where i=current, k=candidate, j=destination. Since d(i,j) is constant
+        # for all candidates in one step, we only need to minimize d(i,k) + d(k,j).
+        score = cost_to_candidate + cost_from_candidate_to_dest
+
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

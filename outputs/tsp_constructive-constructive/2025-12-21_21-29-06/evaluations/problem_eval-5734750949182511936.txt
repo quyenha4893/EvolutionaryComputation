@@ -1,0 +1,43 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    """
+    Selects the next node to visit using an Immediate and Return Proximity heuristic.
+    This heuristic considers both the immediate distance to a candidate node
+    and the direct distance from that candidate node to the final destination node.
+
+    Args:
+        current_node: The node currently at.
+        destination_node: The starting node of the tour, to which the path must return.
+        unvisited_nodes: A set of nodes that have not yet been visited.
+        distance_matrix: A 2D list (matrix) where distance_matrix[i][j]
+                         is the distance between node i and node j.
+
+    Returns:
+        The next node to visit.
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, return to the destination node (start node)
+        return destination_node
+
+    next_node = -1
+    min_total_score = math.inf
+
+    for candidate_node in unvisited_nodes:
+        # Calculate the immediate cost to travel from current_node to candidate_node
+        immediate_cost = distance_matrix[current_node][candidate_node]
+        
+        # Calculate the direct cost to return to the destination from the candidate_node.
+        # This term helps prioritize candidates that are also 'close' to the final destination,
+        # simplifying the closure of the tour.
+        return_cost_to_destination = distance_matrix[candidate_node][destination_node]
+        
+        # The total score is the sum of the immediate cost and the cost to return
+        # to the destination from this candidate node.
+        total_score = immediate_cost + return_cost_to_destination
+
+        if total_score < min_total_score:
+            min_total_score = total_score
+            next_node = candidate_node
+
+    return next_node

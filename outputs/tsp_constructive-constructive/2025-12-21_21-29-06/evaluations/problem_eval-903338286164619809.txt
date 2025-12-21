@@ -1,0 +1,30 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    if not unvisited_nodes:
+        # If all other nodes have been visited, return to the destination node (start node)
+        return destination_node
+
+    next_node = -1
+    min_biased_distance = math.inf
+    # The bias_factor now controls the weight of the direct distance from the current node
+    # A smaller bias_factor (e.g., 0.5) means the direct distance is less emphasized
+    # compared to the distance to the destination.
+    bias_factor = 0.5  
+
+    for node in unvisited_nodes:
+        # Calculate direct distance from current to candidate node
+        direct_distance = distance_matrix[current_node][node]
+        # Calculate heuristic distance from candidate node to the destination node
+        distance_to_destination = distance_matrix[node][destination_node]
+
+        # Combine distances with a bias factor applied to the direct distance
+        # This prioritizes nodes that are closer to the destination, even if
+        # they are slightly further from the current node.
+        biased_distance = (direct_distance * bias_factor) + distance_to_destination
+
+        if biased_distance < min_biased_distance:
+            min_biased_distance = biased_distance
+            next_node = node
+
+    return next_node

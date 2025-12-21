@@ -1,0 +1,55 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    """
+    Selects the next node to visit based on a weighted combination of immediate distance,
+    distance from the candidate node back to the destination, and the average distance
+    from the candidate to the remaining unvisited nodes.
+
+    Args:
+        current_node: The node currently at.
+        destination_node: The starting node of the tour, to which the path must return.
+        unvisited_nodes: A set of nodes that have not yet been visited.
+        distance_matrix: A 2D list (matrix) where distance_matrix[i][j]
+                         is the distance between node i and node j.
+
+    Returns:
+        The next node to visit.
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, return to the destination node (start node)
+        return destination_node
+
+    next_node = -1
+    min_combined_cost = math.inf
+
+    # Weighting factors for the three cost components (sum should ideally be 1)
+    # W1 for immediate distance, W2 for distance to destination, W3 for average future connectivity
+    W1 = 0.5  # Strongest weight for immediate travel (greedy component)
+    W2 = 0.3  # Moderate weight for returning to destination (overall tour structure)
+    W3 = 0.2  # Smaller weight for average connectivity to remaining nodes (future planning)
+
+    for candidate_node in unvisited_nodes:
+        immediate_distance = distance_matrix[current_node][candidate_node]
+        distance_to_destination_from_candidate = distance_matrix[candidate_node][destination_node]
+
+        # Calculate the average future connectivity cost from the candidate node
+        # This measures how "central" or "well-connected" the candidate is to the rest of the tour
+        remaining_nodes_for_avg_cost = unvisited_nodes - {candidate_node}
+        
+        avg_future_connectivity_cost = 0.0
+        if remaining_nodes_for_avg_cost:
+            sum_distances_from_candidate_to_remaining = sum(distance_matrix[candidate_node][node] for node in remaining_nodes_for_avg_cost)
+            avg_future_connectivity_cost = sum_distances_from_candidate_to_remaining / len(remaining_nodes_for_avg_cost)
+        
+        # Combine the three costs
+        # This formula balances local greed with foresight for tour completion and future connectivity
+        combined_cost = (W1 * immediate_distance +
+                         W2 * distance_to_destination_from_candidate +
+                         W3 * avg_future_connectivity_cost)
+
+        if combined_cost < min_combined_cost:
+            min_combined_cost = combined_cost
+            next_node = candidate_node
+
+    return next_node

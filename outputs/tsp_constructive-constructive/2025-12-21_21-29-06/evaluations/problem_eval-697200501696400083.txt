@@ -1,0 +1,84 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    """
+    Selects the next node to visit based on a modified Nearest Neighbor heuristic
+    that incorporates an adaptive look-ahead with a future path diversity bonus.
+
+    Args:
+        current_node: The node currently at.
+        destination_node: The starting node of the tour, to which the path must return.
+        unvisited_nodes: A set of nodes that have not yet been visited.
+        distance_matrix: A 2D list (matrix) where distance_matrix[i][j]
+                         is the distance between node i and node j.
+
+    Returns:
+        The next node to visit.
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, return to the destination node (start node)
+        return destination_node
+
+    next_node = -1
+    min_combined_cost = math.inf
+
+    # New weighting factors for the look-ahead components
+    # K_MFC: Weight for Minimum Future Cost (a bit stronger than original K)
+    # K_FPD: Weight for Future Path Diversity (subtractive bonus, higher diversity -> lower cost)
+    K_MFC = 0.03
+    K_FPD = 0.001
+    M_DIVERSITY = 3 # Number of closest neighbors to consider for Future Path Diversity
+
+    for candidate_node in unvisited_nodes:
+        # 1. Calculate Immediate Cost (IC): distance from current_node to candidate_node
+        immediate_cost = distance_matrix[current_node][candidate_node]
+
+        # Prepare set for subsequent look-ahead calculations
+        remaining_unvisited_after_candidate = unvisited_nodes - {candidate_node}
+
+        # 2. Calculate Minimum Future Cost (MFC):
+        # The shortest distance from candidate_node to another remaining unvisited node,
+        # or to the destination_node if candidate_node is the last unvisited node.
+        min_future_cost = math.inf
+        if not remaining_unvisited_after_candidate:
+            # If candidate_node is the last unvisited node, the next step must be to the destination_node
+            min_future_cost = distance_matrix[candidate_node][destination_node]
+        else:
+            # Find the closest node from candidate_node among the *remaining* unvisited nodes
+            for future_node in remaining_unvisited_after_candidate:
+                future_distance = distance_matrix[candidate_node][future_node]
+                if future_distance < min_future_cost:
+                    min_future_cost = future_distance
+        
+        # 3. Calculate Future Path Diversity (FPD):
+        # Sum of inverse distances to M_DIVERSITY closest neighbors from candidate_node
+        # among the remaining unvisited nodes. A higher sum indicates more diverse and
+        # potentially shorter subsequent connections.
+        future_path_diversity = 0.0
+        if remaining_unvisited_after_candidate:
+            # Collect distances from candidate_node to all remaining unvisited nodes
+            distances_to_remaining = []
+            for future_node in remaining_unvisited_after_candidate:
+                distances_to_remaining.append(distance_matrix[candidate_node][future_node])
+
+            # Sort these distances to identify the closest ones
+            distances_to_remaining.sort()
+
+            # Consider up to M_DIVERSITY closest paths
+            num_to_consider = min(M_DIVERSITY, len(distances_to_remaining))
+
+            for i in range(num_to_consider):
+                # Ensure distance is not zero to avoid division by zero (e.g., self-loops)
+                if distances_to_remaining[i] > 0:
+                    future_path_diversity += 1.0 / distances_to_remaining[i]
+        # If remaining_unvisited_after_candidate is empty, future_path_diversity remains 0.0, which is correct.
+
+        # Combine costs: Immediate Cost + weighted Minimum Future Cost - weighted Future Path Diversity
+        # FPD acts as a bonus (higher diversity results in a lower combined cost).
+        combined_cost = immediate_cost + K_MFC * min_future_cost - K_FPD * future_path_diversity
+
+        if combined_cost < min_combined_cost:
+            min_combined_cost = combined_cost
+            next_node = candidate_node
+
+    return next_node

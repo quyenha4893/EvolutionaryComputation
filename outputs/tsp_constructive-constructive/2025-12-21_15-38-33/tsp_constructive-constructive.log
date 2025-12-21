@@ -1,0 +1,10 @@
+[2025-12-21 15:38:33,724][root][INFO] - Workspace: C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\outputs\tsp_constructive-constructive\2025-12-21_15-38-33
+[2025-12-21 15:38:33,728][root][INFO] - Project Root: C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master
+[2025-12-21 15:38:33,732][root][INFO] - Using LLM: gemini-2.5-flash
+[2025-12-21 15:38:33,734][root][INFO] - Using Algorithm: mcts_ahd
+[2025-12-21 15:39:00,048][root][INFO] - Iteration 0: Running Code -2137734620875275817
+[2025-12-21 15:39:01,432][root][INFO] - Iteration -1: Code Run -1 successful!
+[2025-12-21 15:39:01,580][root][INFO] - Iteration 0, response_id 0: Objective value: inf
+[2025-12-21 15:39:16,788][root][INFO] - Iteration 0: Running Code 5479099793748127112
+[2025-12-21 15:39:17,962][root][INFO] - Iteration -1: Code Run -1 successful!
+[2025-12-21 15:39:18,138][root][INFO] - Iteration 0, response_id 0: Objective value: 7.0043697989867315

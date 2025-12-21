@@ -1,0 +1,40 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node based on a "cheapest link" lookahead strategy.
+    It evaluates each candidate not just on its distance from the current node,
+    but on the cost of the two-step path formed by going to the candidate and
+    then to its nearest unvisited neighbor. This avoids creating tour "spurs"
+    that are expensive to connect back to the remaining cluster of nodes.
+    """
+    # If there is only one node left to visit, it's the only choice.
+    if len(unvisited_nodes) == 1:
+        return list(unvisited_nodes)[0]
+
+    best_next_node = None
+    min_path_cost = float('inf')
+
+    for candidate_node in unvisited_nodes:
+        # Cost of the first step of the path: current -> candidate
+        cost_to_candidate = distance_matrix[current_node][candidate_node]
+
+        # Identify the remaining unvisited nodes after choosing the candidate.
+        remaining_nodes = unvisited_nodes - {candidate_node}
+
+        # Cost of the second step: Find the cheapest connection from the
+        # candidate to any of the other remaining nodes.
+        # This represents the "lookahead" cost.
+        if remaining_nodes:
+            cost_from_candidate = min(distance_matrix[candidate_node][other_node] for other_node in remaining_nodes)
+        else:
+            # This case is already handled by the initial check but is here for logical completeness.
+            # If no other nodes remain, the lookahead cost is zero.
+            cost_from_candidate = 0.0
+
+        # The total score for a candidate is the cost of the two-step path.
+        total_cost = cost_to_candidate + cost_from_candidate
+
+        if total_cost < min_path_cost:
+            min_path_cost = total_cost
+            best_next_node = candidate_node
+
+    return next_node

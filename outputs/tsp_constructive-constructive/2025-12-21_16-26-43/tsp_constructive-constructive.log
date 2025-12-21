@@ -1,0 +1,1931 @@
+[2025-12-21 16:26:43,046][root][INFO] - Workspace: C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\outputs\tsp_constructive-constructive\2025-12-21_16-26-43
+[2025-12-21 16:26:43,046][root][INFO] - Project Root: C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master
+[2025-12-21 16:26:43,046][root][INFO] - Using LLM: gemini-2.5-flash
+[2025-12-21 16:26:43,048][root][INFO] - Using Algorithm: mcts_ahd
+[2025-12-21 16:27:04,497][utils.llm_client.base][ERROR] - 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+Traceback (most recent call last):
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 75, in error_remapped_callable
+    return callable_(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 277, in __call__
+    response, ignored_call = self._with_call(
+                             ^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 332, in _with_call
+    return call.result(), call
+           ^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 440, in result
+    raise self
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 315, in continuation
+    response, call = self._thunk(new_method).with_call(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1198, in with_call
+    return _end_unary_response_blocking(state, call, True, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1006, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.FAILED_PRECONDITION
+	details = "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4005:804::200a%5D:443 {grpc_message:"Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.", grpc_status:9, created_time:"2025-12-21T09:27:04.4232119+00:00"}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 26, in _chat_completion_api
+    response = self.client.predict(endpoint=self.endpoint, instances=[instance], parameters=parameters)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\client.py", line 1014, in predict
+    response = rpc(
+               ^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.FailedPrecondition: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:04,511][utils.llm_client.base][INFO] - Attempt 1 failed with error: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:05,800][utils.llm_client.base][ERROR] - 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+Traceback (most recent call last):
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 75, in error_remapped_callable
+    return callable_(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 277, in __call__
+    response, ignored_call = self._with_call(
+                             ^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 332, in _with_call
+    return call.result(), call
+           ^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 440, in result
+    raise self
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 315, in continuation
+    response, call = self._thunk(new_method).with_call(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1198, in with_call
+    return _end_unary_response_blocking(state, call, True, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1006, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.FAILED_PRECONDITION
+	details = "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4005:804::200a%5D:443 {grpc_message:"Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.", grpc_status:9, created_time:"2025-12-21T09:27:05.7727757+00:00"}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 26, in _chat_completion_api
+    response = self.client.predict(endpoint=self.endpoint, instances=[instance], parameters=parameters)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\client.py", line 1014, in predict
+    response = rpc(
+               ^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.FailedPrecondition: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:05,800][utils.llm_client.base][INFO] - Attempt 2 failed with error: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:07,076][utils.llm_client.base][ERROR] - 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+Traceback (most recent call last):
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 75, in error_remapped_callable
+    return callable_(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 277, in __call__
+    response, ignored_call = self._with_call(
+                             ^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 332, in _with_call
+    return call.result(), call
+           ^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 440, in result
+    raise self
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 315, in continuation
+    response, call = self._thunk(new_method).with_call(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1198, in with_call
+    return _end_unary_response_blocking(state, call, True, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1006, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.FAILED_PRECONDITION
+	details = "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4005:804::200a%5D:443 {created_time:"2025-12-21T09:27:07.0479475+00:00", grpc_status:9, grpc_message:"Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 26, in _chat_completion_api
+    response = self.client.predict(endpoint=self.endpoint, instances=[instance], parameters=parameters)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\client.py", line 1014, in predict
+    response = rpc(
+               ^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.FailedPrecondition: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:07,076][utils.llm_client.base][INFO] - Attempt 3 failed with error: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:08,379][utils.llm_client.base][ERROR] - 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+Traceback (most recent call last):
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 75, in error_remapped_callable
+    return callable_(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 277, in __call__
+    response, ignored_call = self._with_call(
+                             ^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 332, in _with_call
+    return call.result(), call
+           ^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 440, in result
+    raise self
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 315, in continuation
+    response, call = self._thunk(new_method).with_call(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1198, in with_call
+    return _end_unary_response_blocking(state, call, True, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1006, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.FAILED_PRECONDITION
+	details = "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4005:804::200a%5D:443 {created_time:"2025-12-21T09:27:08.3510527+00:00", grpc_status:9, grpc_message:"Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 26, in _chat_completion_api
+    response = self.client.predict(endpoint=self.endpoint, instances=[instance], parameters=parameters)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\client.py", line 1014, in predict
+    response = rpc(
+               ^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.FailedPrecondition: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:08,383][utils.llm_client.base][INFO] - Attempt 4 failed with error: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:09,664][utils.llm_client.base][ERROR] - 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+Traceback (most recent call last):
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 75, in error_remapped_callable
+    return callable_(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 277, in __call__
+    response, ignored_call = self._with_call(
+                             ^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 332, in _with_call
+    return call.result(), call
+           ^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 440, in result
+    raise self
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 315, in continuation
+    response, call = self._thunk(new_method).with_call(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1198, in with_call
+    return _end_unary_response_blocking(state, call, True, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1006, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.FAILED_PRECONDITION
+	details = "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4005:804::200a%5D:443 {created_time:"2025-12-21T09:27:09.6447463+00:00", grpc_status:9, grpc_message:"Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 26, in _chat_completion_api
+    response = self.client.predict(endpoint=self.endpoint, instances=[instance], parameters=parameters)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\client.py", line 1014, in predict
+    response = rpc(
+               ^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.FailedPrecondition: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:09,664][utils.llm_client.base][INFO] - Attempt 5 failed with error: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:11,000][utils.llm_client.base][ERROR] - 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+Traceback (most recent call last):
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 75, in error_remapped_callable
+    return callable_(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 277, in __call__
+    response, ignored_call = self._with_call(
+                             ^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 332, in _with_call
+    return call.result(), call
+           ^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 440, in result
+    raise self
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 315, in continuation
+    response, call = self._thunk(new_method).with_call(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1198, in with_call
+    return _end_unary_response_blocking(state, call, True, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1006, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.FAILED_PRECONDITION
+	details = "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4005:804::200a%5D:443 {created_time:"2025-12-21T09:27:10.9702273+00:00", grpc_status:9, grpc_message:"Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 26, in _chat_completion_api
+    response = self.client.predict(endpoint=self.endpoint, instances=[instance], parameters=parameters)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\client.py", line 1014, in predict
+    response = rpc(
+               ^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.FailedPrecondition: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:11,002][utils.llm_client.base][INFO] - Attempt 6 failed with error: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:12,331][utils.llm_client.base][ERROR] - 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+Traceback (most recent call last):
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 75, in error_remapped_callable
+    return callable_(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 277, in __call__
+    response, ignored_call = self._with_call(
+                             ^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 332, in _with_call
+    return call.result(), call
+           ^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 440, in result
+    raise self
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 315, in continuation
+    response, call = self._thunk(new_method).with_call(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1198, in with_call
+    return _end_unary_response_blocking(state, call, True, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1006, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.FAILED_PRECONDITION
+	details = "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4005:804::200a%5D:443 {created_time:"2025-12-21T09:27:12.3015432+00:00", grpc_status:9, grpc_message:"Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 26, in _chat_completion_api
+    response = self.client.predict(endpoint=self.endpoint, instances=[instance], parameters=parameters)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\client.py", line 1014, in predict
+    response = rpc(
+               ^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.FailedPrecondition: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:12,331][utils.llm_client.base][INFO] - Attempt 7 failed with error: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:13,617][utils.llm_client.base][ERROR] - 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+Traceback (most recent call last):
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 75, in error_remapped_callable
+    return callable_(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 277, in __call__
+    response, ignored_call = self._with_call(
+                             ^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 332, in _with_call
+    return call.result(), call
+           ^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 440, in result
+    raise self
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 315, in continuation
+    response, call = self._thunk(new_method).with_call(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1198, in with_call
+    return _end_unary_response_blocking(state, call, True, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1006, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.FAILED_PRECONDITION
+	details = "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4005:804::200a%5D:443 {grpc_message:"Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.", grpc_status:9, created_time:"2025-12-21T09:27:13.5869298+00:00"}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 26, in _chat_completion_api
+    response = self.client.predict(endpoint=self.endpoint, instances=[instance], parameters=parameters)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\client.py", line 1014, in predict
+    response = rpc(
+               ^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.FailedPrecondition: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:13,618][utils.llm_client.base][INFO] - Attempt 8 failed with error: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:14,903][utils.llm_client.base][ERROR] - 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+Traceback (most recent call last):
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 75, in error_remapped_callable
+    return callable_(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 277, in __call__
+    response, ignored_call = self._with_call(
+                             ^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 332, in _with_call
+    return call.result(), call
+           ^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 440, in result
+    raise self
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 315, in continuation
+    response, call = self._thunk(new_method).with_call(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1198, in with_call
+    return _end_unary_response_blocking(state, call, True, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1006, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.FAILED_PRECONDITION
+	details = "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4005:804::200a%5D:443 {created_time:"2025-12-21T09:27:14.8714631+00:00", grpc_status:9, grpc_message:"Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 26, in _chat_completion_api
+    response = self.client.predict(endpoint=self.endpoint, instances=[instance], parameters=parameters)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\client.py", line 1014, in predict
+    response = rpc(
+               ^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.FailedPrecondition: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:14,905][utils.llm_client.base][INFO] - Attempt 9 failed with error: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:16,179][utils.llm_client.base][ERROR] - 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+Traceback (most recent call last):
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 75, in error_remapped_callable
+    return callable_(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 277, in __call__
+    response, ignored_call = self._with_call(
+                             ^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 332, in _with_call
+    return call.result(), call
+           ^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 440, in result
+    raise self
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 315, in continuation
+    response, call = self._thunk(new_method).with_call(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1198, in with_call
+    return _end_unary_response_blocking(state, call, True, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1006, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.FAILED_PRECONDITION
+	details = "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4005:804::200a%5D:443 {created_time:"2025-12-21T09:27:16.1495071+00:00", grpc_status:9, grpc_message:"Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 26, in _chat_completion_api
+    response = self.client.predict(endpoint=self.endpoint, instances=[instance], parameters=parameters)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\client.py", line 1014, in predict
+    response = rpc(
+               ^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.FailedPrecondition: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:16,180][utils.llm_client.base][INFO] - Attempt 10 failed with error: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:17,458][utils.llm_client.base][ERROR] - 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+Traceback (most recent call last):
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 75, in error_remapped_callable
+    return callable_(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 277, in __call__
+    response, ignored_call = self._with_call(
+                             ^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 332, in _with_call
+    return call.result(), call
+           ^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 440, in result
+    raise self
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 315, in continuation
+    response, call = self._thunk(new_method).with_call(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1198, in with_call
+    return _end_unary_response_blocking(state, call, True, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1006, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.FAILED_PRECONDITION
+	details = "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4005:804::200a%5D:443 {created_time:"2025-12-21T09:27:17.425261+00:00", grpc_status:9, grpc_message:"Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 26, in _chat_completion_api
+    response = self.client.predict(endpoint=self.endpoint, instances=[instance], parameters=parameters)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\client.py", line 1014, in predict
+    response = rpc(
+               ^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.FailedPrecondition: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:17,458][utils.llm_client.base][INFO] - Attempt 11 failed with error: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:18,737][utils.llm_client.base][ERROR] - 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+Traceback (most recent call last):
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 75, in error_remapped_callable
+    return callable_(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 277, in __call__
+    response, ignored_call = self._with_call(
+                             ^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 332, in _with_call
+    return call.result(), call
+           ^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 440, in result
+    raise self
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 315, in continuation
+    response, call = self._thunk(new_method).with_call(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1198, in with_call
+    return _end_unary_response_blocking(state, call, True, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1006, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.FAILED_PRECONDITION
+	details = "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4005:804::200a%5D:443 {grpc_message:"Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.", grpc_status:9, created_time:"2025-12-21T09:27:18.7070827+00:00"}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 26, in _chat_completion_api
+    response = self.client.predict(endpoint=self.endpoint, instances=[instance], parameters=parameters)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\client.py", line 1014, in predict
+    response = rpc(
+               ^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.FailedPrecondition: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:18,739][utils.llm_client.base][INFO] - Attempt 12 failed with error: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:19,977][utils.llm_client.base][ERROR] - 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+Traceback (most recent call last):
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 75, in error_remapped_callable
+    return callable_(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 277, in __call__
+    response, ignored_call = self._with_call(
+                             ^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 332, in _with_call
+    return call.result(), call
+           ^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 440, in result
+    raise self
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 315, in continuation
+    response, call = self._thunk(new_method).with_call(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1198, in with_call
+    return _end_unary_response_blocking(state, call, True, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1006, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.FAILED_PRECONDITION
+	details = "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4005:804::200a%5D:443 {grpc_message:"Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.", grpc_status:9, created_time:"2025-12-21T09:27:19.9573596+00:00"}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 26, in _chat_completion_api
+    response = self.client.predict(endpoint=self.endpoint, instances=[instance], parameters=parameters)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\client.py", line 1014, in predict
+    response = rpc(
+               ^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.FailedPrecondition: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:19,993][utils.llm_client.base][INFO] - Attempt 13 failed with error: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:21,228][utils.llm_client.base][ERROR] - 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+Traceback (most recent call last):
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 75, in error_remapped_callable
+    return callable_(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 277, in __call__
+    response, ignored_call = self._with_call(
+                             ^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 332, in _with_call
+    return call.result(), call
+           ^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 440, in result
+    raise self
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 315, in continuation
+    response, call = self._thunk(new_method).with_call(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1198, in with_call
+    return _end_unary_response_blocking(state, call, True, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1006, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.FAILED_PRECONDITION
+	details = "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4005:804::200a%5D:443 {grpc_message:"Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.", grpc_status:9, created_time:"2025-12-21T09:27:21.2099733+00:00"}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 26, in _chat_completion_api
+    response = self.client.predict(endpoint=self.endpoint, instances=[instance], parameters=parameters)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\client.py", line 1014, in predict
+    response = rpc(
+               ^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.FailedPrecondition: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:21,244][utils.llm_client.base][INFO] - Attempt 14 failed with error: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:22,492][utils.llm_client.base][ERROR] - 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+Traceback (most recent call last):
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 75, in error_remapped_callable
+    return callable_(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 277, in __call__
+    response, ignored_call = self._with_call(
+                             ^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 332, in _with_call
+    return call.result(), call
+           ^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 440, in result
+    raise self
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 315, in continuation
+    response, call = self._thunk(new_method).with_call(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1198, in with_call
+    return _end_unary_response_blocking(state, call, True, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1006, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.FAILED_PRECONDITION
+	details = "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4005:804::200a%5D:443 {grpc_message:"Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.", grpc_status:9, created_time:"2025-12-21T09:27:22.4572787+00:00"}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 26, in _chat_completion_api
+    response = self.client.predict(endpoint=self.endpoint, instances=[instance], parameters=parameters)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\client.py", line 1014, in predict
+    response = rpc(
+               ^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.FailedPrecondition: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:22,494][utils.llm_client.base][INFO] - Attempt 15 failed with error: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:23,739][utils.llm_client.base][ERROR] - 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+Traceback (most recent call last):
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 75, in error_remapped_callable
+    return callable_(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 277, in __call__
+    response, ignored_call = self._with_call(
+                             ^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 332, in _with_call
+    return call.result(), call
+           ^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 440, in result
+    raise self
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 315, in continuation
+    response, call = self._thunk(new_method).with_call(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1198, in with_call
+    return _end_unary_response_blocking(state, call, True, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1006, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.FAILED_PRECONDITION
+	details = "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4005:804::200a%5D:443 {created_time:"2025-12-21T09:27:23.7140065+00:00", grpc_status:9, grpc_message:"Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 26, in _chat_completion_api
+    response = self.client.predict(endpoint=self.endpoint, instances=[instance], parameters=parameters)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\client.py", line 1014, in predict
+    response = rpc(
+               ^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.FailedPrecondition: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:23,742][utils.llm_client.base][INFO] - Attempt 16 failed with error: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:24,986][utils.llm_client.base][ERROR] - 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+Traceback (most recent call last):
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 75, in error_remapped_callable
+    return callable_(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 277, in __call__
+    response, ignored_call = self._with_call(
+                             ^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 332, in _with_call
+    return call.result(), call
+           ^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 440, in result
+    raise self
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 315, in continuation
+    response, call = self._thunk(new_method).with_call(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1198, in with_call
+    return _end_unary_response_blocking(state, call, True, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1006, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.FAILED_PRECONDITION
+	details = "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4005:804::200a%5D:443 {grpc_message:"Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.", grpc_status:9, created_time:"2025-12-21T09:27:24.9583392+00:00"}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 26, in _chat_completion_api
+    response = self.client.predict(endpoint=self.endpoint, instances=[instance], parameters=parameters)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\client.py", line 1014, in predict
+    response = rpc(
+               ^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.FailedPrecondition: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:24,990][utils.llm_client.base][INFO] - Attempt 17 failed with error: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:26,230][utils.llm_client.base][ERROR] - 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+Traceback (most recent call last):
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 75, in error_remapped_callable
+    return callable_(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 277, in __call__
+    response, ignored_call = self._with_call(
+                             ^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 332, in _with_call
+    return call.result(), call
+           ^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 440, in result
+    raise self
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 315, in continuation
+    response, call = self._thunk(new_method).with_call(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1198, in with_call
+    return _end_unary_response_blocking(state, call, True, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1006, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.FAILED_PRECONDITION
+	details = "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4005:804::200a%5D:443 {grpc_message:"Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.", grpc_status:9, created_time:"2025-12-21T09:27:26.2022274+00:00"}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 26, in _chat_completion_api
+    response = self.client.predict(endpoint=self.endpoint, instances=[instance], parameters=parameters)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\client.py", line 1014, in predict
+    response = rpc(
+               ^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.FailedPrecondition: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:26,230][utils.llm_client.base][INFO] - Attempt 18 failed with error: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:27,477][utils.llm_client.base][ERROR] - 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+Traceback (most recent call last):
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 75, in error_remapped_callable
+    return callable_(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 277, in __call__
+    response, ignored_call = self._with_call(
+                             ^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 332, in _with_call
+    return call.result(), call
+           ^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 440, in result
+    raise self
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 315, in continuation
+    response, call = self._thunk(new_method).with_call(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1198, in with_call
+    return _end_unary_response_blocking(state, call, True, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1006, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.FAILED_PRECONDITION
+	details = "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4005:804::200a%5D:443 {created_time:"2025-12-21T09:27:27.4447042+00:00", grpc_status:9, grpc_message:"Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 26, in _chat_completion_api
+    response = self.client.predict(endpoint=self.endpoint, instances=[instance], parameters=parameters)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\client.py", line 1014, in predict
+    response = rpc(
+               ^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.FailedPrecondition: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:27,479][utils.llm_client.base][INFO] - Attempt 19 failed with error: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:28,725][utils.llm_client.base][ERROR] - 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+Traceback (most recent call last):
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 75, in error_remapped_callable
+    return callable_(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 277, in __call__
+    response, ignored_call = self._with_call(
+                             ^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 332, in _with_call
+    return call.result(), call
+           ^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 440, in result
+    raise self
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 315, in continuation
+    response, call = self._thunk(new_method).with_call(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1198, in with_call
+    return _end_unary_response_blocking(state, call, True, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1006, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.FAILED_PRECONDITION
+	details = "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4005:804::200a%5D:443 {grpc_message:"Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.", grpc_status:9, created_time:"2025-12-21T09:27:28.6914199+00:00"}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 26, in _chat_completion_api
+    response = self.client.predict(endpoint=self.endpoint, instances=[instance], parameters=parameters)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\client.py", line 1014, in predict
+    response = rpc(
+               ^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.FailedPrecondition: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:28,725][utils.llm_client.base][INFO] - Attempt 20 failed with error: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:29,982][utils.llm_client.base][ERROR] - 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+Traceback (most recent call last):
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 75, in error_remapped_callable
+    return callable_(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 277, in __call__
+    response, ignored_call = self._with_call(
+                             ^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 332, in _with_call
+    return call.result(), call
+           ^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 440, in result
+    raise self
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 315, in continuation
+    response, call = self._thunk(new_method).with_call(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1198, in with_call
+    return _end_unary_response_blocking(state, call, True, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1006, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.FAILED_PRECONDITION
+	details = "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4005:804::200a%5D:443 {created_time:"2025-12-21T09:27:29.9500362+00:00", grpc_status:9, grpc_message:"Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 26, in _chat_completion_api
+    response = self.client.predict(endpoint=self.endpoint, instances=[instance], parameters=parameters)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\client.py", line 1014, in predict
+    response = rpc(
+               ^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.FailedPrecondition: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:29,984][utils.llm_client.base][INFO] - Attempt 21 failed with error: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:31,213][utils.llm_client.base][ERROR] - 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+Traceback (most recent call last):
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 75, in error_remapped_callable
+    return callable_(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 277, in __call__
+    response, ignored_call = self._with_call(
+                             ^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 332, in _with_call
+    return call.result(), call
+           ^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 440, in result
+    raise self
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 315, in continuation
+    response, call = self._thunk(new_method).with_call(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1198, in with_call
+    return _end_unary_response_blocking(state, call, True, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1006, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.FAILED_PRECONDITION
+	details = "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4005:804::200a%5D:443 {created_time:"2025-12-21T09:27:31.1906416+00:00", grpc_status:9, grpc_message:"Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 26, in _chat_completion_api
+    response = self.client.predict(endpoint=self.endpoint, instances=[instance], parameters=parameters)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\client.py", line 1014, in predict
+    response = rpc(
+               ^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.FailedPrecondition: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:31,213][utils.llm_client.base][INFO] - Attempt 22 failed with error: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:32,505][utils.llm_client.base][ERROR] - 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+Traceback (most recent call last):
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 75, in error_remapped_callable
+    return callable_(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 277, in __call__
+    response, ignored_call = self._with_call(
+                             ^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 332, in _with_call
+    return call.result(), call
+           ^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 440, in result
+    raise self
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 315, in continuation
+    response, call = self._thunk(new_method).with_call(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1198, in with_call
+    return _end_unary_response_blocking(state, call, True, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1006, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.FAILED_PRECONDITION
+	details = "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4005:804::200a%5D:443 {created_time:"2025-12-21T09:27:32.4737285+00:00", grpc_status:9, grpc_message:"Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 26, in _chat_completion_api
+    response = self.client.predict(endpoint=self.endpoint, instances=[instance], parameters=parameters)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\client.py", line 1014, in predict
+    response = rpc(
+               ^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.FailedPrecondition: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:32,505][utils.llm_client.base][INFO] - Attempt 23 failed with error: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:33,752][utils.llm_client.base][ERROR] - 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+Traceback (most recent call last):
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 75, in error_remapped_callable
+    return callable_(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 277, in __call__
+    response, ignored_call = self._with_call(
+                             ^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 332, in _with_call
+    return call.result(), call
+           ^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 440, in result
+    raise self
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 315, in continuation
+    response, call = self._thunk(new_method).with_call(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1198, in with_call
+    return _end_unary_response_blocking(state, call, True, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1006, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.FAILED_PRECONDITION
+	details = "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4005:804::200a%5D:443 {grpc_message:"Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.", grpc_status:9, created_time:"2025-12-21T09:27:33.7188223+00:00"}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 26, in _chat_completion_api
+    response = self.client.predict(endpoint=self.endpoint, instances=[instance], parameters=parameters)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\client.py", line 1014, in predict
+    response = rpc(
+               ^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.FailedPrecondition: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:33,756][utils.llm_client.base][INFO] - Attempt 24 failed with error: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:35,003][utils.llm_client.base][ERROR] - 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+Traceback (most recent call last):
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 75, in error_remapped_callable
+    return callable_(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 277, in __call__
+    response, ignored_call = self._with_call(
+                             ^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 332, in _with_call
+    return call.result(), call
+           ^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 440, in result
+    raise self
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 315, in continuation
+    response, call = self._thunk(new_method).with_call(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1198, in with_call
+    return _end_unary_response_blocking(state, call, True, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1006, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.FAILED_PRECONDITION
+	details = "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4005:804::200a%5D:443 {grpc_message:"Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.", grpc_status:9, created_time:"2025-12-21T09:27:34.970432+00:00"}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 26, in _chat_completion_api
+    response = self.client.predict(endpoint=self.endpoint, instances=[instance], parameters=parameters)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\client.py", line 1014, in predict
+    response = rpc(
+               ^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.FailedPrecondition: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:35,005][utils.llm_client.base][INFO] - Attempt 25 failed with error: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:36,242][utils.llm_client.base][ERROR] - 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+Traceback (most recent call last):
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 75, in error_remapped_callable
+    return callable_(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 277, in __call__
+    response, ignored_call = self._with_call(
+                             ^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 332, in _with_call
+    return call.result(), call
+           ^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 440, in result
+    raise self
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 315, in continuation
+    response, call = self._thunk(new_method).with_call(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1198, in with_call
+    return _end_unary_response_blocking(state, call, True, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1006, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.FAILED_PRECONDITION
+	details = "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4005:804::200a%5D:443 {created_time:"2025-12-21T09:27:36.2123091+00:00", grpc_status:9, grpc_message:"Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 26, in _chat_completion_api
+    response = self.client.predict(endpoint=self.endpoint, instances=[instance], parameters=parameters)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\client.py", line 1014, in predict
+    response = rpc(
+               ^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.FailedPrecondition: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:36,242][utils.llm_client.base][INFO] - Attempt 26 failed with error: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:37,519][utils.llm_client.base][ERROR] - 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+Traceback (most recent call last):
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 75, in error_remapped_callable
+    return callable_(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 277, in __call__
+    response, ignored_call = self._with_call(
+                             ^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 332, in _with_call
+    return call.result(), call
+           ^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 440, in result
+    raise self
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 315, in continuation
+    response, call = self._thunk(new_method).with_call(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1198, in with_call
+    return _end_unary_response_blocking(state, call, True, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1006, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.FAILED_PRECONDITION
+	details = "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4005:804::200a%5D:443 {grpc_message:"Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.", grpc_status:9, created_time:"2025-12-21T09:27:37.4912923+00:00"}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 26, in _chat_completion_api
+    response = self.client.predict(endpoint=self.endpoint, instances=[instance], parameters=parameters)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\client.py", line 1014, in predict
+    response = rpc(
+               ^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.FailedPrecondition: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:37,519][utils.llm_client.base][INFO] - Attempt 27 failed with error: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:38,759][utils.llm_client.base][ERROR] - 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+Traceback (most recent call last):
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 75, in error_remapped_callable
+    return callable_(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 277, in __call__
+    response, ignored_call = self._with_call(
+                             ^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 332, in _with_call
+    return call.result(), call
+           ^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 440, in result
+    raise self
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 315, in continuation
+    response, call = self._thunk(new_method).with_call(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1198, in with_call
+    return _end_unary_response_blocking(state, call, True, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1006, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.FAILED_PRECONDITION
+	details = "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4005:804::200a%5D:443 {created_time:"2025-12-21T09:27:38.7326829+00:00", grpc_status:9, grpc_message:"Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 26, in _chat_completion_api
+    response = self.client.predict(endpoint=self.endpoint, instances=[instance], parameters=parameters)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\client.py", line 1014, in predict
+    response = rpc(
+               ^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.FailedPrecondition: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:38,759][utils.llm_client.base][INFO] - Attempt 28 failed with error: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:40,012][utils.llm_client.base][ERROR] - 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+Traceback (most recent call last):
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 75, in error_remapped_callable
+    return callable_(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 277, in __call__
+    response, ignored_call = self._with_call(
+                             ^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 332, in _with_call
+    return call.result(), call
+           ^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 440, in result
+    raise self
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 315, in continuation
+    response, call = self._thunk(new_method).with_call(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1198, in with_call
+    return _end_unary_response_blocking(state, call, True, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1006, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.FAILED_PRECONDITION
+	details = "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4005:804::200a%5D:443 {created_time:"2025-12-21T09:27:39.9819442+00:00", grpc_status:9, grpc_message:"Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 26, in _chat_completion_api
+    response = self.client.predict(endpoint=self.endpoint, instances=[instance], parameters=parameters)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\client.py", line 1014, in predict
+    response = rpc(
+               ^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.FailedPrecondition: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:40,012][utils.llm_client.base][INFO] - Attempt 29 failed with error: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:41,260][utils.llm_client.base][ERROR] - 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+Traceback (most recent call last):
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 75, in error_remapped_callable
+    return callable_(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 277, in __call__
+    response, ignored_call = self._with_call(
+                             ^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 332, in _with_call
+    return call.result(), call
+           ^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 440, in result
+    raise self
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 315, in continuation
+    response, call = self._thunk(new_method).with_call(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1198, in with_call
+    return _end_unary_response_blocking(state, call, True, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1006, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.FAILED_PRECONDITION
+	details = "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4005:804::200a%5D:443 {created_time:"2025-12-21T09:27:41.2246014+00:00", grpc_status:9, grpc_message:"Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 26, in _chat_completion_api
+    response = self.client.predict(endpoint=self.endpoint, instances=[instance], parameters=parameters)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\client.py", line 1014, in predict
+    response = rpc(
+               ^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.FailedPrecondition: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:41,263][utils.llm_client.base][INFO] - Attempt 30 failed with error: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:42,541][utils.llm_client.base][ERROR] - 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+Traceback (most recent call last):
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 75, in error_remapped_callable
+    return callable_(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 277, in __call__
+    response, ignored_call = self._with_call(
+                             ^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 332, in _with_call
+    return call.result(), call
+           ^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 440, in result
+    raise self
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 315, in continuation
+    response, call = self._thunk(new_method).with_call(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1198, in with_call
+    return _end_unary_response_blocking(state, call, True, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1006, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.FAILED_PRECONDITION
+	details = "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4005:804::200a%5D:443 {grpc_message:"Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.", grpc_status:9, created_time:"2025-12-21T09:27:42.5093972+00:00"}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 26, in _chat_completion_api
+    response = self.client.predict(endpoint=self.endpoint, instances=[instance], parameters=parameters)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\client.py", line 1014, in predict
+    response = rpc(
+               ^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.FailedPrecondition: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:42,543][utils.llm_client.base][INFO] - Attempt 31 failed with error: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:43,792][utils.llm_client.base][ERROR] - 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+Traceback (most recent call last):
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 75, in error_remapped_callable
+    return callable_(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 277, in __call__
+    response, ignored_call = self._with_call(
+                             ^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 332, in _with_call
+    return call.result(), call
+           ^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 440, in result
+    raise self
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 315, in continuation
+    response, call = self._thunk(new_method).with_call(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1198, in with_call
+    return _end_unary_response_blocking(state, call, True, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1006, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.FAILED_PRECONDITION
+	details = "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4005:804::200a%5D:443 {grpc_message:"Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.", grpc_status:9, created_time:"2025-12-21T09:27:43.7545772+00:00"}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 26, in _chat_completion_api
+    response = self.client.predict(endpoint=self.endpoint, instances=[instance], parameters=parameters)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\client.py", line 1014, in predict
+    response = rpc(
+               ^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.FailedPrecondition: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:43,794][utils.llm_client.base][INFO] - Attempt 32 failed with error: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:45,030][utils.llm_client.base][ERROR] - 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+Traceback (most recent call last):
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 75, in error_remapped_callable
+    return callable_(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 277, in __call__
+    response, ignored_call = self._with_call(
+                             ^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 332, in _with_call
+    return call.result(), call
+           ^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 440, in result
+    raise self
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 315, in continuation
+    response, call = self._thunk(new_method).with_call(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1198, in with_call
+    return _end_unary_response_blocking(state, call, True, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1006, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.FAILED_PRECONDITION
+	details = "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4005:804::200a%5D:443 {created_time:"2025-12-21T09:27:45.0078578+00:00", grpc_status:9, grpc_message:"Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 26, in _chat_completion_api
+    response = self.client.predict(endpoint=self.endpoint, instances=[instance], parameters=parameters)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\client.py", line 1014, in predict
+    response = rpc(
+               ^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.FailedPrecondition: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:45,030][utils.llm_client.base][INFO] - Attempt 33 failed with error: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:46,326][utils.llm_client.base][ERROR] - 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+Traceback (most recent call last):
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 75, in error_remapped_callable
+    return callable_(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 277, in __call__
+    response, ignored_call = self._with_call(
+                             ^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 332, in _with_call
+    return call.result(), call
+           ^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 440, in result
+    raise self
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 315, in continuation
+    response, call = self._thunk(new_method).with_call(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1198, in with_call
+    return _end_unary_response_blocking(state, call, True, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1006, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.FAILED_PRECONDITION
+	details = "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4005:804::200a%5D:443 {created_time:"2025-12-21T09:27:46.2978167+00:00", grpc_status:9, grpc_message:"Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 26, in _chat_completion_api
+    response = self.client.predict(endpoint=self.endpoint, instances=[instance], parameters=parameters)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\client.py", line 1014, in predict
+    response = rpc(
+               ^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.FailedPrecondition: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:46,328][utils.llm_client.base][INFO] - Attempt 34 failed with error: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:47,563][utils.llm_client.base][ERROR] - 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+Traceback (most recent call last):
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 75, in error_remapped_callable
+    return callable_(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 277, in __call__
+    response, ignored_call = self._with_call(
+                             ^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 332, in _with_call
+    return call.result(), call
+           ^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 440, in result
+    raise self
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 315, in continuation
+    response, call = self._thunk(new_method).with_call(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1198, in with_call
+    return _end_unary_response_blocking(state, call, True, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1006, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.FAILED_PRECONDITION
+	details = "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4005:804::200a%5D:443 {created_time:"2025-12-21T09:27:47.5366414+00:00", grpc_status:9, grpc_message:"Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 26, in _chat_completion_api
+    response = self.client.predict(endpoint=self.endpoint, instances=[instance], parameters=parameters)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\client.py", line 1014, in predict
+    response = rpc(
+               ^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.FailedPrecondition: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:47,563][utils.llm_client.base][INFO] - Attempt 35 failed with error: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:48,887][utils.llm_client.base][ERROR] - 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+Traceback (most recent call last):
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 75, in error_remapped_callable
+    return callable_(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 277, in __call__
+    response, ignored_call = self._with_call(
+                             ^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 332, in _with_call
+    return call.result(), call
+           ^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 440, in result
+    raise self
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 315, in continuation
+    response, call = self._thunk(new_method).with_call(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1198, in with_call
+    return _end_unary_response_blocking(state, call, True, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1006, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.FAILED_PRECONDITION
+	details = "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4005:804::200a%5D:443 {created_time:"2025-12-21T09:27:48.8577559+00:00", grpc_status:9, grpc_message:"Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 26, in _chat_completion_api
+    response = self.client.predict(endpoint=self.endpoint, instances=[instance], parameters=parameters)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\client.py", line 1014, in predict
+    response = rpc(
+               ^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.FailedPrecondition: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:48,890][utils.llm_client.base][INFO] - Attempt 36 failed with error: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:50,130][utils.llm_client.base][ERROR] - 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+Traceback (most recent call last):
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 75, in error_remapped_callable
+    return callable_(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 277, in __call__
+    response, ignored_call = self._with_call(
+                             ^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 332, in _with_call
+    return call.result(), call
+           ^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 440, in result
+    raise self
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 315, in continuation
+    response, call = self._thunk(new_method).with_call(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1198, in with_call
+    return _end_unary_response_blocking(state, call, True, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1006, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.FAILED_PRECONDITION
+	details = "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4005:804::200a%5D:443 {created_time:"2025-12-21T09:27:50.0997324+00:00", grpc_status:9, grpc_message:"Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 26, in _chat_completion_api
+    response = self.client.predict(endpoint=self.endpoint, instances=[instance], parameters=parameters)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\client.py", line 1014, in predict
+    response = rpc(
+               ^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.FailedPrecondition: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:50,130][utils.llm_client.base][INFO] - Attempt 37 failed with error: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:51,375][utils.llm_client.base][ERROR] - 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+Traceback (most recent call last):
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 75, in error_remapped_callable
+    return callable_(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 277, in __call__
+    response, ignored_call = self._with_call(
+                             ^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 332, in _with_call
+    return call.result(), call
+           ^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 440, in result
+    raise self
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 315, in continuation
+    response, call = self._thunk(new_method).with_call(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1198, in with_call
+    return _end_unary_response_blocking(state, call, True, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1006, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.FAILED_PRECONDITION
+	details = "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4005:804::200a%5D:443 {created_time:"2025-12-21T09:27:51.3432968+00:00", grpc_status:9, grpc_message:"Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 26, in _chat_completion_api
+    response = self.client.predict(endpoint=self.endpoint, instances=[instance], parameters=parameters)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\client.py", line 1014, in predict
+    response = rpc(
+               ^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.FailedPrecondition: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:51,377][utils.llm_client.base][INFO] - Attempt 38 failed with error: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:52,672][utils.llm_client.base][ERROR] - 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+Traceback (most recent call last):
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 75, in error_remapped_callable
+    return callable_(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 277, in __call__
+    response, ignored_call = self._with_call(
+                             ^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 332, in _with_call
+    return call.result(), call
+           ^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 440, in result
+    raise self
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 315, in continuation
+    response, call = self._thunk(new_method).with_call(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1198, in with_call
+    return _end_unary_response_blocking(state, call, True, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1006, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.FAILED_PRECONDITION
+	details = "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4005:804::200a%5D:443 {created_time:"2025-12-21T09:27:52.6470274+00:00", grpc_status:9, grpc_message:"Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 26, in _chat_completion_api
+    response = self.client.predict(endpoint=self.endpoint, instances=[instance], parameters=parameters)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\client.py", line 1014, in predict
+    response = rpc(
+               ^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.FailedPrecondition: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:52,672][utils.llm_client.base][INFO] - Attempt 39 failed with error: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:53,925][utils.llm_client.base][ERROR] - 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+Traceback (most recent call last):
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 75, in error_remapped_callable
+    return callable_(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 277, in __call__
+    response, ignored_call = self._with_call(
+                             ^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 332, in _with_call
+    return call.result(), call
+           ^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 440, in result
+    raise self
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 315, in continuation
+    response, call = self._thunk(new_method).with_call(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1198, in with_call
+    return _end_unary_response_blocking(state, call, True, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1006, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.FAILED_PRECONDITION
+	details = "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4005:804::200a%5D:443 {created_time:"2025-12-21T09:27:53.8962641+00:00", grpc_status:9, grpc_message:"Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 26, in _chat_completion_api
+    response = self.client.predict(endpoint=self.endpoint, instances=[instance], parameters=parameters)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\client.py", line 1014, in predict
+    response = rpc(
+               ^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.FailedPrecondition: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:53,925][utils.llm_client.base][INFO] - Attempt 40 failed with error: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:55,163][utils.llm_client.base][ERROR] - 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+Traceback (most recent call last):
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 75, in error_remapped_callable
+    return callable_(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 277, in __call__
+    response, ignored_call = self._with_call(
+                             ^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 332, in _with_call
+    return call.result(), call
+           ^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 440, in result
+    raise self
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_interceptor.py", line 315, in continuation
+    response, call = self._thunk(new_method).with_call(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1198, in with_call
+    return _end_unary_response_blocking(state, call, True, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\grpc\_channel.py", line 1006, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.FAILED_PRECONDITION
+	details = "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."
+	debug_error_string = "UNKNOWN:Error received from peer ipv6:%5B2404:6800:4005:804::200a%5D:443 {created_time:"2025-12-21T09:27:55.1421462+00:00", grpc_status:9, grpc_message:"Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage."}"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 26, in _chat_completion_api
+    response = self.client.predict(endpoint=self.endpoint, instances=[instance], parameters=parameters)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\cloud\aiplatform_v1\services\prediction_service\client.py", line 1014, in predict
+    response = rpc(
+               ^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\anaconda3\envs\ttth\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.FailedPrecondition: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.
+[2025-12-21 16:27:55,163][utils.llm_client.base][INFO] - Attempt 41 failed with error: 400 Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.

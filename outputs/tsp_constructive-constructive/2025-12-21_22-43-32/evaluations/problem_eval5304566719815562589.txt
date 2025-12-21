@@ -1,0 +1,12 @@
+importance of the nearest neighbor by squaring
+        # its distance, while still using the ratio to prioritize nodes
+        # that are far from the destination. This creates a stronger greedy pull
+        # than Algorithm 3, but a more strategic one than Algorithm 2.
+        # A small epsilon is added to avoid division by zero.
+        score = (dist_to_candidate ** 2) / (dist_from_candidate_to_dest + 1e-9)
+        
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

@@ -1,0 +1,49 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node using an adaptive, return-path-aware lookahead heuristic.
+    It balances the cost of the next two steps with a penalty for moving far from
+    the final destination. This penalty's weight increases as the tour progresses,
+    shifting focus from local optimization to ensuring a low-cost final return.
+    """
+    if not unvisited_nodes:
+        return None
+
+    # If only one unvisited node remains, it must be the next one.
+    if len(unvisited_nodes) == 1:
+        return list(unvisited_nodes)[0]
+
+    best_node = None
+    best_score = float('inf')
+    
+    # Determine the total number of nodes to calculate tour progress.
+    total_nodes = len(distance_matrix)
+    
+    # The adaptive weight increases as the number of unvisited nodes decreases.
+    # This makes the return path penalty more significant towards the end of the tour.
+    adaptive_weight = (total_nodes - len(unvisited_nodes)) / float(total_nodes)
+
+    # Evaluate each unvisited node as a potential next step.
+    for candidate_node in unvisited_nodes:
+        # Component 1: Cost of the immediate step (current -> candidate).
+        cost_step1 = distance_matrix[current_node][candidate_node]
+        
+        # Component 2: Cost of the best subsequent step (candidate -> another unvisited node).
+        cost_step2 = float('inf')
+        nodes_for_step2 = unvisited_nodes - {candidate_node}
+        for next_hop_node in nodes_for_step2:
+            dist = distance_matrix[candidate_node][next_hop_node]
+            if dist < cost_step2:
+                cost_step2 = dist
+        
+        # Component 3: Penalty for the distance from the candidate to the final destination.
+        return_path_penalty = distance_matrix[candidate_node][destination_node]
+        
+        # The final score combines the two-step lookahead cost with the weighted return penalty.
+        # Equation: Score = (Cost1 + Cost2) + Weight * ReturnPenalty
+        current_score = cost_step1 + cost_step2 + adaptive_weight * return_path_penalty
+        
+        if current_score < best_score:
+            best_score = current_score
+            best_node = candidate_node
+            
+    return next_node

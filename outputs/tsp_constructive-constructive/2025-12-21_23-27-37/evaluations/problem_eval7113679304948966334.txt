@@ -1,0 +1,40 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    next_node = None
+    best_score = float('inf')
+
+    if not unvisited_nodes:
+        return None
+
+    # Weights for the three-part scoring function.
+    # alpha: Prioritizes immediate nearest neighbor (greedy).
+    # beta: Prioritizes candidates that are centrally located to other unvisited nodes (look-ahead).
+    # gamma: Prioritizes candidates that are closer to the final destination (end-game).
+    alpha = 0.6
+    beta = 0.2
+    gamma = 0.2
+
+    for candidate_node in unvisited_nodes:
+        # Part 1: Immediate cost (distance from current to candidate).
+        immediate_cost = distance_matrix[current_node][candidate_node]
+
+        # Part 2: Future outlook cost (average distance from candidate to all OTHER unvisited nodes).
+        # This penalizes nodes that are "isolated" from the remaining cluster of unvisited nodes.
+        other_unvisited_nodes = unvisited_nodes - {candidate_node}
+        if not other_unvisited_nodes:
+            # If the candidate is the last unvisited node, this cost is zero.
+            future_outlook_cost = 0.0
+        else:
+            total_future_dist = sum(distance_matrix[candidate_node][other_node] for other_node in other_unvisited_nodes)
+            future_outlook_cost = total_future_dist / len(other_unvisited_nodes)
+            
+        # Part 3: Return journey cost (distance from candidate to destination).
+        return_cost = distance_matrix[candidate_node][destination_node]
+
+        # Composite score using the three weighted components.
+        score = (alpha * immediate_cost) + (beta * future_outlook_cost) + (gamma * return_cost)
+
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

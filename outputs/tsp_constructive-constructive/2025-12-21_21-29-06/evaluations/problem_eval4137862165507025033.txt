@@ -1,0 +1,54 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    """
+    Selects the next node to visit based on a combined heuristic that considers
+    immediate distance, a look-ahead to the next unvisited node, and the distance
+    from the candidate node back to the destination.
+    This version emphasizes the look-ahead more than the provided algorithm.
+
+    Args:
+        current_node: The node currently at.
+        destination_node: The starting node of the tour, to which the path must return.
+        unvisited_nodes: A set of nodes that have not yet been visited.
+        distance_matrix: A 2D list (matrix) where distance_matrix[i][j]
+                         is the distance between node i and node j.
+
+    Returns:
+        The next node to visit.
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, return to the destination node (start node)
+        return destination_node
+
+    next_node = -1
+    min_combined_cost = math.inf
+
+    # New weighting factors, emphasizing W1 more than in the original algorithm
+    W1 = 0.5  # Increased weight for the look-ahead to another unvisited node
+    W2 = 0.05 # Decreased weight for the distance to destination from candidate
+
+    for candidate_node in unvisited_nodes:
+        # 1. Immediate cost from current_node to candidate_node
+        immediate_distance = distance_matrix[current_node][candidate_node]
+
+        # 2. Look-ahead to the closest *other* unvisited node from the candidate
+        min_dist_to_other_unvisited = 0.0
+        remaining_after_candidate = unvisited_nodes - {candidate_node}
+        
+        if remaining_after_candidate:
+            min_dist_to_other_unvisited = math.inf
+            for other_future_node in remaining_after_candidate:
+                min_dist_to_other_unvisited = min(min_dist_to_other_unvisited, distance_matrix[candidate_node][other_future_node])
+        
+        # 3. Distance from the candidate node back to the destination node
+        distance_to_destination_from_candidate = distance_matrix[candidate_node][destination_node]
+
+        # Combine all components with new weights
+        combined_cost = immediate_distance + (W1 * min_dist_to_other_unvisited) + (W2 * distance_to_destination_from_candidate)
+
+        if combined_cost < min_combined_cost:
+            min_combined_cost = combined_cost
+            next_node = candidate_node
+
+    return next_node

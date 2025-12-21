@@ -1,0 +1,61 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    if not unvisited_nodes:
+        return destination_node
+
+    next_node = -1
+    min_combined_cost = math.inf
+
+    # Hyperparameters for dynamic K and look-ahead penalty
+    K_min = 0.3  # Minimum weighting factor for look-ahead
+    K_max = 0.7  # Maximum weighting factor for look-ahead
+    Beta = 0.2   # Weight for the distance to destination in the look-ahead cost
+
+    # Calculate dynamic K based on tour progress
+    total_graph_nodes = len(distance_matrix)
+    num_unvisited_remaining = len(unvisited_nodes)
+    
+    # Progress ratio: 0 when tour just started, approaches 1 when almost finished
+    # (assuming destination_node is not in unvisited_nodes initially, which it shouldn't be for path construction)
+    # The current_node is also not in unvisited_nodes.
+    # So, total_graph_nodes - num_unvisited_remaining - 1 gives nodes visited (excluding start and end)
+    progress_ratio = (total_graph_nodes - num_unvisited_remaining - 1) / (total_graph_nodes - 2) if (total_graph_nodes - 2) > 0 else 0
+    
+    # Ensure progress_ratio is within [0, 1] bounds, especially for very small graphs
+    progress_ratio = max(0.0, min(1.0, progress_ratio))
+    
+    # K increases as the tour progresses, prioritizing look-ahead more towards the end
+    K = K_min + (K_max - K_min) * progress_ratio
+
+    for candidate_node in unvisited_nodes:
+        immediate_cost = distance_matrix[current_node][candidate_node]
+
+        effective_look_ahead_cost = math.inf
+        remaining_unvisited_after_candidate = unvisited_nodes - {candidate_node}
+
+        if not remaining_unvisited_after_candidate:
+            # If candidate_node is the last remaining unvisited node, the next step must be to the destination
+            effective_look_ahead_cost = distance_matrix[candidate_node][destination_node]
+        else:
+            # Find the closest node from candidate_node among the *remaining* unvisited nodes
+            min_dist_to_next_unvisited = math.inf
+            for future_node in remaining_unvisited_after_candidate:
+                future_distance = distance_matrix[candidate_node][future_node]
+                if future_distance < min_dist_to_next_unvisited:
+                    min_dist_to_next_unvisited = future_distance
+            
+            # Incorporate the distance from candidate_node to the destination into the look-ahead
+            dist_to_destination_from_candidate = distance_matrix[candidate_node][destination_node]
+            
+            # New look-ahead calculation: nearest unvisited + weighted distance to destination
+            effective_look_ahead_cost = min_dist_to_next_unvisited + Beta * dist_to_destination_from_candidate
+        
+        # Combine immediate cost with the dynamically weighted effective look-ahead cost
+        combined_cost = immediate_cost + K * effective_look_ahead_cost
+
+        if combined_cost < min_combined_cost:
+            min_combined_cost = combined_cost
+            next_node = candidate_node
+
+    return next_node

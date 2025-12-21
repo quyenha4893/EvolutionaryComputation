@@ -1,0 +1,45 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node by minimizing a composite score that balances immediate
+    travel cost, cohesion with other unvisited nodes, and distance to the destination.
+    """
+    next_node = None
+    best_score = float('inf')
+    
+    # Weighting factor to control the influence of the cohesion cost.
+    # A higher value prioritizes keeping the path tight and central.
+    cohesion_factor = 0.5
+
+    for candidate_node in unvisited_nodes:
+        # Cost to travel from the current node to the candidate node
+        dist_to_candidate = distance_matrix[current_node][candidate_node]
+        
+        # Cost to travel from the candidate node to the final destination
+        dist_from_candidate_to_dest = distance_matrix[candidate_node][destination_node]
+
+        # --- New Mechanism: Cohesion Calculation ---
+        # This calculates the average distance from the candidate to all other unvisited
+        # nodes, acting as a penalty for nodes that are isolated from the main group.
+        other_unvisited_nodes = unvisited_nodes - {candidate_node}
+        
+        avg_dist_to_others = 0
+        if other_unvisited_nodes:
+            sum_of_dists_to_others = sum(distance_matrix[candidate_node][other] for other in other_unvisited_nodes)
+            avg_dist_to_others = sum_of_dists_to_others / len(other_unvisited_nodes)
+            
+        # --- New Equation: Composite Score ---
+        # The numerator is a weighted sum of the direct travel cost and the "cohesion cost".
+        # This new term encourages the selection of nodes that are "central" to the
+        # remaining unvisited nodes, preventing long detours later in the tour.
+        combined_cost = dist_to_candidate + cohesion_factor * avg_dist_to_others
+
+        # The final score is a ratio of this new combined cost over the distance
+        # to the destination, preserving the original algorithm's intent to
+        # visit far-away nodes earlier.
+        score = combined_cost / (dist_from_candidate_to_dest + 1e-9)
+        
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

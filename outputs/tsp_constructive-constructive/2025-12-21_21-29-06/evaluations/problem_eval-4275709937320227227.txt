@@ -1,0 +1,63 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    """
+    Selects the next node to visit by combining immediate nearest-neighbor logic
+    with a foresight component that considers the minimum distance from the candidate
+    node to any other remaining unvisited node. This aims to prevent scenarios where
+    an immediate short step leads to difficult (long) subsequent connections.
+
+    Args:
+        current_node: The node currently at.
+        destination_node: The starting node of the tour, to which the path must return.
+        unvisited_nodes: A set of nodes that have not yet been visited.
+        distance_matrix: A 2D list (matrix) where distance_matrix[i][j]
+                         is the distance between node i and node j.
+
+    Returns:
+        The next node to visit.
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, return to the destination node (start node)
+        return destination_node
+
+    next_node = -1
+    min_combined_cost = math.inf
+
+    # A weight for the foresight component. This value is chosen to balance immediate
+    # nearest-neighbor benefit with the strategic consideration of future connections.
+    # It's intended to be more impactful than Algo 1's fixed 0.1, but not entirely override immediate distance.
+    W_future_connection_foresight = 0.5
+
+    for candidate_node in unvisited_nodes:
+        # 1. Immediate cost from current_node to candidate_node
+        immediate_distance = distance_matrix[current_node][candidate_node]
+
+        # 2. Calculate the 'future cost' from the candidate node
+        # This is the minimum distance from the candidate node to any other node
+        # that is still unvisited. This encourages keeping the remaining unvisited
+        # nodes "close" to the path.
+        remaining_nodes_after_candidate = unvisited_nodes - {candidate_node}
+
+        future_cost_from_candidate = math.inf
+        if not remaining_nodes_after_candidate:
+            # If this candidate_node is the last one to be visited, the 'future cost'
+            # is simply the distance from this candidate back to the destination_node
+            # to close the tour.
+            future_cost_from_candidate = distance_matrix[candidate_node][destination_node]
+        else:
+            # Otherwise, find the minimum distance from the candidate to any other
+            # remaining unvisited node. This promotes maintaining connectivity.
+            min_dist_to_next_unvisited = math.inf
+            for next_unvisited in remaining_nodes_after_candidate:
+                min_dist_to_next_unvisited = min(min_dist_to_next_unvisited, distance_matrix[candidate_node][next_unvisited])
+            future_cost_from_candidate = min_dist_to_next_unvisited
+
+        # Combine immediate distance with the weighted future cost
+        combined_cost = immediate_distance + (W_future_connection_foresight * future_cost_from_candidate)
+
+        if combined_cost < min_combined_cost:
+            min_combined_cost = combined_cost
+            next_node = candidate_node
+
+    return next_node

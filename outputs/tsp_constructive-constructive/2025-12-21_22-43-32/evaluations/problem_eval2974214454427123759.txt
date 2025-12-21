@@ -1,0 +1,26 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    if len(unvisited_nodes) == 1:
+        return list(unvisited_nodes)[0]
+
+    next_node = None
+    best_score = float('inf')
+
+    for candidate_node in unvisited_nodes:
+        # Factor 1: The immediate cost to travel to the candidate node.
+        immediate_cost = distance_matrix[current_node][candidate_node]
+
+        # Factor 2: An "outlier" penalty, measured as the sum of distances
+        # from the candidate to all OTHER unvisited nodes.
+        other_unvisited = unvisited_nodes - {candidate_node}
+        outlier_penalty = sum(distance_matrix[candidate_node][other] for other in other_unvisited)
+        
+        # The multiplicative score heavily penalizes nodes that are poor on either factor.
+        # A small constant is added to the penalty to ensure that the immediate cost
+        # is still a factor even if a node is co-located with all others (penalty=0).
+        score = immediate_cost * (outlier_penalty + 1e-9)
+
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

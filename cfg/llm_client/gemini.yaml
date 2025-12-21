@@ -1,0 +1,5 @@
+_target_: utils.llm_client.gemini.GeminiClient
+model: gemini-2.5-pro # Gemini model name
+temperature: 1.0
+credentials_json_path: 'C:/Users/pc/Downloads/EvolutionaryComputation/MCTS-AHD-master/google_cloud_key.json'
+location: us-central1

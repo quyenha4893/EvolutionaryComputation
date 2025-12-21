@@ -1,0 +1,25 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    next_node = None
+    best_score = float('inf')
+
+    if not unvisited_nodes:
+        return None
+
+    for candidate_node in unvisited_nodes:
+        # Cost to travel from the current node to the candidate
+        cost_to_candidate = distance_matrix[current_node][candidate_node]
+        
+        # Estimated cost from the candidate to the final destination
+        cost_from_candidate_to_dest = distance_matrix[candidate_node][destination_node]
+        
+        # A new multiplicative scoring equation is used to evaluate candidates.
+        # This approach finds a balance by favoring nodes that minimize the product
+        # of the two cost components, effectively seeking a point that is
+        # reasonably close to both the current node and the final destination.
+        score = cost_to_candidate * cost_from_candidate_to_dest
+
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

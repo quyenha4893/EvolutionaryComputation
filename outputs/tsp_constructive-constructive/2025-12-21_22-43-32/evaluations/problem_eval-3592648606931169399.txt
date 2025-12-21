@@ -1,0 +1,37 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node using a hybrid score that is a weighted sum of the
+    Nearest Neighbor distance (from Algorithm 2) and the Ratio heuristic (from Algorithm 3).
+    """
+    next_node = None
+    best_score = float('inf')
+
+    # This weighting factor, alpha, balances the two heuristics.
+    # A low alpha gives more weight to the successful Ratio heuristic,
+    # while a high alpha would make it behave more like Nearest Neighbor.
+    alpha = 0.15
+
+    for candidate_node in unvisited_nodes:
+        # Distance from the current node to the candidate (greedy component)
+        dist_to_candidate = distance_matrix[current_node][candidate_node]
+        
+        # Distance from the candidate to the final destination (look-ahead component)
+        dist_from_candidate_to_dest = distance_matrix[candidate_node][destination_node]
+
+        # Score component from Nearest Neighbor heuristic (Algorithm 2)
+        nn_score = dist_to_candidate
+
+        # Score component from Ratio heuristic (Algorithm 3)
+        # A small epsilon is added to avoid division by zero.
+        ratio_score = dist_to_candidate / (dist_from_candidate_to_dest + 1e-9)
+
+        # The final score is a weighted combination of the two successful strategies.
+        # This leverages the global path-finding strength of the ratio heuristic
+        # while using the simple NN score to refine the local choice.
+        score = alpha * nn_score + (1 - alpha) * ratio_score
+        
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

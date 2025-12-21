@@ -1,0 +1,41 @@
+[2025-12-21 21:22:55,956][root][INFO] - Workspace: C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\outputs\tsp_constructive-constructive\2025-12-21_21-22-55
+[2025-12-21 21:22:55,959][root][INFO] - Project Root: C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master
+[2025-12-21 21:22:55,959][root][INFO] - Using LLM: gemini-2.5-flash
+[2025-12-21 21:22:55,961][root][INFO] - Using Algorithm: mcts_ahd
+[2025-12-21 21:23:06,828][utils.llm_client.gemini][ERROR] - Vertex AI Gemini API error: {
+  "error": {
+    "code": 400,
+    "message": "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.",
+    "status": "FAILED_PRECONDITION"
+  }
+}
+
+[2025-12-21 21:23:06,831][utils.llm_client.base][ERROR] - Vertex AI Gemini API error: {
+  "error": {
+    "code": 400,
+    "message": "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.",
+    "status": "FAILED_PRECONDITION"
+  }
+}
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 50, in _chat_completion_api
+    raise RuntimeError(f"Vertex AI Gemini API error: {response.text}")
+RuntimeError: Vertex AI Gemini API error: {
+  "error": {
+    "code": 400,
+    "message": "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.",
+    "status": "FAILED_PRECONDITION"
+  }
+}
+
+[2025-12-21 21:23:06,835][utils.llm_client.base][INFO] - Attempt 1 failed with error: Vertex AI Gemini API error: {
+  "error": {
+    "code": 400,
+    "message": "Gemini cannot be accessed through Vertex Predict/RawPredict API. Please follow https://cloud.google.com/vertex-ai/docs/generative-ai/start/quickstarts/quickstart-multimodal for Gemini usage.",
+    "status": "FAILED_PRECONDITION"
+  }
+}
+

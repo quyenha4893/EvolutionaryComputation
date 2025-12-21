@@ -1,0 +1,19 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    next_node = None
+    best_score = float('inf')
+
+    if not unvisited_nodes:
+        return None
+
+    for candidate_node in unvisited_nodes:
+        # Calculate the cost of inserting the candidate node between the current and destination nodes
+        distance_to_candidate = distance_matrix[current_node][candidate_node]
+        distance_from_candidate = distance_matrix[candidate_node][destination_node]
+        
+        score = distance_to_candidate + distance_from_candidate
+        
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

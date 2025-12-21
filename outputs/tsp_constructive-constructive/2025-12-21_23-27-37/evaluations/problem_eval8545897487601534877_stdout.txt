@@ -1,0 +1,17 @@
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master/problems/tsp_constructive/eval.py", line 11, in <module>
+    from gpt import select_next_node_v2 as select_next_node
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\problems\tsp_constructive\gpt.py", line 1
+    defining the "best possible next move" to be the minimum cost path from a candidate to either another unvisited node or directly to the final destination, thereby incorporating the first algorithm's destination-aware heuristic.}
+                                                                                                                                                                                                        ^
+SyntaxError: unterminated string literal (detected at line 1)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master/problems/tsp_constructive/eval.py", line 13, in <module>
+    from gpt import select_next_node
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\problems\tsp_constructive\gpt.py", line 1
+    defining the "best possible next move" to be the minimum cost path from a candidate to either another unvisited node or directly to the final destination, thereby incorporating the first algorithm's destination-aware heuristic.}
+                                                                                                                                                                                                        ^
+SyntaxError: unterminated string literal (detected at line 1)

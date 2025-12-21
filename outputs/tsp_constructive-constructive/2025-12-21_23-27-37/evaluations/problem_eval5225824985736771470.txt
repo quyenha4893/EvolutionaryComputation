@@ -1,0 +1,39 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node by prioritizing candidates that offer an efficient
+    return to the destination relative to the immediate travel cost. It chooses
+    the candidate that minimizes the ratio of the distance from the candidate to
+    the destination over the distance from the current node to the candidate.
+    """
+    next_node = None
+    best_score = float('inf')
+
+    if not unvisited_nodes:
+        return None
+
+    # Evaluate each unvisited node based on an efficiency ratio.
+    for candidate_node in unvisited_nodes:
+        # Immediate travel cost: current -> candidate.
+        cost_to_candidate = distance_matrix[current_node][candidate_node]
+        
+        # Avoid division by zero if the candidate is at the same location.
+        if cost_to_candidate == 0:
+            continue
+            
+        # Lookahead cost: the distance from the candidate back to the tour's starting point.
+        cost_from_candidate_to_dest = distance_matrix[candidate_node][destination_node]
+        
+        # The score is a ratio, prioritizing efficiency (low return cost for a given travel cost).
+        score = cost_from_candidate_to_dest / cost_to_candidate
+        
+        # Choose the candidate with the minimum score.
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    # If no node was selected (e.g., all unvisited nodes were co-located with current),
+    # fall back to the first available unvisited node to ensure progress.
+    if next_node is None and unvisited_nodes:
+        next_node = list(unvisited_nodes)[0]
+
+    return next_node

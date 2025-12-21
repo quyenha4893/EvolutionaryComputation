@@ -1,0 +1,42 @@
+import math
+
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node by minimizing a score that balances the greedy distance
+    with a look-ahead factor based on remoteness from both the destination and
+    the cluster of other unvisited nodes.
+    """
+    next_node = None
+    best_score = float('inf')
+
+    for candidate_node in unvisited_nodes:
+        # Component 1: Greedy distance from the current node to the candidate.
+        dist_to_candidate = distance_matrix[current_node][candidate_node]
+        
+        # Component 2: Look-ahead based on distance to the final destination.
+        dist_from_candidate_to_dest = distance_matrix[candidate_node][destination_node]
+
+        # Component 3 (Novel Mechanism): Look-ahead based on the candidate's average
+        # distance to all other unvisited nodes (its "remoteness").
+        # This helps prioritize visiting "outlier" nodes earlier.
+        other_unvisited_nodes = unvisited_nodes - {candidate_node}
+        
+        remoteness_factor = 0.0
+        if other_unvisited_nodes:
+            sum_dist_to_others = sum(distance_matrix[candidate_node][other] for other in other_unvisited_nodes)
+            remoteness_factor = sum_dist_to_others / len(other_unvisited_nodes)
+
+        # New Equation: The score is the ratio of the greedy cost to a composite
+        # look-ahead factor. This factor is a sum of the distance to the destination
+        # and the remoteness factor, encouraging visits to nodes that are far
+        # from the end point and also far from the remaining group of nodes.
+        look_ahead_factor = dist_from_candidate_to_dest + remoteness_factor
+        
+        # A small epsilon is added to avoid division by zero.
+        score = dist_to_candidate / (look_ahead_factor + 1e-9)
+        
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

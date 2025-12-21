@@ -1,0 +1,58 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node by combining a two-step lookahead with a destination-
+    oriented bias. The score for each candidate node is a sum of three parts:
+    1. The immediate cost to travel to the candidate.
+    2. The cost of the best subsequent move from the candidate to another unvisited node.
+    3. A penalty/reward based on whether the move to the candidate takes the tour
+       farther from or closer to the final destination node.
+    This prevents creating isolated, high-cost nodes while also maintaining a
+    "sense of direction" towards the end of the tour.
+    """
+    if not unvisited_nodes:
+        return None
+
+    # If only one unvisited node remains, it's the only valid choice.
+    if len(unvisited_nodes) == 1:
+        return list(unvisited_nodes)[0]
+
+    best_node = None
+    best_score = float('inf')
+    
+    # Pre-calculate the distance from the current node to the destination for the penalty calculation.
+    dist_current_to_dest = distance_matrix[current_node][destination_node]
+
+    # Evaluate each unvisited node as a potential next step.
+    for candidate_node in unvisited_nodes:
+        # 1. Cost of the first step (current -> candidate).
+        cost_step1 = distance_matrix[current_node][candidate_node]
+
+        # 2. Find the cost of the best second step (candidate -> next_hop).
+        cost_step2 = float('inf')
+        remaining_unvisited = unvisited_nodes - {candidate_node}
+        
+        if remaining_unvisited:
+            # Find the cheapest link from the candidate to any *other* unvisited node.
+            for next_hop_node in remaining_unvisited:
+                dist = distance_matrix[candidate_node][next_hop_node]
+                if dist < cost_step2:
+                    cost_step2 = dist
+        else:
+            # This case is handled by len(unvisited_nodes) == 1, but as a fallback,
+            # consider the path to the destination if no other unvisited nodes exist.
+            cost_step2 = distance_matrix[candidate_node][destination_node]
+
+        # 3. Calculate the destination-oriented penalty.
+        # This value is positive if moving to the candidate increases the distance to the
+        # final destination, and negative if it decreases it.
+        destination_penalty = distance_matrix[candidate_node][destination_node] - dist_current_to_dest
+
+        # The final score combines immediate cost, lookahead cost, and destination bias.
+        # A weighting factor could be applied to the penalty, but is set to 1 here.
+        total_score = cost_step1 + cost_step2 + destination_penalty
+        
+        if total_score < best_score:
+            best_score = total_score
+            best_node = candidate_node
+            
+    return next_node

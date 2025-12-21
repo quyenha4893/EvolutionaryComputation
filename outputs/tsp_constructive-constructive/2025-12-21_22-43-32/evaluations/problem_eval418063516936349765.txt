@@ -1,0 +1,26 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node by minimizing a score that combines the distance
+    from the current node and the distance to the destination node.
+    """
+    next_node = None
+    min_combined_distance = float('inf')
+
+    # Define weights for the two distance components.
+    # alpha: weight for distance from current_node to the potential next_node.
+    # beta: weight for distance from the potential next_node to the destination_node.
+    alpha = 0.5
+    beta = 0.5
+
+    for node in unvisited_nodes:
+        dist_to_node = distance_matrix[current_node][node]
+        dist_from_node_to_dest = distance_matrix[node][destination_node]
+        
+        # Calculate the combined score using a weighted sum.
+        combined_distance = alpha * dist_to_node + beta * dist_from_node_to_dest
+        
+        if combined_distance < min_combined_distance:
+            min_combined_distance = combined_distance
+            next_node = node
+            
+    return next_node

@@ -1,0 +1,43 @@
+import math
+
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node by minimizing a score that is the ratio of the
+    immediate travel distance to a composite look-ahead factor. This look-ahead
+    factor is the geometric mean of the distance to the final destination and the
+    candidate's remoteness from the cluster of other unvisited nodes.
+    """
+    next_node = None
+    best_score = float('inf')
+
+    for candidate_node in unvisited_nodes:
+        # Component 1: Greedy distance from the current node (numerator).
+        dist_to_candidate = distance_matrix[current_node][candidate_node]
+        
+        # Component 2: Look-ahead based on distance to the final destination.
+        dist_from_candidate_to_dest = distance_matrix[candidate_node][destination_node]
+
+        # Component 3: Look-ahead based on the candidate's average distance to all
+        # other unvisited nodes (its "remoteness").
+        other_unvisited_nodes = unvisited_nodes - {candidate_node}
+        
+        remoteness_factor = 0.0
+        if other_unvisited_nodes:
+            sum_dist_to_others = sum(distance_matrix[candidate_node][other] for other in other_unvisited_nodes)
+            remoteness_factor = sum_dist_to_others / len(other_unvisited_nodes)
+
+        # New Equation: The denominator is a geometric mean of the two look-ahead
+        # factors. This balances the need to handle nodes far from the destination
+        # and nodes that are outliers relative to the remaining group.
+        # Small epsilons are added for numerical stability.
+        look_ahead_denominator = math.sqrt(
+            (dist_from_candidate_to_dest + 1e-9) * (remoteness_factor + 1e-9)
+        )
+        
+        score = dist_to_candidate / look_ahead_denominator
+        
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

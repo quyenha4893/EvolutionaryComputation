@@ -1,0 +1,72 @@
+importance of certain heuristic components (e.g., the secondary look-ahead's weight) based on the remaining number of unvisited nodes, allowing for a flexible balance between exploration and exploitation as the tour progresses.
+
+Design idea and main steps:
+{The new algorithm combines the immediate travel distance with an adaptively weighted primary look-ahead term that considers the minimum distance from the candidate node to any other remaining unvisited node (or to the destination if no other nodes remain), with the look-ahead's weight decreasing as fewer nodes are left, similar to Algorithm 1's adaptive strategy applied to Algorithm 2's weighting structure.}
+
+```python
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    """
+    Selects the next node to visit based on a combined cost that prioritizes immediate distance
+    and an adaptively weighted look-ahead to the closest next unvisited node (or destination).
+
+    Args:
+        current_node: The node currently at.
+        destination_node: The starting node of the tour, to which the path must return.
+        unvisited_nodes: A set of nodes that have not yet been visited.
+        distance_matrix: A 2D list (matrix) where distance_matrix[i][j]
+                         is the distance between node i and node j.
+
+    Returns:
+        The next node to visit.
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, return to the destination node (start node)
+        return destination_node
+
+    next_node = -1
+    min_combined_cost = math.inf
+
+    # Base weight for the look-ahead component, inspired by Algo 1's ALPHA
+    W_BASE = 0.6 
+
+    total_nodes_count = len(distance_matrix)
+    current_unvisited_count = len(unvisited_nodes)
+    
+    # Adaptive W: decreases as fewer nodes remain, reducing the importance of the look-ahead towards the end.
+    # Scales W_BASE from 1 (at the start, maximum unvisited nodes) down to a small value (last unvisited node).
+    if total_nodes_count <= 1:
+        W_ADAPTIVE = 0.0
+    else:
+        # Max unvisited nodes for a tour is (total_nodes_count - 1)
+        W_ADAPTIVE = W_BASE * (current_unvisited_count / (total_nodes_count - 1))
+        # Ensure W_ADAPTIVE is within [0, W_BASE]
+        W_ADAPTIVE = max(0.0, min(W_BASE, W_ADAPTIVE))
+
+    for candidate_node in unvisited_nodes:
+        immediate_distance = distance_matrix[current_node][candidate_node]
+
+        # Calculate the look-ahead cost: minimum distance from candidate_node to its next closest unvisited node.
+        # This is similar to Algo 1's tier1_look_ahead_cost.
+        min_lookahead_cost = math.inf
+        remaining_unvisited_after_candidate = unvisited_nodes - {candidate_node}
+
+        if not remaining_unvisited_after_candidate:
+            # If candidate_node is the last unvisited node, its 'next closest' is the destination node.
+            min_lookahead_cost = distance_matrix[candidate_node][destination_node]
+        else:
+            for future_node in remaining_unvisited_after_candidate:
+                dist_from_cand_to_future = distance_matrix[candidate_node][future_node]
+                if dist_from_cand_to_future < min_lookahead_cost:
+                    min_lookahead_cost = dist_from_cand_to_future
+            
+        # Combine immediate distance with the adaptively weighted look-ahead distance.
+        # Form: (1 - W_ADAPTIVE) * TermA + W_ADAPTIVE * TermB, similar to Algo 2.
+        combined_cost = (1 - W_ADAPTIVE) * immediate_distance + W_ADAPTIVE * min_lookahead_cost
+
+        if combined_cost < min_combined_cost:
+            min_combined_cost = combined_cost
+            next_node = candidate_node
+
+    return next_node

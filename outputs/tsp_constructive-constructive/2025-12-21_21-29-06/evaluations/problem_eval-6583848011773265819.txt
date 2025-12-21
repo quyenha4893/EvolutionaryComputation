@@ -1,0 +1,35 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    if not unvisited_nodes:
+        return destination_node
+
+    next_node = -1
+    min_combined_cost = math.inf
+
+    W1 = 0.4 
+    W2 = 0.2
+
+    for candidate_node in unvisited_nodes:
+        d_curr_cand = distance_matrix[current_node][candidate_node]
+
+        d_cand_next_min = math.inf
+        remaining_unvisited_after_candidate = unvisited_nodes - {candidate_node}
+
+        if not remaining_unvisited_after_candidate:
+            d_cand_next_min = distance_matrix[candidate_node][destination_node]
+        else:
+            for future_node in remaining_unvisited_after_candidate:
+                future_distance = distance_matrix[candidate_node][future_node]
+                if future_distance < d_cand_next_min:
+                    d_cand_next_min = future_distance
+        
+        d_cand_dest = distance_matrix[candidate_node][destination_node]
+
+        combined_cost = d_curr_cand + W1 * d_cand_next_min + W2 * d_cand_dest
+
+        if combined_cost < min_combined_cost:
+            min_combined_cost = combined_cost
+            next_node = candidate_node
+
+    return next_node

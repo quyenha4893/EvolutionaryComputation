@@ -1,0 +1,47 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    """
+    Selects the next node to visit by primarily minimizing the immediate travel distance,
+    additively combined with a weighted factor based on the candidate node's
+    distance back to the tour's starting point.
+
+    Args:
+        current_node: The node currently at.
+        destination_node: The starting node of the tour, to which the path must return.
+        unvisited_nodes: A set of nodes that have not yet been visited.
+        distance_matrix: A 2D list (matrix) where distance_matrix[i][j]
+                         is the distance between node i and node j.
+
+    Returns:
+        The next node to visit.
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, return to the destination node (start node)
+        return destination_node
+
+    next_node = -1
+    min_combined_cost = math.inf
+
+    # A weighting factor for the additive consideration of the return distance.
+    # A value of 1.0 means the return distance contributes equally to the immediate distance,
+    # effectively evaluating the cost of the path current -> candidate -> destination.
+    W_additive_factor = 1.0 
+
+    for candidate_node in unvisited_nodes:
+        # 1. Immediate cost from current_node to candidate_node (primary factor)
+        immediate_distance = distance_matrix[current_node][candidate_node]
+
+        # 2. Distance from the candidate node back to the destination node (foresight factor)
+        distance_to_destination_from_candidate = distance_matrix[candidate_node][destination_node]
+
+        # Combine the immediate distance with an additive factor based on foresight.
+        # This heuristic evaluates the total path cost of taking the immediate step
+        # and then immediately returning to the destination from the candidate node.
+        combined_cost = immediate_distance + W_additive_factor * distance_to_destination_from_candidate
+
+        if combined_cost < min_combined_cost:
+            min_combined_cost = combined_cost
+            next_node = candidate_node
+
+    return next_node

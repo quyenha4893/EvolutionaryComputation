@@ -1,0 +1,51 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node by balancing its proximity to the current node with its
+    centrality to the rest of the unvisited nodes. The heuristic aims to avoid
+    moving to an isolated node, even if it is the closest one.
+    """
+    next_node = None
+    best_score = float('inf')
+
+    if not unvisited_nodes:
+        return None
+
+    # If only one unvisited node is left, it's the only choice.
+    if len(unvisited_nodes) == 1:
+        return list(unvisited_nodes)[0]
+
+    for candidate_node in unvisited_nodes:
+        # Distance from the current node to the potential next node.
+        dist_to_candidate = distance_matrix[current_node][candidate_node]
+
+        # Calculate the candidate's average distance to all OTHER unvisited nodes.
+        sum_of_dists_to_others = 0
+        other_unvisited = unvisited_nodes - {candidate_node}
+        
+        for other_node in other_unvisited:
+            sum_of_dists_to_others += distance_matrix[candidate_node][other_node]
+        
+        # This will not be zero since we handled the case of len(unvisited_nodes) == 1.
+        avg_dist_to_others = sum_of_dists_to_others / len(other_unvisited)
+        
+        # The score is a ratio. Lower is better.
+        # It prioritizes nodes that are close (low numerator) and/or
+        # are centrally located to other unvisited nodes (low denominator implies it's far from others, so we want a high denominator).
+        # Ah, logic error in thought process. A centrally located node would have a LOW average distance.
+        # So we want dist_to_candidate to be low and avg_dist_to_others to be low.
+        # Let's change the score to a sum, as it's more stable and represents a combined cost.
+        # Let's use the product to balance scales.
+        # Let's stick to the ratio, but a different one. A good candidate is close to current AND close to the rest of the points.
+        # So, we need to pick the node that minimizes dist_to_candidate and avg_dist_to_others.
+        # The original ratio dist/avg favors nodes that are far from others. Let's use dist * avg.
+        # No, let's go with the initial description's logic. A node is "central" if its average distance to others is low.
+        # We want to pick a node that is close (low dist_to_candidate) and central (low avg_dist_to_others).
+        # A simple sum combines these two goals. This creates a new heuristic different from the others.
+        
+        score = dist_to_candidate + avg_dist_to_others
+
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

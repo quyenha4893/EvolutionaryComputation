@@ -1,0 +1,72 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node to visit using a Restricted Candidate List (RCL) heuristic
+    with a secondary 'min-max connectivity' criterion.
+    
+    Args:
+        current_node (int): The index of the node currently at.
+        destination_node (int): The index of the final node to return to (usually the starting node).
+        unvisited_nodes (set): A set of indices of nodes that have not yet been visited.
+        distance_matrix (list of lists): A 2D list where distance_matrix[i][j] is the 
+                                         distance from node i to node j.
+    
+    Returns:
+        int: The index of the next node to visit.
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, the next step is to return to the destination node.
+        return destination_node
+
+    # Step 1: Identify candidates and their distances from the current_node
+    candidate_distances = []
+    for node in unvisited_nodes:
+        candidate_distances.append((distance_matrix[current_node][node], node))
+    
+    # Sort candidates by distance to current_node
+    candidate_distances.sort()
+
+    # Step 2: Form the Restricted Candidate List (RCL)
+    # Let's set k, the size of the RCL. It should be at least 1 and not exceed the number of unvisited nodes.
+    # Using min(3, len(unvisited_nodes)) ensures k is reasonable and valid for any number of unvisited nodes.
+    k = min(3, len(unvisited_nodes))
+    
+    restricted_candidate_list = [node_info[1] for node_info in candidate_distances[:k]]
+
+    # If RCL has only one candidate, simply return it.
+    if len(restricted_candidate_list) == 1:
+        return restricted_candidate_list[0]
+
+    # Step 3: Apply secondary criterion to select from RCL
+    # Select the node from RCL that minimizes the maximum distance from itself to any other remaining unvisited node.
+    min_max_dist_score = float('inf')
+    next_node = -1
+
+    for candidate_node in restricted_candidate_list:
+        max_dist_for_candidate = 0.0
+        
+        # Calculate the maximum distance from this candidate to any other truly unvisited node.
+        # This includes nodes not in RCL but still unvisited.
+        
+        # Create a temporary set of unvisited nodes excluding the current candidate for this calculation.
+        other_unvisited_nodes_for_calc = unvisited_nodes - {candidate_node}
+        
+        if not other_unvisited_nodes_for_calc:
+            # If after removing candidate_node, no other unvisited nodes remain,
+            # this candidate would be the last non-destination node to visit.
+            # Its max distance to 'other unvisited' is effectively 0.
+            max_dist_for_candidate = 0.0
+        else:
+            # Iterate through the remaining other unvisited nodes to find the maximum distance.
+            for other_node in other_unvisited_nodes_for_calc:
+                dist = distance_matrix[candidate_node][other_node]
+                if dist > max_dist_for_candidate:
+                    max_dist_for_candidate = dist
+        
+        # We want to minimize this maximum distance score.
+        # If multiple candidates have the same min_max_dist_score, the one encountered first (which is
+        # implicitly the one originally closer to current_node) will be chosen.
+        if max_dist_for_candidate < min_max_dist_score:
+            min_max_dist_score = max_dist_for_candidate
+            next_node = candidate_node
+            
+    return next_node

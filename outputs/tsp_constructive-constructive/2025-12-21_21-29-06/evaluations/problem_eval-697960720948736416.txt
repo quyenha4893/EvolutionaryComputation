@@ -1,0 +1,65 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    """
+    {This algorithm modifies the provided approach by introducing a dynamic weighting 'W' for destination proximity that increases as the tour progresses, alongside a new "future connectivity" component 'X' which considers the candidate node's average distance to other remaining unvisited nodes, balancing immediate gain with long-term tour coherence.}
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, return to the destination node (start node)
+        return destination_node
+
+    next_node = -1
+    min_combined_cost = math.inf
+
+    total_nodes = len(distance_matrix)
+    num_unvisited = len(unvisited_nodes)
+
+    # Calculate a dynamic weight (P2, or W) for the distance to destination component.
+    # Its influence increases as more nodes are visited, prioritizing closure towards the end.
+    W_min = 0.1 # Minimum weight for destination proximity, similar to original algorithm's W
+    W_max = 0.4 # Maximum weight for destination proximity
+    
+    # Progress ratio reflects how much of the unique nodes have been visited.
+    # It ranges from (1/total_nodes) for the first node choice to 1 when all nodes are visited.
+    if total_nodes == 0: # Handle edge case, though TSP implies at least 2 nodes
+        progress_ratio = 0.0
+    else:
+        progress_ratio = (total_nodes - num_unvisited) / total_nodes
+    
+    dynamic_W = W_min + (W_max - W_min) * progress_ratio
+
+    # Introduce a new fixed weight (P3, or X) for the 'future connectivity' component.
+    # This component considers the candidate node's average distance to other still unvisited nodes.
+    X = 0.1 # Weight for the average distance to other unvisited nodes
+
+    # Calculate the remaining weight (P1) for the immediate distance component.
+    # Ensure that dynamic_W + X does not exceed 1 to keep P1 positive.
+    # Max dynamic_W (0.4) + X (0.1) = 0.5, so P1 will always be at least 0.5.
+    P1 = 1.0 - dynamic_W - X
+    P2 = dynamic_W
+    P3 = X
+
+    for candidate_node in unvisited_nodes:
+        immediate_distance = distance_matrix[current_node][candidate_node]
+        distance_to_destination_from_candidate = distance_matrix[candidate_node][destination_node]
+
+        # Calculate the "future connectivity" cost: average distance from candidate to other unvisited nodes.
+        average_distance_to_other_unvisited_nodes = 0.0
+        other_unvisited_for_candidate = [u for u in unvisited_nodes if u != candidate_node]
+        
+        if other_unvisited_for_candidate:
+            sum_distances_to_others = sum(distance_matrix[candidate_node][u] for u in other_unvisited_for_candidate)
+            average_distance_to_other_unvisited_nodes = sum_distances_to_others / len(other_unvisited_for_candidate)
+        # If no other unvisited nodes (i.e., candidate is the last unique node), this term remains 0,
+        # effectively giving P3 * 0 to this component.
+
+        # Combine all three components with their respective dynamic/fixed weights.
+        combined_cost = (P1 * immediate_distance +
+                         P2 * distance_to_destination_from_candidate +
+                         P3 * average_distance_to_other_unvisited_nodes)
+
+        if combined_cost < min_combined_cost:
+            min_combined_cost = combined_cost
+            next_node = candidate_node
+
+    return next_node

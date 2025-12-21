@@ -1,0 +1,77 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    """
+    Selects the next node to visit using an adaptive centroid-biased nearest-neighbor approach.
+    It balances immediate travel cost, a dynamic bias towards the destination node, and
+    a dynamic consideration for the candidate's average connectivity to the remaining unvisited nodes.
+
+    Args:
+        current_node: The node currently at.
+        destination_node: The starting node of the tour, to which the path must return.
+        unvisited_nodes: A set of nodes that have not yet been visited.
+        distance_matrix: A 2D list (matrix) where distance_matrix[i][j]
+                         is the distance between node i and node j.
+
+    Returns:
+        The next node to visit.
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, return to the destination node (start node)
+        return destination_node
+
+    next_node = -1
+    min_combined_score = math.inf
+
+    num_total_nodes = len(distance_matrix)
+    num_unvisited_remaining = len(unvisited_nodes)
+
+    # Calculate a 'progress ratio' which indicates how much of the tour has been completed.
+    # It ranges from 0 (at the very start) to 1 (when only the last node is left).
+    # Avoid division by zero if there's only one node in the graph (though TSP implies >1 node).
+    progress_ratio_denominator = num_total_nodes - 1 if num_total_nodes > 1 else 1
+    progress_ratio = (num_total_nodes - num_unvisited_remaining) / progress_ratio_denominator
+
+    # Dynamic weight for the importance of returning to the start node (destination_node).
+    # This factor adaptively increases as the tour progresses, making the return path
+    # consideration more dominant towards the end. It ranges from 0.2 to 1.0.
+    return_bias_factor = 0.2 + 0.8 * progress_ratio
+
+    # Dynamic weight for the importance of cluster cohesion (centrality within remaining nodes).
+    # This factor decreases as the tour progresses, prioritizing exploring dense clusters early on
+    # and gradually reducing its influence when finishing the tour. It ranges from 1.0 to 0.0.
+    cluster_cohesion_factor = 1.0 - progress_ratio
+
+    # Base weight for the direct distance, can be constant as it's always a primary consideration.
+    direct_distance_weight = 1.0
+
+    for node in unvisited_nodes:
+        # Component 1: Direct travel cost from current node to the candidate node.
+        direct_distance = distance_matrix[current_node][node]
+
+        # Component 2: Proximity from the candidate node back to the tour's starting node.
+        distance_to_destination = distance_matrix[node][destination_node]
+
+        # Component 3: Average distance from the candidate node to all *other* currently unvisited nodes.
+        # This helps assess how 'central' or 'well-connected' the candidate is to the remaining
+        # cluster of nodes, which can guide exploration.
+        remaining_nodes_for_avg_calc = [n for n in unvisited_nodes if n != node]
+        if not remaining_nodes_for_avg_calc:
+            # If the candidate is the only unvisited node left (e.g., last node before returning),
+            # this component becomes irrelevant, so its average distance is 0.
+            average_distance_to_remaining_cluster = 0.0
+        else:
+            average_distance_to_remaining_cluster = sum(distance_matrix[node][other_node] for other_node in remaining_nodes_for_avg_calc) / len(remaining_nodes_for_avg_calc)
+
+        # The combined score is a weighted sum of these three components.
+        # It aims to find a node that is close, facilitates a good return path,
+        # and helps efficiently clear the remaining unvisited nodes.
+        combined_score = (direct_distance * direct_distance_weight) + \
+                         (distance_to_destination * return_bias_factor) + \
+                         (average_distance_to_remaining_cluster * cluster_cohesion_factor)
+
+        if combined_score < min_combined_score:
+            min_combined_score = combined_score
+            next_node = node
+
+    return next_node

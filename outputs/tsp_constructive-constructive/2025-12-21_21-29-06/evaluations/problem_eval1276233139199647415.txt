@@ -1,0 +1,60 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    """
+    Selects the next node to visit using a Two-Step Minimum Cost heuristic.
+    This heuristic considers the immediate distance to a candidate node and
+    then estimates the best possible next step from that candidate node
+    (either to another unvisited node or directly to the destination).
+
+    Args:
+        current_node: The node currently at.
+        destination_node: The starting node of the tour, to which the path must return.
+        unvisited_nodes: A set of nodes that have not yet been visited.
+        distance_matrix: A 2D list (matrix) where distance_matrix[i][j]
+                         is the distance between node i and node j.
+
+    Returns:
+        The next node to visit.
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, return to the destination node (start node)
+        return destination_node
+
+    next_node = -1
+    min_total_score = math.inf
+
+    for candidate_node in unvisited_nodes:
+        # Calculate the immediate cost to travel from current_node to candidate_node
+        immediate_cost = distance_matrix[current_node][candidate_node]
+        
+        # Calculate the minimum cost for the *next* step from the candidate_node.
+        # This looks for the shortest path from candidate_node to any other
+        # remaining unvisited node or directly to the destination.
+        
+        min_cost_from_candidate_to_next = math.inf
+        
+        # Consider all other unvisited nodes as potential next steps
+        for next_possible_target in unvisited_nodes:
+            if next_possible_target != candidate_node:
+                min_cost_from_candidate_to_next = min(
+                    min_cost_from_candidate_to_next,
+                    distance_matrix[candidate_node][next_possible_target]
+                )
+        
+        # Always consider returning to the destination as a possible next step from candidate_node.
+        # This handles the case where candidate_node is the last unvisited node,
+        # or if returning to destination is the shortest path from candidate_node.
+        min_cost_from_candidate_to_next = min(
+            min_cost_from_candidate_to_next,
+            distance_matrix[candidate_node][destination_node]
+        )
+        
+        # The total score is the sum of the immediate cost and the estimated minimum cost for the next step.
+        total_score = immediate_cost + min_cost_from_candidate_to_next
+
+        if total_score < min_total_score:
+            min_total_score = total_score
+            next_node = candidate_node
+
+    return next_node

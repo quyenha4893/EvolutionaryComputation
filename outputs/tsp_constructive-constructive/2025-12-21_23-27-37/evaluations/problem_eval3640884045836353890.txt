@@ -1,0 +1,32 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node by adding a small penalty for moving away from the destination.
+    This heuristic is mostly greedy, focusing on the immediate next step, but it is
+    moderated by a scaled-down cost of returning to the start, preventing it from
+    choosing a nearby node that is prohibitively far from the destination.
+    """
+    next_node = None
+    best_score = float('inf')
+
+    if not unvisited_nodes:
+        return None
+
+    # A small factor to penalize choices that move far from the destination.
+    # This makes the algorithm more greedy than No.1 but smarter than pure nearest-neighbor.
+    lookahead_penalty_factor = 0.2
+
+    for candidate_node in unvisited_nodes:
+        # The primary cost is the distance to the candidate node (greedy choice).
+        cost_to_candidate = distance_matrix[current_node][candidate_node]
+        
+        # The penalty is a fraction of the distance from the candidate back to the start.
+        penalty_cost = lookahead_penalty_factor * distance_matrix[candidate_node][destination_node]
+        
+        # The score prioritizes the nearest neighbor but adds a small penalty for moving away from the destination.
+        score = cost_to_candidate + penalty_cost
+
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

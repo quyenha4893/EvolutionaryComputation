@@ -1,0 +1,73 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    """
+    Selects the next node to visit using a Balanced Future Gap (BFG) heuristic.
+    This heuristic selects the next node by minimizing a composite score that combines
+    the immediate travel distance to a candidate node with a balanced future cost,
+    which is an average of the maximum and average potential edge lengths that would
+    exist among the remaining unvisited nodes or between any remaining unvisited
+    node and the destination. This aims to prevent excessively large isolated sections
+    while also considering the overall cost of the remaining path.
+
+    Args:
+        current_node: The node currently at.
+        destination_node: The starting node of the tour, to which the path must return.
+        unvisited_nodes: A set of nodes that have not yet been visited.
+        distance_matrix: A 2D list (matrix) where distance_matrix[i][j]
+                         is the distance between node i and node j.
+
+    Returns:
+        The next node to visit.
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, return to the destination node (start node)
+        return destination_node
+
+    next_node = -1
+    min_total_score = math.inf
+
+    for candidate_node in unvisited_nodes:
+        immediate_cost = distance_matrix[current_node][candidate_node]
+        
+        # Simulate visiting this candidate node by removing it from the unvisited set
+        temp_unvisited = unvisited_nodes - {candidate_node}
+        
+        potential_gap_distances = []
+
+        if not temp_unvisited:
+            # If no other nodes are left after selecting candidate_node,
+            # the only 'gap' is the final return from candidate_node to the destination.
+            gap_to_dest = distance_matrix[candidate_node][destination_node]
+            potential_gap_distances.append(gap_to_dest)
+        else:
+            # Collect all possible edge lengths that would form 'gaps' in the remaining problem:
+            # 1. Between any two nodes remaining in temp_unvisited.
+            # 2. Between any node in temp_unvisited and the destination_node.
+            
+            temp_unvisited_list = list(temp_unvisited)
+
+            for i in range(len(temp_unvisited_list)):
+                u = temp_unvisited_list[i]
+                # Add distances between remaining unvisited nodes
+                for j in range(i + 1, len(temp_unvisited_list)):
+                    v = temp_unvisited_list[j]
+                    potential_gap_distances.append(distance_matrix[u][v])
+                
+                # Add distances from remaining unvisited nodes back to the destination
+                potential_gap_distances.append(distance_matrix[u][destination_node])
+        
+        # Calculate the maximum and average of these potential gap distances
+        max_future_gap = max(potential_gap_distances)
+        average_future_gap = sum(potential_gap_distances) / len(potential_gap_distances)
+        
+        # The total score combines the immediate cost with a balanced future gap score.
+        # This new score averages the maximum potential gap (bottleneck prevention)
+        # and the average potential gap (overall future path efficiency).
+        total_score = immediate_cost + (max_future_gap + average_future_gap) / 2.0
+
+        if total_score < min_total_score:
+            min_total_score = total_score
+            next_node = candidate_node
+
+    return next_node

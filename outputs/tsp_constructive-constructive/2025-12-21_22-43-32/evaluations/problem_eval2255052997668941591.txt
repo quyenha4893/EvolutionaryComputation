@@ -1,0 +1,49 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node using a multi-factor heuristic that considers immediate cost,
+    future path cohesion (proximity to other unvisited nodes), and distance to the final goal.
+    """
+    next_node = None
+    best_score = float('inf')
+
+    # Weights for the three components of the score:
+    # w_immediate: a greedy factor for the cost to the next node.
+    # w_cohesion: looks one step ahead to see if the candidate is close to other unvisited nodes,
+    #             avoiding the creation of isolated, hard-to-reach nodes later.
+    # w_goal: a strategic factor pulling the path towards the final destination.
+    w_immediate = 0.5
+    w_cohesion = 0.3
+    w_goal = 0.2
+
+    for candidate_node in unvisited_nodes:
+        # 1. Immediate cost: Distance from the current node to the candidate.
+        dist_to_candidate = distance_matrix[current_node][candidate_node]
+
+        # 2. Cohesion cost: Distance from the candidate to its nearest unvisited neighbor.
+        # This penalizes moving to a node that is far from all other remaining nodes.
+        min_dist_to_neighbor = float('inf')
+        other_unvisited = unvisited_nodes - {candidate_node}
+        
+        if not other_unvisited:
+            # If the candidate is the last unvisited node, its cohesion cost is zero
+            # as the next step will be the destination.
+            min_dist_to_neighbor = 0
+        else:
+            for neighbor in other_unvisited:
+                dist = distance_matrix[candidate_node][neighbor]
+                if dist < min_dist_to_neighbor:
+                    min_dist_to_neighbor = dist
+        
+        # 3. Goal orientation cost: Distance from the candidate to the final destination.
+        dist_from_candidate_to_dest = distance_matrix[candidate_node][destination_node]
+
+        # Calculate the composite score using the weighted sum of the three factors.
+        score = (w_immediate * dist_to_candidate +
+                 w_cohesion * min_dist_to_neighbor +
+                 w_goal * dist_from_candidate_to_dest)
+        
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

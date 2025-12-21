@@ -1,0 +1,37 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node by minimizing a score that sums the greedy distance
+    and remoteness penalty, while subtracting a bonus for being far from the destination.
+    """
+    next_node = None
+    best_score = float('inf')
+
+    for candidate_node in unvisited_nodes:
+        # Component 1: Greedy distance from the current node to the candidate.
+        dist_to_candidate = distance_matrix[current_node][candidate_node]
+        
+        # Component 2: Bonus based on distance to the final destination. A larger
+        # distance is better, so it will be subtracted from the score.
+        dist_from_candidate_to_dest = distance_matrix[candidate_node][destination_node]
+
+        # Component 3: Penalty based on the candidate's average distance to all
+        # other unvisited nodes (its "remoteness"). This discourages visiting
+        # outliers that might create inefficient detours.
+        other_unvisited_nodes = unvisited_nodes - {candidate_node}
+        
+        remoteness_penalty = 0.0
+        if other_unvisited_nodes:
+            sum_dist_to_others = sum(distance_matrix[candidate_node][other] for other in other_unvisited_nodes)
+            remoteness_penalty = sum_dist_to_others / len(other_unvisited_nodes)
+
+        # New Equation: The score is a linear combination. It sums the greedy
+        # cost and the remoteness penalty, but subtracts the distance to the
+        # destination to prioritize nodes that are "on the other side" of the map.
+        # This encourages a broad sweep across the node space early on.
+        score = dist_to_candidate + remoteness_penalty - dist_from_candidate_to_dest
+        
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

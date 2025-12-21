@@ -1,0 +1,42 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node using a score that combines the greedy choice with a 
+    one-step lookahead to the candidate's nearest neighbor.
+    """
+    next_node = None
+    best_score = float('inf')
+
+    # Alpha balances the greedy choice (cost_to_candidate) against the lookahead
+    # (min_dist_from_candidate). A high alpha prioritizes the greedy approach.
+    alpha = 0.8
+
+    if not unvisited_nodes:
+        return None
+
+    for candidate_node in unvisited_nodes:
+        # Greedy component: cost to travel from current to candidate
+        cost_to_candidate = distance_matrix[current_node][candidate_node]
+
+        # Lookahead component: find the cost from the candidate to its nearest neighbor
+        # among the other unvisited nodes.
+        other_unvisited_nodes = unvisited_nodes - {candidate_node}
+        min_dist_from_candidate = float('inf')
+
+        if not other_unvisited_nodes:
+            # If the candidate is the last unvisited node, its "next" hop is the destination.
+            min_dist_from_candidate = distance_matrix[candidate_node][destination_node]
+        else:
+            for other_node in other_unvisited_nodes:
+                distance = distance_matrix[candidate_node][other_node]
+                if distance < min_dist_from_candidate:
+                    min_dist_from_candidate = distance
+        
+        # The new score balances the immediate greedy choice with a penalty for
+        # moving to a node that is isolated from other remaining nodes.
+        score = (alpha * cost_to_candidate) + ((1 - alpha) * min_dist_from_candidate)
+
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

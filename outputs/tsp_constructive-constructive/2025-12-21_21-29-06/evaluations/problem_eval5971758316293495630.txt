@@ -1,0 +1,68 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    """
+    Selects the next node to visit based on a modified Nearest Neighbor heuristic
+    that considers immediate distance and a weighted two-step look-ahead.
+    The look-ahead estimates the remaining path from the candidate node through its
+    closest unvisited neighbor and then directly back to the destination.
+
+    Args:
+        current_node: The node currently at.
+        destination_node: The starting node of the tour, to which the path must return.
+        unvisited_nodes: A set of nodes that have not yet been visited.
+        distance_matrix: A 2D list (matrix) where distance_matrix[i][j]
+                         is the distance between node i and node j.
+
+    Returns:
+        The next node to visit.
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, return to the destination node (start node)
+        return destination_node
+
+    next_node = -1
+    min_combined_cost = math.inf
+
+    # A very small weighting factor for the look-ahead distance, similar to Algorithm 2.
+    K = 0.01 
+
+    for candidate_node in unvisited_nodes:
+        # Step 1: Calculate the immediate cost to move from current_node to candidate_node
+        immediate_cost = distance_matrix[current_node][candidate_node]
+
+        # Step 2: Calculate an estimated remaining path cost from candidate_node.
+        # This is a two-step look-ahead: candidate -> closest_next_unvisited -> destination.
+        estimated_remaining_path_cost = math.inf
+        remaining_unvisited_after_candidate = unvisited_nodes - {candidate_node}
+
+        if not remaining_unvisited_after_candidate:
+            # If candidate_node is the last remaining unvisited node,
+            # the remaining path is just from candidate_node to destination_node.
+            estimated_remaining_path_cost = distance_matrix[candidate_node][destination_node]
+        else:
+            # Find the closest node from candidate_node among the *remaining* unvisited nodes.
+            min_dist_from_candidate_to_next_unvisited = math.inf
+            closest_next_unvisited = -1
+
+            for future_node in remaining_unvisited_after_candidate:
+                dist = distance_matrix[candidate_node][future_node]
+                if dist < min_dist_from_candidate_to_next_unvisited:
+                    min_dist_from_candidate_to_next_unvisited = dist
+                    closest_next_unvisited = future_node
+            
+            # Estimate the remaining path cost as:
+            # (distance from candidate to its closest unvisited neighbor)
+            # + (distance from that closest unvisited neighbor directly to the destination_node)
+            # This integrates Algorithm 1's idea of considering the path back to the destination.
+            # 'closest_next_unvisited' is guaranteed to be found because 'remaining_unvisited_after_candidate' is not empty.
+            estimated_remaining_path_cost = min_dist_from_candidate_to_next_unvisited + distance_matrix[closest_next_unvisited][destination_node]
+
+        # Combine immediate cost with the weighted estimated remaining path cost.
+        combined_cost = immediate_cost + K * estimated_remaining_path_cost
+
+        if combined_cost < min_combined_cost:
+            min_combined_cost = combined_cost
+            next_node = candidate_node
+
+    return next_node

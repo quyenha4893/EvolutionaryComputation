@@ -1,0 +1,64 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    """
+    Selects the next node to visit using a Min-Max Future Cost heuristic.
+    This heuristic considers the immediate distance to a candidate node and
+    then estimates the worst-case future cost from that candidate node,
+    by finding the maximum distance to any other remaining unvisited node
+    or directly to the destination. The goal is to minimize this combined score,
+    thereby preventing the creation of excessively long segments later in the tour.
+
+    Args:
+        current_node: The node currently at.
+        destination_node: The starting node of the tour, to which the path must return.
+        unvisited_nodes: A set of nodes that have not yet been visited.
+        distance_matrix: A 2D list (matrix) where distance_matrix[i][j]
+                         is the distance between node i and node j.
+
+    Returns:
+        The next node to visit.
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, return to the destination node (start node)
+        return destination_node
+
+    next_node = -1
+    min_total_score = math.inf
+
+    for candidate_node in unvisited_nodes:
+        # Calculate the immediate cost to travel from current_node to candidate_node
+        immediate_cost = distance_matrix[current_node][candidate_node]
+        
+        # Calculate the maximum cost for the *next* step from the candidate_node.
+        # This looks for the longest path from candidate_node to any other
+        # remaining unvisited node or directly to the destination.
+        
+        max_cost_from_candidate_to_next = -math.inf # Initialize with negative infinity to find the maximum
+        
+        # Consider all other unvisited nodes as potential next steps
+        for next_possible_target in unvisited_nodes:
+            if next_possible_target != candidate_node:
+                max_cost_from_candidate_to_next = max(
+                    max_cost_from_candidate_to_next,
+                    distance_matrix[candidate_node][next_possible_target]
+                )
+        
+        # Always consider returning to the destination as a possible next step from candidate_node.
+        # This is critical for cases where the candidate_node might be the last unvisited node,
+        # or if returning to the destination forms the longest next path from candidate_node.
+        # If max_cost_from_candidate_to_next is still -inf (meaning candidate_node was the only unvisited node),
+        # this line will correctly set it to the distance to destination.
+        max_cost_from_candidate_to_next = max(
+            max_cost_from_candidate_to_next,
+            distance_matrix[candidate_node][destination_node]
+        )
+        
+        # The total score is the sum of the immediate cost and the estimated maximum future cost.
+        total_score = immediate_cost + max_cost_from_candidate_to_next
+
+        if total_score < min_total_score:
+            min_total_score = total_score
+            next_node = candidate_node
+
+    return next_node

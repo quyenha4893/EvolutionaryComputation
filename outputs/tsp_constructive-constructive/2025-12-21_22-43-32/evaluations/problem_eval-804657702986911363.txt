@@ -1,0 +1,52 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node by minimizing a score that balances the detour cost of visiting
+    a candidate against the "awkwardness" of inserting that candidate into the remaining
+    cluster of unvisited nodes.
+    """
+    next_node = None
+    best_score = float('inf')
+
+    # If there's only one unvisited node left, it's the only choice.
+    if len(unvisited_nodes) == 1:
+        return unvisited_nodes.pop()
+
+    for candidate_node in unvisited_nodes:
+        # Component 1 (Novel Numerator): The 'detour cost', which is the total path
+        # length of going from the current node to the destination via the candidate.
+        # This encourages selecting nodes that lie "on the way" to the destination.
+        detour_cost = distance_matrix[current_node][candidate_node] + distance_matrix[candidate_node][destination_node]
+
+        # Component 2 (Novel Denominator): The 'awkwardness factor', measuring how poorly
+        # a candidate fits within the remaining cluster of unvisited nodes. It's calculated
+        # as the cheapest insertion cost of the candidate between its two nearest unvisited neighbors.
+        # A high value means the node is an "outlier" and should be prioritized.
+        other_unvisited = unvisited_nodes - {candidate_node}
+        awkwardness_factor = 1.0  # Use a neutral default value
+
+        if len(other_unvisited) >= 2:
+            # Find the two nearest neighbors of the candidate in the remaining unvisited set.
+            distances_to_others = sorted(
+                [(distance_matrix[candidate_node][other], other) for other in other_unvisited]
+            )
+            
+            n1 = distances_to_others[0][1]
+            n2 = distances_to_others[1][1]
+
+            # Calculate insertion cost: dist(n1, C) + dist(C, n2) - dist(n1, n2)
+            # This value is always non-negative due to the triangle inequality.
+            awkwardness_factor = (distance_matrix[n1][candidate_node] + 
+                                  distance_matrix[candidate_node][n2] - 
+                                  distance_matrix[n1][n2])
+
+        # New Equation: The score is the ratio of the detour cost to the awkwardness factor.
+        # We minimize this score to find a node that has a low detour cost and is
+        # awkward to place later (high awkwardness factor).
+        # A small epsilon prevents division by zero.
+        score = detour_cost / (awkwardness_factor + 1e-9)
+
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

@@ -1,0 +1,78 @@
+[2025-12-21 21:28:24,358][root][INFO] - Workspace: C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\outputs\tsp_constructive-constructive\2025-12-21_21-28-24
+[2025-12-21 21:28:24,362][root][INFO] - Project Root: C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master
+[2025-12-21 21:28:24,363][root][INFO] - Using LLM: gemini-1.0-pro
+[2025-12-21 21:28:24,363][root][INFO] - Using Algorithm: mcts_ahd
+[2025-12-21 21:28:27,374][utils.llm_client.gemini][ERROR] - Vertex AI Gemini API error: {
+  "error": {
+    "code": 404,
+    "message": "Publisher Model `projects/stockanalysis-480013/locations/us-central1/publishers/google/models/gemini-1.0-pro` was not found or your project does not have access to it. Please ensure you are using a valid model version. For more information, see: https://cloud.google.com/vertex-ai/generative-ai/docs/learn/model-versions",
+    "status": "NOT_FOUND"
+  }
+}
+
+[2025-12-21 21:28:27,376][utils.llm_client.base][ERROR] - Vertex AI Gemini API error: {
+  "error": {
+    "code": 404,
+    "message": "Publisher Model `projects/stockanalysis-480013/locations/us-central1/publishers/google/models/gemini-1.0-pro` was not found or your project does not have access to it. Please ensure you are using a valid model version. For more information, see: https://cloud.google.com/vertex-ai/generative-ai/docs/learn/model-versions",
+    "status": "NOT_FOUND"
+  }
+}
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 53, in _chat_completion_api
+    raise RuntimeError(f"Vertex AI Gemini API error: {response.text}")
+RuntimeError: Vertex AI Gemini API error: {
+  "error": {
+    "code": 404,
+    "message": "Publisher Model `projects/stockanalysis-480013/locations/us-central1/publishers/google/models/gemini-1.0-pro` was not found or your project does not have access to it. Please ensure you are using a valid model version. For more information, see: https://cloud.google.com/vertex-ai/generative-ai/docs/learn/model-versions",
+    "status": "NOT_FOUND"
+  }
+}
+
+[2025-12-21 21:28:27,379][utils.llm_client.base][INFO] - Attempt 1 failed with error: Vertex AI Gemini API error: {
+  "error": {
+    "code": 404,
+    "message": "Publisher Model `projects/stockanalysis-480013/locations/us-central1/publishers/google/models/gemini-1.0-pro` was not found or your project does not have access to it. Please ensure you are using a valid model version. For more information, see: https://cloud.google.com/vertex-ai/generative-ai/docs/learn/model-versions",
+    "status": "NOT_FOUND"
+  }
+}
+
+[2025-12-21 21:28:29,583][utils.llm_client.gemini][ERROR] - Vertex AI Gemini API error: {
+  "error": {
+    "code": 404,
+    "message": "Publisher Model `projects/stockanalysis-480013/locations/us-central1/publishers/google/models/gemini-1.0-pro` was not found or your project does not have access to it. Please ensure you are using a valid model version. For more information, see: https://cloud.google.com/vertex-ai/generative-ai/docs/learn/model-versions",
+    "status": "NOT_FOUND"
+  }
+}
+
+[2025-12-21 21:28:29,585][utils.llm_client.base][ERROR] - Vertex AI Gemini API error: {
+  "error": {
+    "code": 404,
+    "message": "Publisher Model `projects/stockanalysis-480013/locations/us-central1/publishers/google/models/gemini-1.0-pro` was not found or your project does not have access to it. Please ensure you are using a valid model version. For more information, see: https://cloud.google.com/vertex-ai/generative-ai/docs/learn/model-versions",
+    "status": "NOT_FOUND"
+  }
+}
+Traceback (most recent call last):
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\base.py", line 31, in chat_completion
+    response_cur = self._chat_completion_api(messages, temperature, n)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Downloads\EvolutionaryComputation\MCTS-AHD-master\utils\llm_client\gemini.py", line 53, in _chat_completion_api
+    raise RuntimeError(f"Vertex AI Gemini API error: {response.text}")
+RuntimeError: Vertex AI Gemini API error: {
+  "error": {
+    "code": 404,
+    "message": "Publisher Model `projects/stockanalysis-480013/locations/us-central1/publishers/google/models/gemini-1.0-pro` was not found or your project does not have access to it. Please ensure you are using a valid model version. For more information, see: https://cloud.google.com/vertex-ai/generative-ai/docs/learn/model-versions",
+    "status": "NOT_FOUND"
+  }
+}
+
+[2025-12-21 21:28:29,589][utils.llm_client.base][INFO] - Attempt 2 failed with error: Vertex AI Gemini API error: {
+  "error": {
+    "code": 404,
+    "message": "Publisher Model `projects/stockanalysis-480013/locations/us-central1/publishers/google/models/gemini-1.0-pro` was not found or your project does not have access to it. Please ensure you are using a valid model version. For more information, see: https://cloud.google.com/vertex-ai/generative-ai/docs/learn/model-versions",
+    "status": "NOT_FOUND"
+  }
+}
+

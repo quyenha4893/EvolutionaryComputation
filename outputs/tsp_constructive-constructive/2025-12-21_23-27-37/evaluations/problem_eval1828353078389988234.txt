@@ -1,0 +1,47 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node by considering both the detour cost and a "gravitational"
+    pull from other unvisited nodes. The score for each candidate is a product of 
+    its detour cost (current -> candidate -> destination) and its average distance
+    to all other unvisited nodes (its gravitational cost). This favors nodes that
+    are on a short detour业务 and centrally located to the remaining points.
+    """
+    next_node = None
+    best_score = float('inf')
+
+    if not unvisited_nodes:
+        return None
+    
+    # If only one node is left, it's the only choice.
+    if len(unvisited_nodes) == 1:
+        return list(unvisited_nodes)[0]
+
+    # Evaluate each unvisited node as a potential next step.
+    for candidate_node in unvisited_nodes:
+        # Part 1: Calculate the original detour cost.
+        cost_to_candidate = distance_matrix[current_node][candidate_node]
+        cost_from_candidate_to_dest = distance_matrix[candidate_node][destination_node]
+        detour_cost = cost_to_candidate + cost_from_candidate_to_dest
+
+        # Part 2: Calculate the new "gravitational factor".
+        # This is the average distance from the candidate to all *other* unvisited nodes.
+        other_unvisited_nodes = unvisited_nodes - {candidate_node}
+        gravity_sum = 0
+        for other_node in other_unvisited_nodes:
+            gravity_sum += distance_matrix[candidate_node][other_node]
+        
+        # The average distance represents how "central" the candidate is.
+        # A lower value means it's closer to the remaining cluster.
+        gravitational_factor = gravity_sum / len(other_unvisited_nodes)
+
+        # Part 3: Combine the costs multiplicatively.
+        # This new score heavily penalizes candidates that are poor on either
+        # the detour cost or the gravitational factor. A node must be good at both.
+        # Adding a small epsilon to avoid a score of zero if distances can be zero.
+        score = detour_cost * (gravitational_factor + 1e-9)
+
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

@@ -1,0 +1,29 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    best_node = None
+    lowest_score = float('inf')
+    
+    if not unvisited_nodes:
+        return None
+
+    # Alpha is a weighting factor.
+    # alpha = 1.0 makes this identical to the original Nearest Neighbor.
+    # alpha = 0.0 would only consider the distance to the final destination.
+    # A value between 0 and 1 balances immediate gain vs. long-term direction.
+    alpha = 0.7 
+
+    for candidate_node in unvisited_nodes:
+        # Cost to travel to the candidate node from the current location
+        immediate_cost = distance_matrix[current_node][candidate_node]
+        
+        # Estimated future cost: distance from the candidate to the final destination
+        lookahead_cost = distance_matrix[candidate_node][destination_node]
+        
+        # Calculate the combined, weighted score
+        # The equation prioritizes closer nodes but is "pulled" toward the destination
+        combined_score = alpha * immediate_cost + (1 - alpha) * lookahead_cost
+        
+        if combined_score < lowest_score:
+            lowest_score = combined_score
+            best_node = candidate_node
+            
+    return next_node

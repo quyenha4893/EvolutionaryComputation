@@ -1,0 +1,62 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    """
+    Selects the next node to visit by balancing immediate travel cost with a
+    compound multiplicative penalty that considers both the candidate's average
+    proximity to the remaining unvisited nodes and its direct distance back
+    to the tour's starting point.
+
+    Args:
+        current_node: The node currently at.
+        destination_node: The starting node of the tour, to which the path must return.
+        unvisited_nodes: A set of nodes that have not yet been visited.
+        distance_matrix: A 2D list (matrix) where distance_matrix[i][j]
+                         is the distance between node i and node j.
+
+    Returns:
+        The next node to visit.
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, return to the destination node (start node)
+        return destination_node
+
+    next_node = -1
+    min_combined_cost = math.inf
+
+    # Weighting factors for the multiplicative penalties.
+    # These values determine how strongly each foresight factor impacts the total cost.
+    # Small positive values ensure immediate distance remains the primary factor.
+    W_connectivity_penalty = 0.003  # Weight for penalizing based on average distance to other unvisited nodes
+    W_closure_penalty = 0.002       # Weight for penalizing based on distance back to the destination node
+
+    for candidate_node in unvisited_nodes:
+        # 1. Immediate cost from current_node to candidate_node
+        immediate_distance = distance_matrix[current_node][candidate_node]
+
+        # 2. Foresight factor 1: Average proximity from candidate_node to other *remaining* unvisited nodes
+        other_remaining_unvisited = unvisited_nodes - {candidate_node}
+        
+        average_proximity_to_remaining = 0.0
+        if other_remaining_unvisited:
+            total_distance_to_remaining = sum(distance_matrix[candidate_node][other_node] for other_node in other_remaining_unvisited)
+            average_proximity_to_remaining = total_distance_to_remaining / len(other_remaining_unvisited)
+        # If other_remaining_unvisited is empty, average_proximity_to_remaining remains 0,
+        # indicating no further nodes to connect to after this one.
+
+        # 3. Foresight factor 2: Distance from the candidate node back to the destination node
+        distance_to_destination_from_candidate = distance_matrix[candidate_node][destination_node]
+
+        # Combine costs: immediate distance multiplied by a compound penalty factor.
+        # The penalty factor (1 + W_conn * avg_prox + W_clos * dist_to_dest) magnifies the immediate cost,
+        # encouraging choices that maintain connectivity and facilitate eventual tour closure.
+        combined_cost = immediate_distance * (
+            1 + W_connectivity_penalty * average_proximity_to_remaining + 
+            W_closure_penalty * distance_to_destination_from_candidate
+        )
+
+        if combined_cost < min_combined_cost:
+            min_combined_cost = combined_cost
+            next_node = candidate_node
+
+    return next_node

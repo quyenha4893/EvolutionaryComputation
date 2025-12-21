@@ -23,7 +23,7 @@ class MCTS_AHD:
         self.api_key = paras.llm_api_key
         self.llm_model = paras.llm_model
 
-        # ------------------ RZ: use local LLM ------------------
+        # ------------------ RZ: use local LLM ------------------ 
         self.use_local_llm = kwargs.get('use_local_llm', False)
         assert isinstance(self.use_local_llm, bool)
         if self.use_local_llm:
@@ -161,7 +161,8 @@ class MCTS_AHD:
         size_act = min(len(nodes_set), self.pop_size)
         nodes_set = self.manage.population_management(nodes_set, size_act)
         print("- Initialization Finished - Evolution Start -")
-        while self.eval_times < self.fe_max:
+        max_iterations = 50  # Giảm số vòng lặp xuống 50
+        for i in range(max_iterations):
             print(f"Current performances of MCTS nodes: {mcts.rank_list}")
             # print([len(node.subtree) for node in mcts.root.children])
             cur_node = mcts.root
@@ -194,5 +195,6 @@ class MCTS_AHD:
             filename = self.output_path + "best_population_generation_" + str(self.eval_times) + ".json"
             with open(filename, 'w') as f:
                 json.dump(nodes_set[0], f, indent=5)
+            time.sleep(2)  # Thêm sleep 2 giây giữa các vòng lặp để tránh quota
 
         return nodes_set[0]["code"], filename

@@ -1,0 +1,37 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    next_node = None
+    best_score = float('inf')
+
+    if not unvisited_nodes:
+        return None
+
+    # Alpha is set to 0.8 to heavily prioritize the immediate neighbor (inspired by Algo 2's success)
+    # but includes a 20% weight for a one-step lookahead cost (a refined version of Algo 1's concept).
+    alpha = 0.8
+
+    for candidate_node in unvisited_nodes:
+        # Part 1: Immediate cost from the current node to the candidate.
+        dist_to_candidate = distance_matrix[current_node][candidate_node]
+
+        # Part 2: Future cost, defined as the distance from the candidate to its own nearest neighbor.
+        remaining_nodes = unvisited_nodes - {candidate_node}
+        
+        min_dist_from_candidate = float('inf')
+        if not remaining_nodes:
+            # If the candidate is the last unvisited node, the future cost is the distance back to the start.
+            min_dist_from_candidate = distance_matrix[candidate_node][destination_node]
+        else:
+            # Find the candidate's nearest neighbor from the rest of the unvisited nodes.
+            for next_step_node in remaining_nodes:
+                distance = distance_matrix[candidate_node][next_step_node]
+                if distance < min_dist_from_candidate:
+                    min_dist_from_candidate = distance
+        
+        # The score balances the immediate move with the quality of the subsequent move.
+        score = (alpha * dist_to_candidate) + ((1 - alpha) * min_dist_from_candidate)
+
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

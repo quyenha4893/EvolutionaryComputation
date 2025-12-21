@@ -1,0 +1,66 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    """
+    {This algorithm selects the next unvisited node by primarily minimizing immediate travel distance,
+    but dynamically adjusts the weight of a return-to-start foresight component based on the tour's progress,
+    and includes a penalty if selecting a candidate node significantly isolates the remaining unvisited nodes
+    from the destination.}
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, return to the destination node (start node)
+        return destination_node
+
+    next_node = -1
+    min_combined_cost = math.inf
+
+    total_nodes = len(distance_matrix)
+    
+    # Calculate tour progress: as more nodes are visited, this factor increases from ~0 to 1.
+    # It represents the proportion of nodes already included in the tour.
+    # `total_nodes - len(unvisited_nodes)` is the count of nodes currently in the tour.
+    # We subtract 1 from total_nodes in denominator to avoid division by zero for N=1 case,
+    # and to correctly scale for tour of N nodes (N-1 steps).
+    nodes_in_tour_so_far = total_nodes - len(unvisited_nodes)
+    progress_factor = (nodes_in_tour_so_far / (total_nodes - 1)) if total_nodes > 1 else 1.0
+
+    # Dynamic weighting for the return-to-destination foresight.
+    # It starts at a base value and increases as the tour progresses towards completion,
+    # making the incentive to head towards the destination stronger at the end.
+    BASE_W_RETURN_FORESIGHT = 0.01
+    MAX_ADD_W_RETURN_FORESIGHT = 0.05
+    W_return_foresight = BASE_W_RETURN_FORESIGHT + (MAX_ADD_W_RETURN_FORESIGHT * progress_factor)
+
+    # A small weighting factor for the isolation penalty.
+    # This penalty discourages choices that leave remaining unvisited nodes very far from the destination.
+    W_isolation_penalty = 0.005 
+
+    for candidate_node in unvisited_nodes:
+        # 1. Immediate cost from current_node to candidate_node (primary factor)
+        immediate_distance = distance_matrix[current_node][candidate_node]
+
+        # 2. Weighted distance from the candidate node back to the destination node (dynamic foresight component)
+        distance_to_destination_from_candidate = distance_matrix[candidate_node][destination_node]
+        foresight_cost = W_return_foresight * distance_to_destination_from_candidate
+
+        # 3. Isolation penalty: Considers the maximum distance from any *other* remaining unvisited node
+        #    back to the destination node, after `candidate_node` is selected.
+        #    This penalizes picking a node that "strands" other nodes far from the eventual return point.
+        other_unvisited_after_candidate = unvisited_nodes - {candidate_node}
+        
+        isolation_penalty_cost = 0.0
+        if other_unvisited_after_candidate:
+            max_dist_others_to_destination = 0.0
+            for other_node in other_unvisited_after_candidate:
+                max_dist_others_to_destination = max(max_dist_others_to_destination, distance_matrix[other_node][destination_node])
+            
+            isolation_penalty_cost = W_isolation_penalty * max_dist_others_to_destination
+
+        # Combine all components to form the total cost for selecting this candidate node
+        combined_cost = immediate_distance + foresight_cost + isolation_penalty_cost
+
+        if combined_cost < min_combined_cost:
+            min_combined_cost = combined_cost
+            next_node = candidate_node
+
+    return next_node

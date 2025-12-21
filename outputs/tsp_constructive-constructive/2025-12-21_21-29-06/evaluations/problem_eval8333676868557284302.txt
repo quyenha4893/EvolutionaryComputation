@@ -1,0 +1,52 @@
+importance of minimizing immediate travel distance (Nearest Neighbor heuristic, demonstrated by the superior performance of Algorithm 5).
+2.  The concept of considering the distance to the destination node (from Algorithms 2 and 3) as a subtle factor for tour closure.
+
+Based on the listed ideas, the design idea and main steps of your new algorithm are:
+{This algorithm selects the next node by primarily minimizing the immediate travel distance (Nearest Neighbor approach). In the rare event of multiple candidate nodes presenting immediate distances that are practically indistinguishable due to floating-point precision or exact equality, a refined tie-breaking rule is applied, favoring the candidate node that offers a shorter path back to the tour's starting (destination) node, thereby subtly optimizing the tour's closure.}
+
+```python
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    """
+    Selects the next node to visit based on the Nearest Neighbor heuristic with a
+    subtle tie-breaking mechanism that prioritizes candidates closer to the destination node.
+
+    Args:
+        current_node: The node currently at.
+        destination_node: The starting node of the tour, to which the path must return.
+        unvisited_nodes: A set of nodes that have not yet been visited.
+        distance_matrix: A 2D list (matrix) where distance_matrix[i][j]
+                         is the distance between node i and node j.
+
+    Returns:
+        The next node to visit.
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, return to the destination node (start node)
+        return destination_node
+
+    next_node = -1
+    min_combined_cost = math.inf
+
+    # A very small epsilon is used to weight the distance to the destination.
+    # This value is chosen to be extremely small (e.g., 1e-9) to ensure that the
+    # immediate_distance is almost always the primary decision factor, and
+    # distance_to_destination_from_candidate acts only as a tie-breaker when
+    # immediate_distance values are practically identical due to floating-point precision.
+    EPSILON = 1e-9 
+
+    for candidate_node in unvisited_nodes:
+        immediate_distance = distance_matrix[current_node][candidate_node]
+        distance_to_destination_from_candidate = distance_matrix[candidate_node][destination_node]
+
+        # The combined cost primarily uses immediate_distance.
+        # The EPSILON * distance_to_destination_from_candidate term will only
+        # influence the choice if immediate_distance values are extremely close.
+        combined_cost = immediate_distance + EPSILON * distance_to_destination_from_candidate
+
+        if combined_cost < min_combined_cost:
+            min_combined_cost = combined_cost
+            next_node = candidate_node
+
+    return next_node

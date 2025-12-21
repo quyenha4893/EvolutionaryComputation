@@ -1,0 +1,55 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    if not unvisited_nodes:
+        return None
+
+    next_node = None
+    best_score = float('inf')
+
+    # Determine the total number of nodes and the current progress of the tour
+    total_nodes = len(distance_matrix)
+    num_unvisited = len(unvisited_nodes)
+    
+    # Progress is a ratio of visited nodes to total nodes, influencing the weights.
+    # It ranges from (approx) 0.0 at the start to 1.0 at the end.
+    progress = 1.0 - (num_unvisited / (total_nodes - 1)) if total_nodes > 1 else 1.0
+
+    # --- Dynamic Weighting Parameters ---
+    # alpha: Weight for immediate cost. Increases as the tour progresses, making the
+    # choice more greedy towards the end. (Ranges from 0.5 to 1.0)
+    alpha = 0.5 + (0.5 * progress)
+
+    # beta: Weight for centrality. Decreases as the tour progresses. Prioritizes
+    # visiting nodes central to the remaining cluster early on. (Ranges from 0.3 to 0.0)
+    beta = 0.3 * (1.0 - progress)
+
+    # gamma: Weight for the final return cost. It takes the remaining portion.
+    gamma = 1.0 - alpha - beta
+
+    for candidate_node in unvisited_nodes:
+        # Component 1: Immediate Cost (current -> candidate)
+        dist_to_candidate = distance_matrix[current_node][candidate_node]
+
+        # Component 2: Centrality Cost (candidate's avg distance to other unvisited nodes)
+        other_unvisited = unvisited_nodes - {candidate_node}
+        if other_unvisited:
+            sum_dist_to_others = sum(distance_matrix[candidate_node][other] for other in other_unvisited)
+            centrality_cost = sum_dist_to_others / len(other_unvisited)
+        else:
+            # If this is the last node, its centrality cost is zero.
+            centrality_cost = 0
+
+        # Component 3: Final Return Cost (candidate -> destination)
+        return_cost = distance_matrix[candidate_node][destination_node]
+
+        # Composite score using the dynamically adjusted weights
+        score = (alpha * dist_to_candidate) + (beta * centrality_cost) + (gamma * return_cost)
+
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    # Fallback for the very last node, though the loop should find it.
+    if next_node is None and unvisited_nodes:
+        return list(unvisited_nodes)[0]
+
+    return next_node

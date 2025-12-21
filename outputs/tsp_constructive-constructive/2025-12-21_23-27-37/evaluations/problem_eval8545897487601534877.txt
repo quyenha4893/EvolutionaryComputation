@@ -1,0 +1,47 @@
+defining the "best possible next move" to be the minimum cost path from a candidate to either another unvisited node or directly to the final destination, thereby incorporating the first algorithm's destination-aware heuristic.}
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    """
+    Selects the next node by adapting the two-step lookahead to be destination-aware.
+    The score for a candidate is the sum of the cost to reach it (step 1) plus the
+    cost of the best subsequent move (step 2), where step 2 can be to another
+    unvisited node OR back to the final destination.
+    """
+    next_node = None
+    best_score = float('inf')
+
+    if not unvisited_nodes:
+        return None
+
+    # If only one unvisited node is left, it's the only choice.
+    if len(unvisited_nodes) == 1:
+        return list(unvisited_nodes)[0]
+
+    # Iterate through each potential next node to evaluate it.
+    for candidate_node in unvisited_nodes:
+        # Cost of the first step (current -> candidate).
+        cost_step1 = distance_matrix[current_node][candidate_node]
+        
+        # Find the cost of the best second step, now considering the destination.
+        cost_step2 = float('inf')
+        
+        # The potential next hops are the other unvisited nodes.
+        nodes_for_step2 = unvisited_nodes - {candidate_node}
+        for next_hop_node in nodes_for_step2:
+            dist = distance_matrix[candidate_node][next_hop_node]
+            if dist < cost_step2:
+                cost_step2 = dist
+        
+        # Also consider the distance back to the destination as a possible 'second step'.
+        # This incorporates the key idea from Algorithm 1.
+        dist_to_dest = distance_matrix[candidate_node][destination_node]
+        if dist_to_dest < cost_step2:
+            cost_step2 = dist_to_dest
+
+        # The score for the candidate is the sum of the two steps, where step 2 is now smarter.
+        total_score = cost_step1 + cost_step2
+        
+        if total_score < best_score:
+            best_score = total_score
+            next_node = candidate_node
+            
+    return next_node

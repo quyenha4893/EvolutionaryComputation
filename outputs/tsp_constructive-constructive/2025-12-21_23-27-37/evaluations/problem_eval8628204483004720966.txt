@@ -1,0 +1,26 @@
+def select_next_node(current_node, destination_node, unvisited_nodes, distance_matrix):
+    next_node = None
+    best_score = float('inf')
+
+    if not unvisited_nodes:
+        return None
+
+    # Beta is set to 0.6 to balance the immediate cost with the cost of returning to the start.
+    # This differs from the original's one-step lookahead by focusing on the global goal of closing the tour.
+    beta = 0.6
+
+    for candidate_node in unvisited_nodes:
+        # Part 1: Immediate cost from the current node to the candidate.
+        dist_to_candidate = distance_matrix[current_node][candidate_node]
+
+        # Part 2: "Future" cost, redefined as the distance from the candidate back to the starting destination.
+        dist_candidate_to_destination = distance_matrix[candidate_node][destination_node]
+        
+        # The score balances the immediate move with the cost of the eventual return journey.
+        score = (beta * dist_to_candidate) + ((1 - beta) * dist_candidate_to_destination)
+
+        if score < best_score:
+            best_score = score
+            next_node = candidate_node
+            
+    return next_node

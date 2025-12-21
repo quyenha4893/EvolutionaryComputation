@@ -1,0 +1,81 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    if not unvisited_nodes:
+        return destination_node
+
+    next_node = -1
+    min_combined_cost = math.inf
+
+    N_total = len(distance_matrix) # Total number of nodes in the graph
+    
+    # Base weights from the original algorithm
+    W1_base = 0.2
+    W2_base = 0.1
+
+    # Calculate dynamic weights based on tour progress
+    # max_unvisited_nodes represents the total number of nodes to be picked for the tour (N-1 for N nodes),
+    # assuming the starting node is already 'visited' implicitly.
+    max_unvisited_nodes = N_total - 1 
+
+    # If max_unvisited_nodes is 0 (i.e., N_total is 1), there's no path to construct.
+    # This scenario is already handled by 'if not unvisited_nodes:' above,
+    # as unvisited_nodes would be empty if N_total is 1 and current_node is the only node.
+    # We include it in calculations below with a check to prevent division by zero.
+    
+    num_nodes_currently_unvisited = len(unvisited_nodes)
+    
+    if max_unvisited_nodes > 0:
+        # W1_dynamic decreases as the tour progresses (fewer future options, less emphasis on broad look-ahead)
+        # It scales from W1_base (at the start of tour) down to a smaller value (when few nodes left).
+        W1_dynamic = W1_base * (num_nodes_currently_unvisited / max_unvisited_nodes)
+        
+        # W2_dynamic increases as the tour progresses (more emphasis on tour closure)
+        # It scales from a small value (at the start) up to W2_base (when only one node left).
+        # When num_nodes_currently_unvisited == 1, (1 - (1-1)/max_unvisited_nodes) = 1, so W2_dynamic = W2_base.
+        W2_dynamic = W2_base * (1 - (num_nodes_currently_unvisited - 1) / max_unvisited_nodes)
+    else: # max_unvisited_nodes is 0, implying N_total is 1, thus unvisited_nodes is empty.
+          # This block should ideally not be reached if 'if not unvisited_nodes' is at the top.
+          # Set weights to 0 as there's no more path to construct.
+        W1_dynamic = 0.0
+        W2_dynamic = 0.0
+
+    # Ensure non-negative weights (float arithmetic safety)
+    W1_dynamic = max(0.0, W1_dynamic)
+    W2_dynamic = max(0.0, W2_dynamic)
+
+    for candidate_node in unvisited_nodes:
+        # 1. Immediate cost from current_node to candidate_node
+        immediate_distance = distance_matrix[current_node][candidate_node]
+
+        # 2. Broader look-ahead: average of the two closest *other* unvisited nodes from the candidate
+        min_avg_dist_to_other_unvisited = 0.0
+        remaining_after_candidate = unvisited_nodes - {candidate_node}
+        
+        if remaining_after_candidate:
+            distances_to_others = []
+            for other_future_node in remaining_after_candidate:
+                distances_to_others.append(distance_matrix[candidate_node][other_future_node])
+            
+            distances_to_others.sort()
+            
+            # Take the average of the top 2 closest distances for broader foresight
+            # If only one node remaining, just take that one distance.
+            if len(distances_to_others) >= 2:
+                min_avg_dist_to_other_unvisited = (distances_to_others[0] + distances_to_others[1]) / 2.0
+            else: # len == 1
+                min_avg_dist_to_other_unvisited = distances_to_others[0]
+        
+        # 3. Distance from the candidate node back to the destination node
+        distance_to_destination_from_candidate = distance_matrix[candidate_node][destination_node]
+
+        # Combine all components with dynamically adjusted weights
+        combined_cost = immediate_distance + \
+                        (W1_dynamic * min_avg_dist_to_other_unvisited) + \
+                        (W2_dynamic * distance_to_destination_from_candidate)
+
+        if combined_cost < min_combined_cost:
+            min_combined_cost = combined_cost
+            next_node = candidate_node
+
+    return next_node

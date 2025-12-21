@@ -1,0 +1,31 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    if not unvisited_nodes:
+        return destination_node
+
+    best_next_node = -1
+    min_total_two_step_cost = math.inf
+
+    for candidate_node in unvisited_nodes:
+        cost_to_candidate = distance_matrix[current_node][candidate_node]
+
+        subsequent_cost = math.inf
+        
+        remaining_after_candidate = unvisited_nodes - {candidate_node}
+
+        if not remaining_after_candidate:
+            subsequent_cost = distance_matrix[candidate_node][destination_node]
+        else:
+            for next_next_node in remaining_after_candidate:
+                dist_from_candidate_to_next_next = distance_matrix[candidate_node][next_next_node]
+                if dist_from_candidate_to_next_next < subsequent_cost:
+                    subsequent_cost = dist_from_candidate_to_next_next
+        
+        total_current_candidate_cost = cost_to_candidate + subsequent_cost
+
+        if total_current_candidate_cost < min_total_two_step_cost:
+            min_total_two_step_cost = total_current_candidate_cost
+            best_next_node = candidate_node
+
+    return next_node

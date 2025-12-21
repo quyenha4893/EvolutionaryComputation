@@ -1,0 +1,56 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    """
+    Selects the next node by dynamically adjusting the foresight weight based on the tour progress.
+    It applies a very small foresight for most of the tour and a significantly increased foresight
+    when only a few nodes remain unvisited, to guide towards an efficient closure.
+
+    Args:
+        current_node: The node currently at.
+        destination_node: The starting node of the tour, to which the path must return.
+        unvisited_nodes: A set of nodes that have not yet been visited.
+        distance_matrix: A 2D list (matrix) where distance_matrix[i][j]
+                         is the distance between node i and node j.
+
+    Returns:
+        The next node to visit.
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, return to the destination node (start node)
+        return destination_node
+
+    next_node = -1
+    min_combined_cost = math.inf
+
+    # Dynamically adjust the foresight weight based on the number of unvisited nodes.
+    # This design is inspired by Algorithm 1's dynamic nature and Algorithm 2's continuous application.
+    
+    if len(unvisited_nodes) > 2:
+        # For most of the tour, a very small foresight weight (0.01) provides a subtle bias
+        # towards nodes that are also closer to the destination, without strongly diverting
+        # from the immediate nearest-neighbor logic. This is a slight continuous improvement
+        # over Algorithm 1's zero foresight for this stage.
+        W_return_foresight = 0.01
+    else:
+        # When nearing the end (e.g., 2 or 1 unvisited nodes left), make the return distance
+        # significantly more impactful. The weight of 0.6 is chosen to be stronger than
+        # Algorithm 1's 0.5 to encourage an even more optimal final closure.
+        W_return_foresight = 0.6
+
+    for candidate_node in unvisited_nodes:
+        # 1. Immediate cost from current_node to candidate_node (primary factor)
+        immediate_distance = distance_matrix[current_node][candidate_node]
+
+        # 2. Weighted distance from the candidate node back to the destination node
+        # (secondary, dynamically weighted foresight factor)
+        distance_to_destination_from_candidate = distance_matrix[candidate_node][destination_node]
+
+        # Combine the immediate distance with the dynamically weighted foresight component
+        combined_cost = immediate_distance + (W_return_foresight * distance_to_destination_from_candidate)
+
+        if combined_cost < min_combined_cost:
+            min_combined_cost = combined_cost
+            next_node = candidate_node
+
+    return next_node

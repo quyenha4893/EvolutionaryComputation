@@ -1,0 +1,77 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    """
+    Selects the next node to visit by dynamically adjusting the foresight weight based on
+    tour progress and incorporating a subtle connectivity penalty.
+
+    Args:
+        current_node: The node currently at.
+        destination_node: The starting node of the tour, to which the path must return.
+        unvisited_nodes: A set of nodes that have not yet been visited.
+        distance_matrix: A 2D list (matrix) where distance_matrix[i][j]
+                         is the distance between node i and node j.
+
+    Returns:
+        The next node to visit.
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, return to the destination node (start node)
+        return destination_node
+
+    next_node = -1
+    min_combined_cost = math.inf
+
+    num_total_nodes = len(distance_matrix)
+
+    # --- Dynamic Foresight Weighting Mechanism ---
+    # `num_steps_completed` is the number of edges already added to the tour path,
+    # excluding the very first implicit step from destination_node to the first actual current_node.
+    # A full tour has `num_total_nodes` edges.
+    # The total number of intermediate nodes to choose is `num_total_nodes - 1`.
+    num_steps_completed = num_total_nodes - len(unvisited_nodes) - 1
+    
+    # Calculate progress ratio for dynamic weighting
+    progress_ratio = 0.0
+    if num_total_nodes > 1:
+        # Scale progress from 0.0 (start of selecting intermediate nodes) to 1.0 (last intermediate node selected)
+        progress_ratio = max(0.0, min(1.0, num_steps_completed / (num_total_nodes - 1)))
+    
+    # Base weight for return foresight, similar to original algorithm
+    W_base_foresight = 0.01 
+    # Maximum additional weight for foresight, making it increase as the tour progresses
+    W_max_increase_foresight = 0.04 # Foresight weight will range from 0.01 to 0.05
+
+    dynamic_foresight_weight = W_base_foresight + (W_max_increase_foresight * progress_ratio)
+
+    # --- Connectivity Penalty Mechanism ---
+    # A small constant weight for penalizing nodes poorly connected to other remaining unvisited nodes.
+    W_connectivity_penalty = 0.005 
+
+    for candidate_node in unvisited_nodes:
+        # 1. Immediate cost from current_node to candidate_node (primary factor)
+        immediate_distance = distance_matrix[current_node][candidate_node]
+
+        # 2. Weighted distance from the candidate node back to the destination node (dynamic foresight)
+        distance_to_destination_from_candidate = distance_matrix[candidate_node][destination_node]
+        foresight_cost = dynamic_foresight_weight * distance_to_destination_from_candidate
+
+        # 3. Connectivity penalty: calculate average distance from candidate to other remaining unvisited nodes
+        connectivity_penalty_cost = 0.0
+        other_unvisited_excluding_candidate = [n for n in unvisited_nodes if n != candidate_node]
+        
+        if other_unvisited_excluding_candidate:
+            sum_dist_to_others = sum(distance_matrix[candidate_node][other] for other in other_unvisited_excluding_candidate)
+            avg_dist_to_others = sum_dist_to_others / len(other_unvisited_excluding_candidate)
+            connectivity_penalty_cost = W_connectivity_penalty * avg_dist_to_others
+        # If `other_unvisited_excluding_candidate` is empty, `connectivity_penalty_cost` remains 0.0,
+        # which is appropriate as there are no other nodes to consider for connectivity.
+
+        # Combine the immediate distance with the dynamic foresight and connectivity components
+        combined_cost = immediate_distance + foresight_cost + connectivity_penalty_cost
+
+        if combined_cost < min_combined_cost:
+            min_combined_cost = combined_cost
+            next_node = candidate_node
+
+    return next_node

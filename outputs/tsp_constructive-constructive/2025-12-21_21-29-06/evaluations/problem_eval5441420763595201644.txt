@@ -1,0 +1,57 @@
+import math
+
+def select_next_node(current_node: int, destination_node: int, unvisited_nodes: set[int], distance_matrix: list[list[float]]) -> int:
+    """
+    Selects the next node by primarily using a nearest-neighbor strategy for most of the tour,
+    and then significantly increasing the weight of the foresight component (distance back to
+    the destination node) when only a few nodes remain unvisited, to guide towards efficient closure.
+
+    Args:
+        current_node: The node currently at.
+        destination_node: The starting node of the tour, to which the path must return.
+        unvisited_nodes: A set of nodes that have not yet been visited.
+        distance_matrix: A 2D list (matrix) where distance_matrix[i][j]
+                         is the distance between node i and node j.
+
+    Returns:
+        The next node to visit.
+    """
+    if not unvisited_nodes:
+        # If all other nodes have been visited, return to the destination node (start node)
+        return destination_node
+
+    next_node = -1
+    min_combined_cost = math.inf
+
+    # Dynamically adjust the foresight weight based on the number of unvisited nodes.
+    # For most of the tour (more than 2 unvisited nodes), use a zero foresight weight,
+    # effectively acting like the pure greedy approach (Algo 2).
+    # When only a few nodes remain, significantly increase the foresight weight
+    # to prioritize efficient return to the destination (inspired by Algo 1, but with stronger emphasis).
+    
+    if len(unvisited_nodes) > 2:
+        # Behave like the pure nearest-neighbor (Algo 2) for most of the tour,
+        # as Algo 2 outperformed Algo 1's small fixed foresight.
+        W_return_foresight = 0.0 
+    else:
+        # When nearing the end (e.g., 2 or 1 unvisited nodes left),
+        # make the return distance more impactful to guide towards a better closure.
+        # The value 0.5 is a chosen constant to give noticeable influence.
+        W_return_foresight = 0.5 
+
+    for candidate_node in unvisited_nodes:
+        # 1. Immediate cost from current_node to candidate_node (primary factor)
+        immediate_distance = distance_matrix[current_node][candidate_node]
+
+        # 2. Weighted distance from the candidate node back to the destination node
+        # (secondary, dynamically weighted foresight factor)
+        distance_to_destination_from_candidate = distance_matrix[candidate_node][destination_node]
+
+        # Combine the immediate distance with the dynamically weighted foresight component
+        combined_cost = immediate_distance + (W_return_foresight * distance_to_destination_from_candidate)
+
+        if combined_cost < min_combined_cost:
+            min_combined_cost = combined_cost
+            next_node = candidate_node
+
+    return next_node
